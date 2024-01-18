@@ -12,26 +12,26 @@
         <!-- navbar for small pages -->
         <fwb-navbar-collapse :is-show-menu="isShowMenu" class="fixed top-10 right-0 z-10 md:hidden">
           <fwb-navbar-link is-active link="#">
-            <span class="uppercase font-body">NOTES</span>
+            <span class="uppercase font-body font-bold">NOTES</span>
           </fwb-navbar-link>
           <fwb-navbar-link link="#">
-            <span class="uppercase font-body">PASSWORDS</span>
+            <span class="uppercase font-body font-bold">PASSWORDS</span>
           </fwb-navbar-link>
           <fwb-navbar-link link="#">
-            <span class="uppercase font-body">BOOKS</span>
+            <span class="uppercase font-body font-bold">BOOKS</span>
           </fwb-navbar-link>
         </fwb-navbar-collapse>
 
         <!-- navbar for medium and large pages -->
         <fwb-navbar-collapse :is-show-menu="isShowMenu" class="sm:hidden">
           <fwb-navbar-link is-active link="#">
-            <span class="uppercase font-body">NOTES</span>
+            <span class="uppercase font-body font-bold">NOTES</span>
           </fwb-navbar-link>
           <fwb-navbar-link link="#">
-            <span class="uppercase font-body">PASSWORDS</span>
+            <span class="uppercase font-body font-bold">PASSWORDS</span>
           </fwb-navbar-link>
           <fwb-navbar-link link="#">
-            <span class="uppercase font-body">BOOKS</span>
+            <span class="uppercase font-body font-bold">BOOKS</span>
           </fwb-navbar-link>
         </fwb-navbar-collapse>
       </template>

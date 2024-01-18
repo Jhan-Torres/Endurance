@@ -1,15 +1,20 @@
 <template>
   <Header />
   <div class="extended">
-    <NewNote />
+    <notesPage />
   </div>
   <Footer />
 </template>
     
 <script setup>
 import Header from './components/Header.vue';
-import NewNote from './components/NewNote.vue';
 import Footer from './components/Footer.vue';
+
+//web pages
+import notesPage from './pages/notes.vue';
+import booksPage from './pages/books.vue';
+import passwordsPage from './pages/passwords.vue';
+
 
 </script>
 

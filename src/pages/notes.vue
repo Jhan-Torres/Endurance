@@ -53,10 +53,10 @@
           {{ note.title }}
         </h5>
         <hr class="border-gray-200 mx-auto my-2">
-        <p class="text-xs text-gray-700 dark:text-gray-400 overflow-y-auto text-wrap h-20 md:text-sm">
+        <p class="text-xs text-gray-700 dark:text-gray-400 overflow-auto text-wrap h-20 md:text-sm">
           {{ note.content }}
         </p>
-        <hr class="border-gray-200 mx-auto">
+        <hr class="border-gray-200 mx-auto mt-2">
         <font-awesome-icon :icon="['fas', 'trash']"
           class="hover:scale-125 hover:cursor-pointer mr-1 transition duration-200 trashIcon" />
         <font-awesome-icon :icon="['fas', 'file-pen']"
