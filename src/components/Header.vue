@@ -22,18 +22,6 @@
           </fwb-navbar-link>
         </fwb-navbar-collapse>
 
-        <!-- navbar for medium and large pages -->
-        <fwb-navbar-collapse :is-show-menu="isShowMenu" class="sm:hidden">
-          <fwb-navbar-link is-active link="#">
-            <span class="uppercase font-body font-bold">NOTES</span>
-          </fwb-navbar-link>
-          <fwb-navbar-link link="#">
-            <span class="uppercase font-body font-bold">PASSWORDS</span>
-          </fwb-navbar-link>
-          <fwb-navbar-link link="#">
-            <span class="uppercase font-body font-bold">BOOKS</span>
-          </fwb-navbar-link>
-        </fwb-navbar-collapse>
       </template>
       <template #right-side>
         <fwb-button>
