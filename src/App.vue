@@ -10,11 +10,10 @@
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
 
-//web pages
+//pages
 import notesPage from './pages/notes.vue';
 import booksPage from './pages/books.vue';
 import passwordsPage from './pages/passwords.vue';
-
 
 </script>
 

@@ -48,9 +48,37 @@
       </fwb-button>
     </div>
   </div>
+
+  <!-- edit note form -->
+  <div
+    class="bg-gray-900 absolute inset-0 border-2 border-orange-500 rounded-lg flex flex-col items-center justify-center m-3 animate-fade-up animate-duration-[800ms] animate-delay-200">
+    <fwb-input required placeholder="Title (60 max)" class="rounded-lg w-52 md:w-96 font-body" v-model="noteTitle"
+      v-bind:validation-status="validationTitle">
+      <template #validationMessage v-if="!noteTitle">
+        <span class="text-slate-100 font-bold tracking-wider">Title required</span>
+      </template>
+      <template #validationMessage v-if="noteTitle.length >= 60">
+        <span class="text-slate-100 font-bold tracking-wider">60 max capacity</span>
+      </template>
+    </fwb-input>
+    <fwb-input placeholder="Content" class="rounded-lg w-52 md:w-96 font-body my-2" v-model="noteContent" />
+    <select v-model="noteCategory"
+      class="rounded-lg w-52 md:w-96 font-body mb-4 text-slate-500 text-base border-1 border-gray-300">
+      <option value="" hidden>Select category</option>
+      <option v-for="option in optionsCategories" :key="option.name" :value="option.name">{{ option.name }}</option>
+    </select>
+    <fwb-button gradient="green-blue" square @click="saveChanges()">
+      <span class="text-slate-100 font-bold tracking-wider">Save Changes</span>
+    </fwb-button>
+    <fwb-button gradient="red" square @click="cancelButton()" class="mt-2">
+      <span class="text-slate-100 font-bold tracking-wider">Cancel</span>
+    </fwb-button>
+  </div>
+
   <div class="bg-slate-400 p-1 m-1 rounded-xl flex flex-wrap items-center justify-evenly gap-1 md:gap-3"
     v-if="notesList.length">
-    <!-- Loading element -->
+
+    <!-- Loading spinner -->
     <div role="status" class="hidden">
       <svg aria-hidden="true" class="inline w-10 h-10text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
         viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,6 +91,7 @@
       </svg>
       <span class="sr-only">Loading...</span>
     </div>
+
     <fwb-card class="w-80" v-for="note in notesList" :key="note.id">
       <div class="p-1.5 font-body">
         <h5 class="p-1 h-14 text-sm font-medium tracking-tight rounded-sm bg-gray-700 text-lime-50 md:text-base">
@@ -74,11 +103,11 @@
         </p>
         <hr class="border-gray-400 mx-auto mt-2">
         <button class="trashIcon hover:scale-110 hover:cursor-pointer transition duration-200 mr-1"
-          @click="deleteButton(note.id)">
+          @click="deleteNote(note, note.id)">
           <font-awesome-icon :icon="['fas', 'trash']" />
         </button>
         <button class="editIcon hover:scale-110 hover:cursor-pointer transition duration-200 ml-1"
-          @click="editButton(note.id)">
+          @click="toggleUpdateButton()">
           <font-awesome-icon :icon="['fas', 'pen']" />
         </button>
         <h6 class="text-sm font-semibold text-teal-500 inline-block float-right">{{ note.category }}</h6>
@@ -117,6 +146,8 @@ let validationTitle = ref('');
 
 //to show "note added" notification
 let showAlert = ref(true);
+
+//to show 
 
 //to store note objects in array 
 const notesList = ref([]);
@@ -167,6 +198,16 @@ const cleanInputs = () => {
   validationTitle.value = '';
   noteContent.value = '';
   noteCategory.value = '';
+}
+
+//delete note with its note.id
+function deleteNote(noteId) {
+  notesList.value.splice(noteId, 1);
+}
+
+//to set update note button
+function toggleUpdateButton(noteId) {
+
 }
 </script>
 
