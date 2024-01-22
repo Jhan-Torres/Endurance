@@ -1,4 +1,5 @@
 <template>
+  <!-- "no notes added" alert -->
   <div class="flex items-center justify-center mt-1" v-if="!notesList.length">
     <span class="relative flex h-3 w-3">
       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-600 opacity-75"></span>
@@ -9,15 +10,19 @@
       no notes added
     </h1>
   </div>
-  <div class="float-right fixed bottom-24 left-0 right-0 z-10" :hidden="showAlert">
+
+  <!-- "note added" alert -->
+  <div
+    class="animate-fade-down animate-once animate-duration-[2000ms] animate-delay-[250ms] animate-reverse float-right fixed bottom-24 left-0 right-0 z-10"
+    v-if="showAlert">
     <div class="flex items-center justify-center">
       <span class="relative flex h-3 w-3">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-600 opacity-75"></span>
+        <span class="absolute inline-flex h-full w-full rounded-full bg-blue-600 opacity-75"></span>
         <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-300"></span>
       </span>
       <h1
         class="uppercase font-body tracking-wider font-extrabold text-2xl text-blue-600 bg-blue-200 rounded-lg px-3 py-1 ml-2 animate-pulse">
-        note added
+        {{ textAlert }}
       </h1>
     </div>
   </div>
@@ -26,7 +31,8 @@
       <font-awesome-icon :icon="['fas', 'plus']" class="text-2xl transition duration-500"
         :class="{ 'rotate-45 redIcon': formButton, 'rotate-0': !formButton }" />
     </fwb-button>
-    <div class="bg-gray-400 py-4 px-6 rounded-lg flex flex-col items-center justify-center m-2 md:py-8 md:px-12 lg:px-14"
+    <div
+      class="bg-gray-400 py-4 px-6 rounded-lg flex flex-col items-center justify-center m-2 md:py-8 md:px-12 lg:px-14 animate-fade-left animate-once animate-duration-500"
       v-if="formButton">
       <fwb-input required placeholder="Title (60 max)" class="rounded-lg w-52 md:w-96 font-body" v-model="inputTitle"
         v-bind:validation-status="validationTitle">
@@ -51,7 +57,7 @@
 
   <!-- edit note form -->
   <div
-    class="bg-gray-900 absolute inset-0 border-2 border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
+    class="bg-gray-900 absolute inset-0 border-2 z-10 border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
     v-if="editFormButton">
     <fwb-input required placeholder="Title (60 max)" class="rounded-lg w-52 md:w-96 font-body" v-model="inputTitle"
       v-bind:validation-status="validationTitle">
@@ -76,7 +82,8 @@
     </fwb-button>
   </div>
 
-  <div class="bg-slate-400 p-1 m-1 rounded-xl flex flex-wrap items-center justify-evenly gap-1 md:gap-3"
+  <div
+    class="bg-slate-400 p-1 m-1 rounded-xl flex flex-wrap items-center justify-evenly gap-1 md:gap-3 animate-fade-right animate-duration-1000 animate-delay-[250ms]"
     v-if="notesList.length">
 
     <!-- Loading spinner -->
@@ -93,7 +100,8 @@
       <span class="sr-only">Loading...</span>
     </div>
 
-    <fwb-card class="w-80" v-for="(note, index) in notesList" :key="index">
+    <fwb-card class="w-80 animate-flip-up animate-once animate-duration-[1000ms]" v-for="(note, index) in notesList"
+      :key="index">
       <div class="p-1.5 font-body">
         <h5 class="p-1 h-14 text-sm font-medium tracking-tight rounded-sm bg-gray-700 text-lime-50 md:text-base">
           {{ note.title }}
@@ -114,13 +122,6 @@
         <h6 class="text-sm font-semibold text-teal-500 inline-block float-right">{{ note.category }}</h6>
       </div>
     </fwb-card>
-  </div>
-  <div class="bg-gray-500">
-    <ul>
-      <li v-for="(element, index) in notesList" :key="index">
-        {{ element }} - {{ index }}
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -161,13 +162,16 @@ let editNotePosition;
 let validationTitle = ref('');
 
 //to show "note added" notification
-let showAlert = ref(true);
+let showAlert = ref();
 
 //to store note objects in array 
 const notesList = ref([]);
 
 //to show edit form
 let editFormButton = ref(false);
+
+//text alert
+let textAlert = ref('');
 
 //METHODS:
 //to set form button
@@ -199,18 +203,18 @@ function addNote() {
   //close fomr and clean inputs
   toggleFormButton();
 
-  //show "note added" notification
-  showAddedNotification();
+  showNotification('note added');
 }
 
-function showAddedNotification() {
-  setTimeout(() => {
-    showAlert.value = !showAlert.value
-  }, 500);
+function showNotification(text) {
+  //to set and show alert's
+  textAlert.value = text;
+  showAlert.value = true;
 
+  //set showAlert value to false after show alert
   setTimeout(() => {
-    showAlert.value = !showAlert.value
-  }, 3500);
+    showAlert.value = false;
+  }, 2000);
 }
 
 const cleanInputs = () => {
@@ -223,6 +227,7 @@ const cleanInputs = () => {
 //delete note with its index
 function deleteNote(index) {
   notesList.value.splice(index, 1);
+  showNotification('note deleted');
 }
 
 //to set edit note button
@@ -250,11 +255,15 @@ function saveEdit() {
     return;
   }
 
+  //update note's values
   notesList.value[editNotePosition].title = inputTitle.value;
   notesList.value[editNotePosition].content = inputContent.value;
   notesList.value[editNotePosition].category = inputCategory.value;
 
+  //to close edit form and clean inputs
   cancelEdit();
+
+  showNotification('note edited');
 }
 </script>
 
@@ -268,6 +277,6 @@ function saveEdit() {
 }
 
 .editIcon :hover {
-  color: rgb(95, 95, 102);
+  color: rgb(48, 48, 128);
 }
 </style>
