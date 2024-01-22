@@ -28,17 +28,17 @@
     </fwb-button>
     <div class="bg-gray-400 py-4 px-6 rounded-lg flex flex-col items-center justify-center m-2 md:py-8 md:px-12 lg:px-14"
       v-if="formButton">
-      <fwb-input required placeholder="Title (60 max)" class="rounded-lg w-52 md:w-96 font-body" v-model="noteTitle"
+      <fwb-input required placeholder="Title (60 max)" class="rounded-lg w-52 md:w-96 font-body" v-model="inputTitle"
         v-bind:validation-status="validationTitle">
-        <template #validationMessage v-if="!noteTitle">
+        <template #validationMessage v-if="!inputTitle">
           Title required
         </template>
-        <template #validationMessage v-if="noteTitle.length >= 60">
+        <template #validationMessage v-if="inputTitle.length >= 60">
           60 max capacity
         </template>
       </fwb-input>
-      <fwb-input placeholder="Content" class="rounded-lg w-52 md:w-96 font-body my-2" v-model="noteContent" />
-      <select v-model="noteCategory"
+      <fwb-input placeholder="Content" class="rounded-lg w-52 md:w-96 font-body my-2" v-model="inputContent" />
+      <select v-model="inputCategory"
         class="rounded-lg w-52 md:w-96 font-body mb-4 text-slate-500 text-base border-1 border-gray-300">
         <option value="" hidden>Select category</option>
         <option v-for="option in optionsCategories" :key="option.name" :value="option.name">{{ option.name }}</option>
@@ -51,26 +51,27 @@
 
   <!-- edit note form -->
   <div
-    class="bg-gray-900 absolute inset-0 border-2 border-orange-500 rounded-lg flex flex-col items-center justify-center m-3 animate-fade-up animate-duration-[800ms] animate-delay-200">
-    <fwb-input required placeholder="Title (60 max)" class="rounded-lg w-52 md:w-96 font-body" v-model="noteTitle"
+    class="bg-gray-900 absolute inset-0 border-2 border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
+    v-if="editFormButton">
+    <fwb-input required placeholder="Title (60 max)" class="rounded-lg w-52 md:w-96 font-body" v-model="inputTitle"
       v-bind:validation-status="validationTitle">
-      <template #validationMessage v-if="!noteTitle">
+      <template #validationMessage v-if="!inputTitle">
         <span class="text-slate-100 font-bold tracking-wider">Title required</span>
       </template>
-      <template #validationMessage v-if="noteTitle.length >= 60">
+      <template #validationMessage v-if="inputTitle.length >= 60">
         <span class="text-slate-100 font-bold tracking-wider">60 max capacity</span>
       </template>
     </fwb-input>
-    <fwb-input placeholder="Content" class="rounded-lg w-52 md:w-96 font-body my-2" v-model="noteContent" />
-    <select v-model="noteCategory"
+    <fwb-input placeholder="Content" class="rounded-lg w-52 md:w-96 font-body my-2" v-model="inputContent" />
+    <select v-model="inputCategory"
       class="rounded-lg w-52 md:w-96 font-body mb-4 text-slate-500 text-base border-1 border-gray-300">
       <option value="" hidden>Select category</option>
       <option v-for="option in optionsCategories" :key="option.name" :value="option.name">{{ option.name }}</option>
     </select>
-    <fwb-button gradient="green-blue" square @click="saveChanges()">
+    <fwb-button gradient="green-blue" square @click="saveEdit()">
       <span class="text-slate-100 font-bold tracking-wider">Save Changes</span>
     </fwb-button>
-    <fwb-button gradient="red" square @click="cancelButton()" class="mt-2">
+    <fwb-button gradient="red" square @click="cancelEdit()" class="mt-2">
       <span class="text-slate-100 font-bold tracking-wider">Cancel</span>
     </fwb-button>
   </div>
@@ -92,7 +93,7 @@
       <span class="sr-only">Loading...</span>
     </div>
 
-    <fwb-card class="w-80" v-for="note in notesList" :key="note.id">
+    <fwb-card class="w-80" v-for="(note, index) in notesList" :key="index">
       <div class="p-1.5 font-body">
         <h5 class="p-1 h-14 text-sm font-medium tracking-tight rounded-sm bg-gray-700 text-lime-50 md:text-base">
           {{ note.title }}
@@ -103,32 +104,41 @@
         </p>
         <hr class="border-gray-400 mx-auto mt-2">
         <button class="trashIcon hover:scale-110 hover:cursor-pointer transition duration-200 mr-1"
-          @click="deleteNote(note, note.id)">
+          @click="deleteNote(index)">
           <font-awesome-icon :icon="['fas', 'trash']" />
         </button>
         <button class="editIcon hover:scale-110 hover:cursor-pointer transition duration-200 ml-1"
-          @click="toggleUpdateButton()">
+          @click="toggleEditNoteButton(note, index)">
           <font-awesome-icon :icon="['fas', 'pen']" />
         </button>
         <h6 class="text-sm font-semibold text-teal-500 inline-block float-right">{{ note.category }}</h6>
       </div>
     </fwb-card>
   </div>
+  <div class="bg-gray-500">
+    <ul>
+      <li v-for="(element, index) in notesList" :key="index">
+        {{ element }} - {{ index }}
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script setup>
+//IMPORTS
 import { ref } from 'vue'
 
 //FLOWBITE-VUE components
 import { FwbButton, FwbInput, FwbCard } from 'flowbite-vue'
 
-//Form button
+//VARIABLES AND CONSTS:
+//button to show create note form
 let formButton = ref(false);
 
-//Input values
-let noteTitle = ref('');
-let noteContent = ref('');
-let noteCategory = ref('');
+//Inputs values
+let inputTitle = ref('');
+let inputContent = ref('');
+let inputCategory = ref('');
 
 const optionsCategories = [
   { name: 'Course' },
@@ -141,17 +151,25 @@ const optionsCategories = [
   { name: 'Social Media' },
 ]
 
+//variable to set note´s id property
+let noteId = 0;
+
+//variable to store note's id to edit
+let editNotePosition;
+
 //to show error message on required title accord to flowbite library
 let validationTitle = ref('');
 
 //to show "note added" notification
 let showAlert = ref(true);
 
-//to show 
-
 //to store note objects in array 
 const notesList = ref([]);
 
+//to show edit form
+let editFormButton = ref(false);
+
+//METHODS:
 //to set form button
 function toggleFormButton() {
   formButton.value = !formButton.value;
@@ -160,19 +178,21 @@ function toggleFormButton() {
 
 //to set button for add note
 function addNote() {
-  if (!noteTitle.value || noteTitle.value.length >= 60) {
+  if (!inputTitle.value || inputTitle.value.length >= 60) {
     validationTitle.value = "error";
     return;
   }
 
   //build "note" object
   const note = {
-    id: 'N' + (notesList.value.length + 1),
-    title: noteTitle.value,
-    content: noteContent.value,
-    category: noteCategory.value,
-    done: false
+    id: noteId, //noteId --> line 155
+    title: inputTitle.value,
+    content: inputContent.value,
+    category: inputCategory.value
   }
+
+  //add 1 noteId's value
+  noteId++;
 
   notesList.value.push(note);
 
@@ -194,20 +214,47 @@ function showAddedNotification() {
 }
 
 const cleanInputs = () => {
-  noteTitle.value = '';
+  inputTitle.value = '';
   validationTitle.value = '';
-  noteContent.value = '';
-  noteCategory.value = '';
+  inputContent.value = '';
+  inputCategory.value = '';
 }
 
-//delete note with its note.id
-function deleteNote(noteId) {
-  notesList.value.splice(noteId, 1);
+//delete note with its index
+function deleteNote(index) {
+  notesList.value.splice(index, 1);
 }
 
-//to set update note button
-function toggleUpdateButton(noteId) {
+//to set edit note button
+function toggleEditNoteButton(note, index) {
+  editFormButton.value = !editFormButton.value;
 
+  //to show input values on the edit form
+  inputTitle.value = note.title;
+  inputContent.value = note.content;
+  inputCategory.value = note.category;
+
+  //to store the note's position in the notesList
+  editNotePosition = index;
+}
+
+//to cancel note's edit
+function cancelEdit() {
+  editFormButton.value = !editFormButton.value;
+  cleanInputs();
+}
+
+function saveEdit() {
+  if (!inputTitle.value || inputTitle.value.length >= 60) {
+    validationTitle.value = "error";
+    return;
+  }
+
+  notesList.value[editNotePosition].title = inputTitle.value;
+  notesList.value[editNotePosition].content = inputContent.value;
+  notesList.value[editNotePosition].category = inputCategory.value;
+
+  cancelEdit();
 }
 </script>
 
