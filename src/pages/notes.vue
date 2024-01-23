@@ -1,30 +1,12 @@
 <template>
-  <!-- "no notes added" alert -->
   <div class="flex items-center justify-center mt-1" v-if="!notesList.length">
-    <span class="relative flex h-3 w-3">
-      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-600 opacity-75"></span>
-      <span class="relative inline-flex rounded-full h-3 w-3 bg-red-300"></span>
-    </span>
-    <h1
-      class="uppercase font-body tracking-wider font-extrabold text-2xl text-red-600 bg-red-200 rounded-lg px-3 py-1 ml-2 animate-pulse">
-      no notes added
-    </h1>
+    <RedAlert />
   </div>
 
-  <!-- "note added" alert -->
   <div
-    class="animate-fade-down animate-once animate-duration-[2000ms] animate-delay-[250ms] animate-reverse float-right fixed bottom-24 left-0 right-0 z-10"
+    class="animate-fade-down animate-once animate-duration-[2000ms] animate-delay-[250ms] animate-reverse fixed bottom-24 left-0 right-0 z-10"
     v-if="showAlert">
-    <div class="flex items-center justify-center">
-      <span class="relative flex h-3 w-3">
-        <span class="absolute inline-flex h-full w-full rounded-full bg-blue-600 opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-300"></span>
-      </span>
-      <h1
-        class="uppercase font-body tracking-wider font-extrabold text-2xl text-blue-600 bg-blue-200 rounded-lg px-3 py-1 ml-2 animate-pulse">
-        {{ textAlert }}
-      </h1>
-    </div>
+    <BlueAlert :text="textAlert" />
   </div>
   <div class="mt-1 flex flex-col items-center justify-center">
     <fwb-button color="dark" @click="toggleFormButton()">
@@ -87,7 +69,7 @@
     v-if="notesList.length">
 
     <!-- Loading spinner -->
-    <div role="status" class="hidden">
+    <!-- <div role="status" class="hidden">
       <svg aria-hidden="true" class="inline w-10 h-10text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
         viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -98,7 +80,7 @@
           fill="currentFill" />
       </svg>
       <span class="sr-only">Loading...</span>
-    </div>
+    </div> -->
 
     <fwb-card class="w-80 animate-flip-up animate-once animate-duration-[1000ms]" v-for="(note, index) in notesList"
       :key="index">
@@ -128,6 +110,8 @@
 <script setup>
 //IMPORTS
 import { ref } from 'vue'
+import RedAlert from '../components/notes/RedAlert.vue';
+import BlueAlert from '../components/notes/BlueAlert.vue'
 
 //FLOWBITE-VUE components
 import { FwbButton, FwbInput, FwbCard } from 'flowbite-vue'
