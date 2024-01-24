@@ -52,7 +52,7 @@
 
   <!-- edit note form -->
   <div
-    class="bg-gray-900 absolute inset-0 border-2 z-10 border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
+    class="bg-gray-900 fixed inset-0 border-2 z-10 border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
     v-if="editFormButton">
     <Form :case="'edit'" :noteClicked="noteToEdit" @editNote="updateNote" @closeForm="editFormButton = false"
       @showAlert="showNotification" />

@@ -1,4 +1,8 @@
 <template>
+  <div class="mb-2">
+    <h2 class="font-body text-yellow-50 uppercase text-xl font-bold" v-if="props.case === 'edit'">Edit Note</h2>
+    <h2 class="font-body text-slate-900 uppercase text-xl font-bold" v-else>Create Note</h2>
+  </div>
   <fwb-input required placeholder="Title (60 max)" class="rounded-lg font-body w-56 md:w-96" v-model="inputTitle"
     v-bind:validation-status="validationTitle">
     <template #validationMessage v-if="!inputTitle">
@@ -72,6 +76,7 @@ const optionsCategories = [
   { name: 'Research' },
   { name: 'Several' },
   { name: 'Social Media' },
+  { name: 'Tools' },
 ]
 
 //METHODS
