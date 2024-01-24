@@ -24,29 +24,12 @@
   </div>
 
   <div
-    class="bg-slate-400 p-1 m-1 rounded-xl flex flex-wrap items-center justify-evenly gap-1 md:gap-3 animate-fade-right animate-duration-1000 animate-delay-[250ms]"
+    class="bg-slate-500 p-1 m-1 rounded-xl flex flex-wrap items-center justify-evenly gap-2 md:gap-4 animate-fade-right animate-duration-1000 animate-delay-[250ms]"
     v-if="notesList.length">
     <fwb-card class="w-80 animate-flip-up animate-once animate-duration-[1000ms]" v-for="(note, index) in notesList"
       :key="index">
-      <div class="p-1.5 font-body">
-        <h5 class="p-1 h-14 text-sm font-medium tracking-tight rounded-sm bg-gray-700 text-lime-50 md:text-base">
-          {{ note.title }}
-        </h5>
-        <hr class="border-gray-400 mx-auto my-1">
-        <p class="text-xs text-gray-700 dark:text-gray-400 overflow-auto text-wrap h-20 md:text-sm">
-          {{ note.content }}
-        </p>
-        <hr class="border-gray-400 mx-auto mt-2">
-        <button class="trashIcon hover:scale-110 hover:cursor-pointer transition duration-200 mr-1"
-          @click="deleteNote(index)">
-          <font-awesome-icon :icon="['fas', 'trash']" />
-        </button>
-        <button class="editIcon hover:scale-110 hover:cursor-pointer transition duration-200 ml-1"
-          @click="showEditForm(note, index)">
-          <font-awesome-icon :icon="['fas', 'pen']" />
-        </button>
-        <h6 class="text-sm font-semibold text-teal-500 inline-block float-right">{{ note.category }}</h6>
-      </div>
+      <Card :noteChild="note" :noteIndex="index" @setDeleteNote="deleteNote" @setShowForm="showEditForm"
+        @showAlert="showNotification" />
     </fwb-card>
   </div>
 
@@ -61,9 +44,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import RedAlert from '../components/notes/RedAlert.vue'
-import BlueAlert from '../components/notes/BlueAlert.vue'
-import Form from '../components/notes/Form.vue';
+import RedAlert from '@/components/notes/RedAlert.vue'
+import BlueAlert from '@/components/notes/BlueAlert.vue'
+import Form from '@/components/notes/Form.vue';
+import Card from '@/components/notes/Card.vue';
 
 //FLOWBITE-VUE components
 import { FwbButton, FwbCard } from 'flowbite-vue'
@@ -115,7 +99,6 @@ function updateNote(note) {
 //delete note with its index
 function deleteNote(index) {
   notesList.value.splice(index, 1);
-  showNotification('note deleted'); //modify with note's card
 }
 
 function showNotification(text) {
@@ -126,6 +109,7 @@ function showNotification(text) {
   //set showAlert value to false after show alert
   setTimeout(() => {
     showAlert.value = false;
+    textAlert.value = "";
   }, 2000);
 }
 </script>
