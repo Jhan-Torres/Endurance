@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-2">
+  <div class="mb-1">
     <h2 class="font-body text-yellow-50 uppercase text-xl font-bold" v-if="props.case === 'edit'">Edit Note</h2>
     <h2 class="font-body text-slate-900 uppercase text-xl font-bold" v-else>Create Note</h2>
   </div>
