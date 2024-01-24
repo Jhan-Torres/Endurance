@@ -120,5 +120,4 @@ function saveEdit() {
 function cancelEdit() {
   emits("closeForm");
 }
-
 </script>

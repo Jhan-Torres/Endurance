@@ -8,6 +8,3 @@
     no notes added
   </h1>
 </template>
-
-<script setup>
-</script>

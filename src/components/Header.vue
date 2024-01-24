@@ -53,5 +53,3 @@ import {
   FwbNavbarLogo,
 } from 'flowbite-vue'
 </script>
-
-<style scoped></style>

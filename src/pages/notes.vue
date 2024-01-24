@@ -16,7 +16,7 @@
         :class="{ 'rotate-45 redIcon': showForm, 'rotate-0': !showForm }" />
     </fwb-button>
     <div
-      class="bg-gray-400 py-4 px-6 rounded-lg flex flex-col items-center justify-center m-2 md:py-8 md:px-12 lg:px-14 animate-fade-left animate-once animate-duration-500"
+      class="bg-gray-400 py-4 px-6 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-left animate-once animate-duration-500 md:py-8 md:px-12 lg:px-14"
       v-if="showForm">
       <Form :case="'create'" :noteId="noteId" @addNote="addNoteToList" @closeForm="showForm = false"
         @showAlert="showNotification" />
@@ -24,7 +24,7 @@
   </div>
 
   <div
-    class="bg-slate-500 p-1 m-1 rounded-xl flex flex-wrap items-center justify-evenly gap-2 md:gap-4 animate-fade-right animate-duration-1000 animate-delay-[250ms]"
+    class="bg-slate-500 p-1 m-1 rounded-xl flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-4"
     v-if="notesList.length">
     <fwb-card class="w-80 animate-flip-up animate-once animate-duration-[1000ms]" v-for="(note, index) in notesList"
       :key="index">
