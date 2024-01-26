@@ -44,6 +44,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { onBeforeMount } from 'vue'
 import RedAlert from '@/components/notes/RedAlert.vue'
 import BlueAlert from '@/components/notes/BlueAlert.vue'
 import Form from '@/components/notes/Form.vue';
@@ -51,6 +52,22 @@ import Card from '@/components/notes/Card.vue';
 
 //FLOWBITE-VUE components
 import { FwbButton, FwbCard } from 'flowbite-vue'
+
+//to store note objects in array 
+const notesList = ref([]);
+
+//to set note's i
+let noteId = ref(0);
+
+//Set index and array notes at the begginig 
+//read: https://vuejs.org/api/composition-api-lifecycle.html
+onBeforeMount(() => {
+  if (localStorage.getItem("NotesList")) {
+    notesList.value = JSON.parse(localStorage.getItem("NotesList"));
+    noteId.value = JSON.parse(localStorage.noteId);
+    //both ways of obtain items from localStorage are correct
+  }
+})
 
 //show/hide create note form
 let showForm = ref(false);
@@ -64,22 +81,18 @@ let noteToEdit = ref();
 //to store note's id to edit
 let indexNote = ref();
 
-//to store note objects in array 
-const notesList = ref([]);
-
 //to show alert notifications
 let showAlert = ref();
 
 //to set alert´s text
 let textAlert = ref('');
 
-//to set note's id
-let noteId = 0;
-
 //METHODS:
 function addNoteToList(note) {
-  noteId++;
   notesList.value.push(note);
+  localStorage.setItem('NotesList', JSON.stringify(notesList.value));
+  localStorage.setItem('noteId', JSON.stringify(noteId.value));
+  noteId.value++;
 }
 
 //to set edit note button
@@ -90,15 +103,18 @@ function showEditForm(noteObject, index) {
 }
 
 function updateNote(note) {
-  //first delete note
+  //first delete note from the array
   notesList.value.splice(indexNote.value, 1);
   //after add note updated
   notesList.value.splice(indexNote.value, 0, note);
+  //later modify the local storage list
+  localStorage.setItem('NotesList', JSON.stringify(notesList.value));
 }
 
 //delete note with its index
 function deleteNote(index) {
   notesList.value.splice(index, 1);
+  localStorage.setItem('NotesList', JSON.stringify(notesList.value));
 }
 
 function showNotification(text) {
