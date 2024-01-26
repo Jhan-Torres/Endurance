@@ -44,3 +44,17 @@ function showEditF(noteToEdit, indexNoteEdit) {
   emits("setShowForm", noteToEdit, indexNoteEdit)
 }
 </script>
+
+<style scoped>
+.redIcon {
+  color: rgb(255, 94, 0);
+}
+
+.trashIcon :hover {
+  color: rgb(190, 11, 11);
+}
+
+.editIcon :hover {
+  color: rgb(48, 48, 128);
+}
+</style>

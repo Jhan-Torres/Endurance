@@ -129,17 +129,3 @@ function showNotification(text) {
   }, 2000);
 }
 </script>
-
-<style scoped>
-.redIcon {
-  color: rgb(255, 94, 0);
-}
-
-.trashIcon :hover {
-  color: rgb(190, 11, 11);
-}
-
-.editIcon :hover {
-  color: rgb(48, 48, 128);
-}
-</style>
