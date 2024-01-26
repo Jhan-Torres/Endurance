@@ -46,10 +46,6 @@ function showEditF(noteToEdit, indexNoteEdit) {
 </script>
 
 <style scoped>
-.redIcon {
-  color: rgb(255, 94, 0);
-}
-
 .trashIcon :hover {
   color: rgb(190, 11, 11);
 }

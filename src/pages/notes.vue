@@ -25,7 +25,7 @@
 
   <div
     class="bg-slate-500 p-1 m-1 rounded-xl flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-4"
-    v-if="notesList.length">
+    v-if="notesList.length" @dblclick="toggleDblClick">
     <fwb-card class="w-80 animate-flip-up animate-once animate-duration-[1000ms]" v-for="(note, index) in notesList"
       :key="index">
       <Card :noteChild="note" :noteIndex="index" @setDeleteNote="deleteNote" @setShowForm="showEditForm"
@@ -129,3 +129,9 @@ function showNotification(text) {
   }, 2000);
 }
 </script>
+
+<style scoped>
+.redIcon {
+  color: rgb(255, 94, 0);
+}
+</style>
