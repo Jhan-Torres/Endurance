@@ -56,9 +56,6 @@ import BlueAlert from '@/components/notes/BlueAlert.vue'
 import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
 
-//FLOWBITE-VUE components
-import { FwbCard } from 'flowbite-vue'
-
 //to store note objects in array 
 const notesList = ref([]);
 

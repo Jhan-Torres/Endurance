@@ -13,7 +13,7 @@
     v-if="showForm">
     <h2 
       v-if="props.case === 'edit'"  
-      class="font-body text-yellow-50 uppercase text-lg font-bold">
+      class="font-body text-slate-900 uppercase text-lg font-bold">
       Edit Note
     </h2>
     <h2 
