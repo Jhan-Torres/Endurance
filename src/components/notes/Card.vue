@@ -1,5 +1,6 @@
 <template>
-  <div class="p-1 font-body" @dblclick="showEditF(props.noteChild, props.noteIndex)">
+  <fwb-card class="w-80 animate-flip-up animate-once animate-duration-[1000ms] p-1 font-body"
+    @dblclick="showEditF(props.noteChild, props.noteIndex)">
     <h5 class="p-1 h-12 text-sm font-medium tracking-tight rounded-t-md bg-gray-800 text-lime-50 md:text-base">
       {{ props.noteChild.title }}
     </h5>
@@ -15,12 +16,14 @@
       @click="showEditF(props.noteChild, props.noteIndex)">
       <font-awesome-icon :icon="['fas', 'pen']" />
     </button>
-    <h6 class="text-sm font-semibold text-teal-500 inline-block float-right uppercase">{{ props.noteChild.category }}
+    <h6 class="text-sm font-semibold text-teal-500 inline-block float-right uppercase">
+      {{ props.noteChild.category }}
     </h6>
-  </div>
+  </fwb-card>
 </template>
 
 <script setup>
+import { FwbCard } from 'flowbite-vue';
 
 //PROPS & EMITS
 const props = defineProps({

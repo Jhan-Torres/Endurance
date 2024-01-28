@@ -20,25 +20,24 @@
   </div>
 
   <div
-    class="bg-slate-400 p-1 mt-2  rounded-md flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-4"
+    class="bg-slate-400 p-1 mt-2 rounded-md flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-4"
     v-if="notesList.length">
-    <fwb-card class="w-80 animate-flip-up animate-once animate-duration-[1000ms]" 
-      v-for="(note, index) in notesList" 
-      :key="index">
       <Card 
+        v-for="(note, index) in notesList" 
+        :key="index"
         :noteChild="note" 
         :noteIndex="index" 
         @setDeleteNote="deleteNote" 
         @setShowForm="showEditForm"
         @showAlert="showNotification" 
       />
-    </fwb-card>
   </div>
 
   <!-- edit note form -->
   <div
     class="bg-gray-900 fixed inset-0 border-2 z-10 border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
-    v-if="editFormButton">
+    v-if="editFormButton"
+    @dblclick="hiddeForm">
     <Form 
       :case="'edit'" 
       :noteClicked="noteToEdit" 
@@ -90,6 +89,11 @@ let textAlert = ref('');
 function addNoteToList(note) {
   notesList.value.push(note);
   localStorage.setItem('NotesList', JSON.stringify(notesList.value));
+}
+
+//to hide form on user doble click on edit form
+function hiddeForm() {
+  editFormButton.value = false;
 }
 
 //to set edit note button
