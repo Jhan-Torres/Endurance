@@ -1,44 +1,59 @@
 <template>
-  <div class="mb-1">
-    <h2 class="font-body text-yellow-50 uppercase text-xl font-bold" v-if="props.case === 'edit'">Edit Note</h2>
-    <h2 class="font-body text-slate-900 uppercase text-xl font-bold" v-else>Create Note</h2>
-  </div>
-  <fwb-input required placeholder="Title (60 max)" class="rounded-lg font-body w-56 md:w-96" v-model="inputTitle"
-    v-bind:validation-status="validationTitle">
-    <template #validationMessage v-if="!inputTitle">
-      <span class="text-slate-100 font-bold tracking-wider">Title required</span>
-    </template>
-    <template #validationMessage v-if="inputTitle.length >= 60">
-      <span class="text-slate-100 font-bold tracking-wider">60 max capacity</span>
-    </template>
-  </fwb-input>
-  <fwb-textarea v-model="inputContent" label="" placeholder="Content..." class="rounded-lg font-body my-2 w-56 md:w-96" />
-  <select v-model="inputCategory"
-    class="rounded-lg font-body mb-4 text-slate-500 text-base border-1 border-gray-300 w-56 md:w-96">
-    <option value="" hidden>Select category</option>
-    <option v-for="option in optionsCategories" :key="option.name" :value="option.name">{{ option.name }}</option>
-  </select>
-  <div v-if="props.case === 'create'">
-    <fwb-button gradient="green-blue" square @click="addNote()">
-      Add Note
-    </fwb-button>
-  </div>
-  <div v-if="props.case === 'edit'" class="flex flex-col">
-    <fwb-button gradient="green-blue" square @click="saveEdit()">
-      <span class="text-slate-100 font-bold tracking-wider">Save Changes</span>
-    </fwb-button>
-    <fwb-button gradient="red" square @click="cancelEdit()" class="m-2">
-      <span class="text-slate-100 font-bold tracking-wider">Cancel</span>
-    </fwb-button>
+  <fwb-button color="dark" @click="toggleForm" v-if="props.case === 'create'">
+    <font-awesome-icon :icon="['fas', 'plus']" class="text-2xl transition duration-500"
+      :class="{ 'rotate-45 redIcon': showForm, 'rotate-0': !showForm }" />
+  </fwb-button>
+  <div
+    class="bg-gray-400 px-6 py-1 mt-1 rounded-lg flex flex-col items-center justify-center animate-fade-down animate-once animate-duration-500 md:py-5 md:px-10 lg:px-12"
+    v-if="showForm">
+    <h2 class="font-body text-yellow-50 uppercase text-lg font-bold" v-if="props.case === 'edit'">Edit Note</h2>
+    <h2 class="font-body text-slate-900 uppercase text-lg font-bold" v-else>Create Note</h2>
+    <input type="text"
+      class="bg-gray-50 border border-gray-300 font-body text-gray-900 text-sm rounded-lg block p-1.5 w-56 md:w-96"
+      placeholder="Title (*)" ref="title" v-model="inputTitle" :class="{ 'bg-red-200 border-red-500': textError }">
+    <span class="text-red-600 font-body text-sm tracking-wider mb-0.5" v-if="textError">{{ textError }}</span>
+    <textarea rows="3"
+      class="block p-1.5 text-sm font-body text-gray-900 bg-gray-50 rounded-lg border border-gray-300 my-1.5 w-56 md:w-96"
+      placeholder="Content..." v-model="inputContent" />
+    <select v-model="inputCategory"
+      class="rounded-lg font-body mb-1.5 p-1.5 text-slate-500 text-sm border-1 border-gray-300 w-56 md:w-96">
+      <option value="" hidden>Category</option>
+      <option v-for="option in optionsCategories" :key="option.name" :value="option.name">{{ option.name }}</option>
+    </select>
+    <div v-if="props.case === 'create'" class="mb-1">
+      <fwb-button gradient="green-blue" square @click="createNote">
+        DONE
+      </fwb-button>
+    </div>
+    <div v-if="props.case === 'edit'" class="flex flex-col">
+      <fwb-button gradient="green-blue" square @click="saveEdit">
+        <span class="text-slate-100 font-bold tracking-wider">Save Changes</span>
+      </fwb-button>
+      <fwb-button gradient="red" square @click="cancelEdit" class="m-2">
+        <span class="text-slate-100 font-bold tracking-wider">Cancel</span>
+      </fwb-button>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { FwbButton, FwbInput, FwbTextarea } from 'flowbite-vue'
+import { ref, nextTick, onBeforeMount } from 'vue';
+import { FwbButton } from 'flowbite-vue'
 
-//EMITS % PROPS
-const emits = defineEmits(["closeForm", "showAlert", "addNote", "editNote"]);
+//to set note id autoincrement and store in LocalStorage
+let noteId;
+
+//Set note index at the begginig 
+onBeforeMount(() => {
+  if (localStorage.getItem("noteId")) {
+    noteId = JSON.parse(localStorage.noteId);
+  } else {
+    noteId = 0;
+  }
+})
+
+//EMITS & PROPS
+const emits = defineEmits(["closeForm", "showAlert", "addNoteToList", "editNote"]);
 
 const props = defineProps({
   case: {
@@ -48,30 +63,30 @@ const props = defineProps({
   noteClicked: {
     type: Object,
     default: {},
-  },
-  noteId: Number,
-  required: true
+  }
 })
 
-let inputTitle = ref('');
-let inputContent = ref('');
-let inputCategory = ref('');
+//DATA REFS
+//html elements
+const title = ref(null);
 
-//to set error message according to flowbite componen
-let validationTitle = ref('');
+//show/hide create note form
+const showForm = ref(false);
 
-//to set initial values on inputs if "edit" case is sending
-if (props.case === 'edit') {
-  inputTitle.value = props.noteClicked.title;
-  inputContent.value = props.noteClicked.content;
-  inputCategory.value = props.noteClicked.category;
-}
+//to set text error on title input
+const textError = ref('');
+
+//input values
+const inputTitle = ref('');
+const inputContent = ref('');
+const inputCategory = ref('');
 
 const optionsCategories = [
   { name: 'Course' },
   { name: 'Entertainment' },
   { name: 'Hacking' },
   { name: 'Link' },
+  { name: 'Medicine' },
   { name: 'Programming' },
   { name: 'Research' },
   { name: 'Several' },
@@ -79,31 +94,54 @@ const optionsCategories = [
   { name: 'Tools' },
 ]
 
+//to set initial values on inputs if "edit" case is sending
+if (props.case === 'edit') {
+  inputTitle.value = props.noteClicked.title;
+  inputContent.value = props.noteClicked.content;
+  inputCategory.value = props.noteClicked.category;
+  showForm.value = true;
+}
+
 //METHODS
-function addNote() {
-  if (!inputTitle.value || inputTitle.value.length >= 60) {
-    validationTitle.value = "error";
-    return;
-  }
+function toggleForm() {
+  showForm.value = !showForm.value;
+  //set focus on title input
+  nextTick(() => {
+    if (showForm.value) {
+      title.value.focus()
+      cleanInputs();
+    }
+  });
+}
+
+function createNote() {
+  if (!validateTitle()) return;
 
   //build new "note" object
   const note = {
-    id: props.noteId,
+    id: ++noteId,
     title: inputTitle.value,
     content: inputContent.value,
     category: inputCategory.value
   }
 
-  emits("addNote", note);
-  emits("closeForm");
+  /*
+  x++   --> x = x;        post increment: assign first,  
+            x = x + 1;                    increment later
+------------------------            
+  ++x   --> x = x + 1;    pre increment: increment first, 
+            x = x;                       later assign
+  */
+
+  localStorage.setItem('noteId', JSON.stringify(noteId));
+  showForm.value = false;
+
+  emits("addNoteToList", note);
   emits("showAlert", 'note added');
 }
 
 function saveEdit() {
-  if (!inputTitle.value || inputTitle.value.length >= 60) {
-    validationTitle.value = "error";
-    return;
-  }
+  if (!validateTitle()) return;
 
   const note = {
     id: props.noteClicked.id,
@@ -120,4 +158,35 @@ function saveEdit() {
 function cancelEdit() {
   emits("closeForm");
 }
+
+function cleanInputs() {
+  inputTitle.value = "";
+  inputContent.value = "";
+  inputCategory.value = "";
+  textError.value = '';
+}
+
+function validateTitle() {
+  //required validation
+  if (!inputTitle.value) {
+    textError.value = "Title Required";
+    title.value.focus();
+    return false;
+  }
+
+  //max 60 caracteres validation 
+  if (inputTitle.value.length >= 60) {
+    textError.value = "60 Max Capacity";
+    title.value.focus();
+    return false;
+  }
+
+  return true;
+}
 </script>
+
+<style scoped>
+.redIcon {
+  color: rgb(255, 94, 0);
+}
+</style>

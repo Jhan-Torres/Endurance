@@ -1,6 +1,7 @@
 <template>
   <!-- Alerts -->
-  <div class="flex items-center justify-center mt-1" v-if="!notesList.length">
+  <div class="flex items-center justify-center mt-1" 
+    v-if="!notesList.length">
     <RedAlert />
   </div>
   <div
@@ -11,25 +12,26 @@
 
   <!-- new note's button and form -->
   <div class="mt-1 flex flex-col items-center justify-center">
-    <fwb-button color="dark" @click="showForm = !showForm">
-      <font-awesome-icon :icon="['fas', 'plus']" class="text-2xl transition duration-500"
-        :class="{ 'rotate-45 redIcon': showForm, 'rotate-0': !showForm }" />
-    </fwb-button>
-    <div
-      class="bg-gray-400 py-2 px-6 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-left animate-once animate-duration-500 md:py-5 md:px-10 lg:px-12"
-      v-if="showForm">
-      <Form :case="'create'" :noteId="noteId" @addNote="addNoteToList" @closeForm="showForm = false"
-        @showAlert="showNotification" />
-    </div>
+    <Form 
+      :case="'create'" 
+      @addNoteToList="addNoteToList" 
+      @showAlert="showNotification" 
+    />
   </div>
 
   <div
-    class="bg-slate-500 p-1 m-1 rounded-xl flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-4"
-    v-if="notesList.length" @dblclick="toggleDblClick">
-    <fwb-card class="w-80 animate-flip-up animate-once animate-duration-[1000ms]" v-for="(note, index) in notesList"
+    class="bg-slate-400 p-1 mt-2  rounded-md flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-4"
+    v-if="notesList.length">
+    <fwb-card class="w-80 animate-flip-up animate-once animate-duration-[1000ms]" 
+      v-for="(note, index) in notesList" 
       :key="index">
-      <Card :noteChild="note" :noteIndex="index" @setDeleteNote="deleteNote" @setShowForm="showEditForm"
-        @showAlert="showNotification" />
+      <Card 
+        :noteChild="note" 
+        :noteIndex="index" 
+        @setDeleteNote="deleteNote" 
+        @setShowForm="showEditForm"
+        @showAlert="showNotification" 
+      />
     </fwb-card>
   </div>
 
@@ -37,8 +39,13 @@
   <div
     class="bg-gray-900 fixed inset-0 border-2 z-10 border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
     v-if="editFormButton">
-    <Form :case="'edit'" :noteClicked="noteToEdit" @editNote="updateNote" @closeForm="editFormButton = false"
-      @showAlert="showNotification" />
+    <Form 
+      :case="'edit'" 
+      :noteClicked="noteToEdit" 
+      @editNote="updateNote" 
+      @closeForm="editFormButton = false"
+      @showAlert="showNotification" 
+    />
   </div>
 </template>
 
@@ -51,26 +58,18 @@ import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
 
 //FLOWBITE-VUE components
-import { FwbButton, FwbCard } from 'flowbite-vue'
+import { FwbCard } from 'flowbite-vue'
 
 //to store note objects in array 
 const notesList = ref([]);
 
-//to set note's i
-let noteId = ref(0);
-
-//Set index and array notes at the begginig 
+//Set array notes at the begginig 
 //read: https://vuejs.org/api/composition-api-lifecycle.html
 onBeforeMount(() => {
   if (localStorage.getItem("NotesList")) {
     notesList.value = JSON.parse(localStorage.getItem("NotesList"));
-    noteId.value = JSON.parse(localStorage.noteId);
-    //both ways of obtain items from localStorage are correct
   }
 })
-
-//show/hide create note form
-let showForm = ref(false);
 
 //to show/hide edit form
 let editFormButton = ref(false);
@@ -91,8 +90,6 @@ let textAlert = ref('');
 function addNoteToList(note) {
   notesList.value.push(note);
   localStorage.setItem('NotesList', JSON.stringify(notesList.value));
-  localStorage.setItem('noteId', JSON.stringify(noteId.value));
-  noteId.value++;
 }
 
 //to set edit note button
@@ -129,9 +126,3 @@ function showNotification(text) {
   }, 2000);
 }
 </script>
-
-<style scoped>
-.redIcon {
-  color: rgb(255, 94, 0);
-}
-</style>
