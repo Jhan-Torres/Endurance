@@ -20,18 +20,18 @@
       v-if="props.case === 'edit'"  
       class="font-body text-slate-200 uppercase text-lg font-bold"
     >
-      Edit Note
+      edit note
     </h2>
     <h2 
       v-else 
       class="font-body text-slate-900 uppercase text-lg font-bold"
     >
-      Create Note
+      new note
     </h2>
     <input class="bg-gray-50 border border-gray-300 font-body text-gray-900 text-sm rounded-lg block p-1.5 w-56 md:w-96"
       :class="{ 'bg-red-200 border-red-500' : textError }"  
       type="text" 
-      placeholder="Title (*)" 
+      placeholder="title... (*)" 
       ref="title" 
       v-model="inputTitle" 
     >
@@ -43,7 +43,7 @@
     <textarea 
       class="block p-1.5 text-sm font-body text-gray-900 bg-gray-50 rounded-lg border border-gray-300 my-1.5 w-56 md:w-96"
       rows="3"
-      placeholder="Content..." 
+      placeholder="content..." 
       v-model="inputContent" 
     />
     <select 
@@ -54,7 +54,9 @@
         value="" 
         hidden
       >
-        Category
+        <span>
+          category...
+        </span>
       </option>
       <option 
         v-for="option in optionsCategories" 
@@ -90,9 +92,9 @@
         @click="saveEdit"
       >
         <span 
-          class="text-slate-100 font-bold tracking-wider"
+          class="text-slate-100 tracking-wider font-body uppercase"
         >
-          Save Changes
+          save changes
         </span>
       </fwb-button>
       <fwb-button 
@@ -102,7 +104,7 @@
         class="m-2"
       >
         <span 
-          class="text-slate-100 font-bold tracking-wider"
+          class="text-slate-100 tracking-wider font-body uppercase"
         >
           Cancel
         </span>
