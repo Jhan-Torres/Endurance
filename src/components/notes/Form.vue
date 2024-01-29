@@ -7,17 +7,18 @@
     <font-awesome-icon 
       class="text-2xl transition duration-500"
       :icon="['fas', 'plus']" 
-      :class="{ 'rotate-45 redIcon': showForm, 'rotate-0': !showForm }"
+      :class="{ 'rotate-45 redIcon' : showForm, 'rotate-0' : !showForm }"
     />
   </fwb-button>
   <div
-    class="bg-gray-400 px-6 py-1 mt-1 rounded-lg flex flex-col items-center justify-center animate-fade-down animate-once animate-duration-500 md:py-5 md:px-10 lg:px-12"
+    class="px-6 py-1 mt-1 rounded-lg flex flex-col items-center justify-center animate-fade-down animate-once animate-duration-500 md:py-5 md:px-10 lg:px-12"
+    :class="{ 'bg-gray-400' : (props.case === 'create') }"
     v-if="showForm"
     v-on:keyup.esc="showForm = false"
   >
     <h2 
       v-if="props.case === 'edit'"  
-      class="font-body text-slate-900 uppercase text-lg font-bold"
+      class="font-body text-slate-200 uppercase text-lg font-bold"
     >
       Edit Note
     </h2>
