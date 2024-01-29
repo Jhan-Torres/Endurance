@@ -1,17 +1,24 @@
 <template>
   <!-- Alerts -->
-  <div class="flex items-center justify-center mt-1" 
-    v-if="!notesList.length">
+  <div 
+    class="flex items-center justify-center mt-1" 
+    v-if="!notesList.length"
+  >
     <RedAlert />
   </div>
   <div
     class="animate-fade-down animate-once animate-duration-[2000ms] animate-delay-[250ms] animate-reverse fixed bottom-24 left-0 right-0 z-10"
-    v-if="showAlert">
-    <BlueAlert :text="textAlert" />
+    v-if="showAlert"
+  >
+    <BlueAlert 
+      :text="textAlert" 
+    />
   </div>
 
   <!-- new note's button and form -->
-  <div class="mt-1 flex flex-col items-center justify-center">
+  <div 
+    class="mt-1 flex flex-col items-center justify-center"
+  >
     <Form 
       :case="'create'" 
       @addNoteToList="addNoteToList" 
@@ -21,23 +28,26 @@
 
   <div
     class="bg-slate-400 p-1 mt-2 rounded-md flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-4"
-    v-if="notesList.length">
-      <Card 
-        v-for="(note, index) in notesList" 
-        :key="index"
-        :noteChild="note" 
-        :noteIndex="index" 
-        @setDeleteNote="deleteNote" 
-        @setShowForm="showEditForm"
-        @showAlert="showNotification" 
-      />
+    v-if="notesList.length"
+    >
+    <Card 
+      v-for="(note, index) in notesList" 
+      :key="index"
+      :noteChild="note" 
+      :noteIndex="index" 
+      @setDeleteNote="deleteNote" 
+      @setShowForm="showEditForm"
+      @showAlert="showNotification" 
+    />
   </div>
 
   <!-- edit note form -->
   <div
     class="bg-gray-900 fixed inset-0 border-2 z-10 border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
     v-if="editFormButton"
-    @dblclick="hiddeForm">
+    @dblclick="hiddeForm"
+    v-on:keyup.esc="hiddeForm"
+  >
     <Form 
       :case="'edit'" 
       :noteClicked="noteToEdit" 

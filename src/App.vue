@@ -1,7 +1,9 @@
 <template>
   <Header />
-  <div class="extended">
-    <notesPage />
+  <div 
+    class="extended"
+  >
+    <notesPage /> 
   </div>
   <Footer />
 </template>

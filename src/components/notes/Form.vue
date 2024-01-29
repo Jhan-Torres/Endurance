@@ -2,73 +2,109 @@
   <fwb-button 
     v-if="props.case === 'create'"
     color="dark" 
-    @click="toggleForm">
-    <font-awesome-icon :icon="['fas', 'plus']" 
+    @click="toggleForm"
+  >
+    <font-awesome-icon 
       class="text-2xl transition duration-500"
+      :icon="['fas', 'plus']" 
       :class="{ 'rotate-45 redIcon': showForm, 'rotate-0': !showForm }"
     />
   </fwb-button>
   <div
     class="bg-gray-400 px-6 py-1 mt-1 rounded-lg flex flex-col items-center justify-center animate-fade-down animate-once animate-duration-500 md:py-5 md:px-10 lg:px-12"
-    v-if="showForm">
+    v-if="showForm"
+    v-on:keyup.esc="showForm = false"
+  >
     <h2 
       v-if="props.case === 'edit'"  
-      class="font-body text-slate-900 uppercase text-lg font-bold">
+      class="font-body text-slate-900 uppercase text-lg font-bold"
+    >
       Edit Note
     </h2>
     <h2 
       v-else 
-      class="font-body text-slate-900 uppercase text-lg font-bold">
+      class="font-body text-slate-900 uppercase text-lg font-bold"
+    >
       Create Note
     </h2>
     <input class="bg-gray-50 border border-gray-300 font-body text-gray-900 text-sm rounded-lg block p-1.5 w-56 md:w-96"
+      :class="{ 'bg-red-200 border-red-500' : textError }"  
       type="text" 
       placeholder="Title (*)" 
       ref="title" 
       v-model="inputTitle" 
-      :class="{ 'bg-red-200 border-red-500': textError }">
+    >
       <span class="text-red-600 font-body text-sm tracking-wider mb-0.5" 
-        v-if="textError">
-          {{ textError }}
+        v-if="textError"
+      >
+        {{ textError }}
       </span>
-    <textarea class="block p-1.5 text-sm font-body text-gray-900 bg-gray-50 rounded-lg border border-gray-300 my-1.5 w-56 md:w-96"
+    <textarea 
+      class="block p-1.5 text-sm font-body text-gray-900 bg-gray-50 rounded-lg border border-gray-300 my-1.5 w-56 md:w-96"
       rows="3"
       placeholder="Content..." 
       v-model="inputContent" 
     />
-    <select class="rounded-lg font-body mb-1.5 p-1.5 text-slate-500 text-sm border-1 border-gray-300 w-56 md:w-96" 
-      v-model="inputCategory">
-      <option value="" hidden>Category</option> <!-- to show defaul category -->
+    <select 
+      class="rounded-lg font-body mb-1.5 p-1.5 text-slate-500 text-sm border-1 border-gray-300 w-56 md:w-96" 
+      v-model="inputCategory"
+    >
+      <option 
+        value="" 
+        hidden
+      >
+        Category
+      </option>
       <option 
         v-for="option in optionsCategories" 
         :key="option.name" 
-        :value="option.name">
-          {{ option.name }}
+        :value="option.name"
+      >
+        {{ option.name }}
       </option>
     </select>
-    <div class="mb-1"
-      v-if="props.case === 'create'">
+    <div 
+      class="mb-1"
+      v-if="props.case === 'create'"
+    >
       <fwb-button 
         gradient="green-blue" 
         square 
-        @click="createNote">
-        DONE
+        @click="createNote"
+      >
+        <span 
+          class="uppercase"
+        >
+          done
+        </span>
       </fwb-button>
     </div>
-    <div class="flex flex-col"
-      v-if="props.case === 'edit'">
+    <div 
+      class="flex flex-col"
+      v-if="props.case === 'edit'"
+    >
       <fwb-button 
         gradient="green-blue" 
         square 
-        @click="saveEdit">
-        <span class="text-slate-100 font-bold tracking-wider">Save Changes</span>
+        @click="saveEdit"
+      >
+        <span 
+          class="text-slate-100 font-bold tracking-wider"
+        >
+          Save Changes
+        </span>
       </fwb-button>
       <fwb-button 
         gradient="red" 
         square 
         @click="cancelEdit" 
-        class="m-2">
-        <span class="text-slate-100 font-bold tracking-wider">Cancel</span>
+        class="m-2"
+      >
+        <span 
+          class="text-slate-100 font-bold tracking-wider"
+        >
+          Cancel
+        </span>
       </fwb-button>
     </div>
   </div>
@@ -83,11 +119,7 @@ let noteId;
 
 //Set note index at the begginig 
 onBeforeMount(() => {
-  if (localStorage.getItem("noteId")) {
-    noteId = JSON.parse(localStorage.noteId);
-  } else {
-    noteId = 0;
-  }
+  noteId = (localStorage.getItem("noteId")) ? JSON.parse(localStorage.noteId) : 0;  
 })
 
 //EMITS & PROPS
@@ -162,14 +194,6 @@ function createNote() {
     content: inputContent.value,
     category: inputCategory.value
   }
-
-  /*
-  x++   --> x = x;        post increment: assign first,  
-            x = x + 1;                    increment later
-------------------------            
-  ++x   --> x = x + 1;    pre increment: increment first, 
-            x = x;                       later assign
-  */
 
   localStorage.setItem('noteId', JSON.stringify(noteId));
   showForm.value = false;
