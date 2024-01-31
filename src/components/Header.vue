@@ -11,9 +11,7 @@
           image-url="/img/saturno.svg" 
           class="animate-pulse"
         >
-          <h1 
-            class="text-2xl tracking-wider font-normal font-title py-2 uppercase text-slate-100 lg:text-3xl"
-          >
+          <h1 class="text-2xl tracking-wider font-normal font-title py-2 uppercase text-slate-100 lg:text-3xl">
             Endurance
           </h1>
         </fwb-navbar-logo>
@@ -25,46 +23,18 @@
           :is-show-menu="isShowMenu" 
           class="fixed top-10 right-0 z-10 md:hidden"
         >
-          
           <router-link 
-            v-for="(route, index) in routes"
+            v-for="(route, index) in routesArray"
             :key="index"
             class="rounded-lg"
-            :to="route.name"
+            :to="route.path"
           >
-            <span>a</span>
-          </router-link>
-          <router-link
-            class="rounded-lg"
-            to="/books"
-            >
-            <font-awesome-icon :icon="['fas', 'book']" class="ml-2"/>
-            <span 
-            class="uppercase font-body font-black py-1 mx-3 text-lg"
-            >
-            books
-            </span>
-          </router-link>
-          <router-link
-            class="rounded-lg"
-            to="/notes"
-          >
-            <font-awesome-icon :icon="['fas', 'note-sticky']" class="ml-2"/>
-            <span 
-            class="uppercase font-body font-black py-1 mx-3 text-lg"
-            >
-            notes
-            </span>
-          </router-link>
-          <router-link
-            class="rounded-lg"
-            to="/passwords"
-          >
-            <font-awesome-icon :icon="['fas', 'key']" class="ml-2"/>
-            <span 
-              class="uppercase font-body font-black py-1 mx-3 text-lg"
-            >
-            passwords
+            <font-awesome-icon 
+              :icon="['fas', route.icon ]" 
+              class="ml-2 w-4 h-full"
+            />
+            <span class="uppercase font-body font-black py-1 mx-3 text-lg">
+              {{route.name}}
             </span>
           </router-link>
         </fwb-navbar-collapse>
@@ -73,32 +43,14 @@
         <fwb-navbar-collapse 
           :is-show-menu="isShowMenu" 
           class="hidden md:flex"
-        >
+        > 
           <router-link
-            to="/books"
-            >
-            <span 
-            class="uppercase font-body font-black"
-            >
-            books
-            </span>
-          </router-link>
-          <router-link
-            to="/notes"
+            v-for="(route, index) in routesArray"
+            :key="index"
+            :to="route.path"
           >
-            <span 
-            class="uppercase font-body font-black"
-            >
-            notes
-            </span>
-          </router-link>
-          <router-link
-            to="/passwords"
-          >
-            <span 
-              class="uppercase font-body font-black"
-            >
-            passwords
+            <span class="uppercase font-body font-black" >
+              {{route.name}}
             </span>
           </router-link>
         </fwb-navbar-collapse>
@@ -123,19 +75,27 @@ import {
 import { RouterLink } from 'vue-router';
 
 //web site rutes array, which contains route's name and its icons respectively according to fontawesome library
-const routes = [
+const routesArray = [
   {
     name: 'books',
-    icon: 'book'
+    icon: 'book',
+    path: '/books'
   },
   {
     name: 'notes',
-    icon: 'note-sticky'
+    icon: 'note-sticky',
+    path: '/notes'
   },
   {
     name: 'passwords',
-    icon: 'key'
-  }
+    icon: 'key',
+    path: '/passwords'
+  },
+  // {
+  //   name: 'chat',
+  //   icon: 'message',
+  //   path: '/chat'
+  // }
 ]
 
 </script>
