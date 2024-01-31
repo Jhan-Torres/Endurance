@@ -16,7 +16,8 @@
     "flowbite": "^2.2.1",
     "flowbite-vue": "^0.1.2",
     "tailwindcss-animated": "^1.0.1",
-    "vue": "^3.3.11"
+    "vue": "^3.3.11",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.2",

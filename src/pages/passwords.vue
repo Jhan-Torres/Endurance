@@ -1,5 +1,7 @@
 <template>
-	<div></div>
+	<h1>
+		passwords page
+	</h1>
 </template>
 
 <script setup>

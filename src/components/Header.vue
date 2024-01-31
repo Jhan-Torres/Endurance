@@ -9,7 +9,6 @@
         <fwb-navbar-logo 
           alt="Endurance logo" 
           image-url="/img/saturno.svg" 
-          link="#" 
           class="animate-pulse"
         >
           <h1 
@@ -26,22 +25,48 @@
           :is-show-menu="isShowMenu" 
           class="fixed top-10 right-0 z-10 md:hidden"
         >
-          <fwb-navbar-link 
-            is-active 
-            link="#"
+          
+          <router-link 
+            v-for="(route, index) in routes"
+            :key="index"
+            class="rounded-lg"
+            :to="route.name"
           >
-            <span class="uppercase font-body font-bold">NOTES</span>
-          </fwb-navbar-link>
-          <fwb-navbar-link 
-            link="#"
+            <span>a</span>
+          </router-link>
+          <router-link
+            class="rounded-lg"
+            to="/books"
+            >
+            <font-awesome-icon :icon="['fas', 'book']" class="ml-2"/>
+            <span 
+            class="uppercase font-body font-black py-1 mx-3 text-lg"
+            >
+            books
+            </span>
+          </router-link>
+          <router-link
+            class="rounded-lg"
+            to="/notes"
           >
-            <span class="uppercase font-body font-bold">PASSWORDS</span>
-          </fwb-navbar-link>
-          <fwb-navbar-link 
-            link="#"
+            <font-awesome-icon :icon="['fas', 'note-sticky']" class="ml-2"/>
+            <span 
+            class="uppercase font-body font-black py-1 mx-3 text-lg"
+            >
+            notes
+            </span>
+          </router-link>
+          <router-link
+            class="rounded-lg"
+            to="/passwords"
           >
-            <span class="uppercase font-body font-bold">BOOKS</span>
-          </fwb-navbar-link>
+            <font-awesome-icon :icon="['fas', 'key']" class="ml-2"/>
+            <span 
+              class="uppercase font-body font-black py-1 mx-3 text-lg"
+            >
+            passwords
+            </span>
+          </router-link>
         </fwb-navbar-collapse>
 
         <!-- navbar for medium and large pages -->
@@ -49,27 +74,38 @@
           :is-show-menu="isShowMenu" 
           class="hidden md:flex"
         >
-          <fwb-navbar-link 
-            is-active 
-            link="#"
+          <router-link
+            to="/books"
+            >
+            <span 
+            class="uppercase font-body font-black"
+            >
+            books
+            </span>
+          </router-link>
+          <router-link
+            to="/notes"
           >
-            <span class="uppercase font-body font-bold">NOTES</span>
-          </fwb-navbar-link>
-          <fwb-navbar-link 
-            link="#"
+            <span 
+            class="uppercase font-body font-black"
+            >
+            notes
+            </span>
+          </router-link>
+          <router-link
+            to="/passwords"
           >
-            <span class="uppercase font-body font-bold">PASSWORDS</span>
-          </fwb-navbar-link>
-          <fwb-navbar-link 
-            link="#"
-          >
-            <span class="uppercase font-body font-bold">BOOKS</span>
-          </fwb-navbar-link>
+            <span 
+              class="uppercase font-body font-black"
+            >
+            passwords
+            </span>
+          </router-link>
         </fwb-navbar-collapse>
       </template>
       <template #right-side>
         <fwb-button>
-          <span class="font-body">Login</span>
+          <span class="font-body font-light">Login</span>
         </fwb-button>
       </template>
     </fwb-navbar>
@@ -81,7 +117,44 @@ import {
   FwbButton,
   FwbNavbar,
   FwbNavbarCollapse,
-  FwbNavbarLink,
   FwbNavbarLogo,
 } from 'flowbite-vue'
+
+import { RouterLink } from 'vue-router';
+
+//web site rutes array, which contains route's name and its icons respectively according to fontawesome library
+const routes = [
+  {
+    name: 'books',
+    icon: 'book'
+  },
+  {
+    name: 'notes',
+    icon: 'note-sticky'
+  },
+  {
+    name: 'passwords',
+    icon: 'key'
+  }
+]
+
 </script>
+
+<style scoped>
+  /* to manage vue-router styles which are added automatically */
+  .router-link-active {
+    color: cornflowerblue;
+  }
+
+  /* background color to active route on small pages only */
+  @media only screen and (width < 768px ){ 
+    .router-link-active {
+      background-color: rgb(215, 223, 220);
+    }
+  }
+
+  /* when we have child routes */
+  /* .router-link-exact-active {
+    color: red;
+  } */
+</style>

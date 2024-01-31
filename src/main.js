@@ -1,4 +1,5 @@
 import './assets/main.css'
+import router from './router' //no need to specify its name "index.js" because is automatic
 
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -15,4 +16,4 @@ import { faUserSecret, fas } from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
 library.add(faUserSecret, fas);
 
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(router).mount('#app') //use router before mount

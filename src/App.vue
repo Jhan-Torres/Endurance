@@ -1,9 +1,9 @@
 <template>
   <Header />
   <div 
-    class="extended"
+    class="extended mt-1"
   >
-    <notesPage /> 
+    <RouterView />
   </div>
   <Footer />
 </template>
@@ -11,6 +11,7 @@
 <script setup>
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
+import { RouterView } from 'vue-router';
 
 //pages
 import notesPage from './pages/notes.vue';

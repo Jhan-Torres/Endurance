@@ -1,6 +1,6 @@
 <template>
   <h1>
-    Books page
+    Home page
   </h1>
 </template>
 
@@ -8,4 +8,6 @@
 
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>
