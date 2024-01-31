@@ -21,7 +21,7 @@
         <!-- navbar for small pages -->
         <fwb-navbar-collapse 
           :is-show-menu="isShowMenu" 
-          class="fixed top-10 right-0 z-10 md:hidden"
+          class="top-10 right-0 z-10 animate-flip-down animate-once animate-duration-[750ms] md:hidden"
         > 
           <router-link 
             v-for="(route, index) in routesArray"
