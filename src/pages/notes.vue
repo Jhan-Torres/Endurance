@@ -16,9 +16,7 @@
   </div>
 
   <!-- new note's button and form -->
-  <div 
-    class="mt-1 flex flex-col items-center justify-center"
-  >
+  <div class="mt-1 flex flex-col items-center justify-center" >
     <Form 
       :case="'create'" 
       @addNoteToList="addNoteToList" 

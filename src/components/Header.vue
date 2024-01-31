@@ -1,10 +1,6 @@
 <template>
-  <div 
-    class="bg-gray-900 p-0.5 md:p-0"
-  >
-    <fwb-navbar 
-      class="bg-gray-900 max-w-screen-xl mx-auto"
-    >
+  <div class="bg-gray-900 p-0.5 md:p-0" >
+    <fwb-navbar class="bg-gray-900 max-w-screen-xl mx-auto" >
       <template #logo>
         <fwb-navbar-logo 
           alt="Endurance logo" 
@@ -29,10 +25,7 @@
             class="rounded-lg"
             :to="route.path"
           >
-            <font-awesome-icon 
-              :icon="['fas', route.icon ]" 
-              class="ml-2 w-4 h-full"
-            />
+            <font-awesome-icon :icon="['fas', route.icon ]" class="ml-2 w-4 h-full" />
             <span class="uppercase font-body font-black py-1 mx-3 text-lg">
               {{route.name}}
             </span>

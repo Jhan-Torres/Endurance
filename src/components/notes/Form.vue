@@ -6,8 +6,8 @@
   >
     <font-awesome-icon 
       class="text-2xl transition duration-500"
-      :icon="['fas', 'plus']" 
       :class="{ 'rotate-45 redIcon' : showForm, 'rotate-0' : !showForm }"
+      :icon="['fas', 'plus']" 
     />
   </fwb-button>
   <div
@@ -28,7 +28,8 @@
     >
       new note
     </h2>
-    <input class="bg-gray-50 border border-gray-300 font-body text-gray-900 text-sm rounded-lg block p-1.5 w-56 md:w-96"
+    <input 
+      class="bg-gray-50 border border-gray-300 font-body text-gray-900 text-sm rounded-lg block p-1.5 w-56 md:w-96"
       :class="{ 'bg-red-200 border-red-500' : textError }"  
       type="text" 
       placeholder="title... (*)" 
@@ -75,9 +76,7 @@
         square 
         @click="createNote"
       >
-        <span 
-          class="uppercase"
-        >
+        <span class="uppercase" >
           done
         </span>
       </fwb-button>
@@ -91,9 +90,7 @@
         square 
         @click="saveEdit"
       >
-        <span 
-          class="text-slate-100 tracking-wider font-body uppercase"
-        >
+        <span class="text-slate-100 tracking-wider font-body uppercase" >
           save changes
         </span>
       </fwb-button>
@@ -103,9 +100,7 @@
         @click="cancelEdit" 
         class="m-2"
       >
-        <span 
-          class="text-slate-100 tracking-wider font-body uppercase"
-        >
+        <span class="text-slate-100 tracking-wider font-body uppercase" >
           Cancel
         </span>
       </fwb-button>

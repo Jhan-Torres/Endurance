@@ -1,8 +1,6 @@
 <template>
   <Header />
-  <div 
-    class="extended mt-1"
-  >
+  <div class="extended mt-1" >
     <RouterView />
   </div>
   <Footer />
@@ -12,11 +10,6 @@
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
 import { RouterView } from 'vue-router';
-
-//pages
-import notesPage from './pages/notes.vue';
-import booksPage from './pages/books.vue';
-import passwordsPage from './pages/passwords.vue';
 
 </script>
 

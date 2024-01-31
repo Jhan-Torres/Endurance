@@ -1,14 +1,8 @@
 <template>
   <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com -->
-  <footer 
-    class="flex flex-col items-center bg-neutral-900 text-center text-white p-1"
-  >
-    <div 
-      class="container"
-    >
-      <div 
-        class="flex justify-center"
-      >
+  <footer class="flex flex-col items-center bg-neutral-900 text-center text-white p-1" >
+    <div class="container">
+      <div class="flex justify-center" >
         <a 
           class="m-1 h-9 w-9 rounded-full border-2 border-white"
           href="https://github.com/Jhan-Torres" 
@@ -34,18 +28,20 @@
         </a>
       </div>
     </div>
-    <div 
-      class="w-full text-center font-body"
-    >
+    <div class="w-full text-center font-body" >
       <span>
         © 2024 Copyright - 
-        <a 
-          class="text-blue-500 border-b-1 underline" 
-          href=""
+        <router-link
+          class="text-blue-500 border-b-1 underline"
+          to="/"  
         >
           Endurance
-        </a>
+        </router-link>
       </span>
     </div>
   </footer>
 </template>
+
+<script setup>
+  import { RouterLink } from 'vue-router';
+</script>
