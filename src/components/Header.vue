@@ -22,7 +22,7 @@
         <fwb-navbar-collapse 
           :is-show-menu="isShowMenu" 
           class="fixed top-10 right-0 z-10 md:hidden"
-        >
+        > 
           <router-link 
             v-for="(route, index) in routesArray"
             :key="index"
@@ -37,6 +37,9 @@
               {{route.name}}
             </span>
           </router-link>
+          <fwb-button class="mx-auto min-w-56 mt-1">
+            <span class="font-body font-light">Login</span>
+          </fwb-button>
         </fwb-navbar-collapse>
 
         <!-- navbar for medium and large pages -->
@@ -104,6 +107,7 @@ const routesArray = [
   /* to manage vue-router styles which are added automatically */
   .router-link-active {
     color: cornflowerblue;
+    text-decoration: underline;
   }
 
   /* background color to active route on small pages only */
