@@ -1,11 +1,12 @@
 <template>
-  <h1>
-    Books page
-  </h1>
+  <Table />
+
 </template>
 
 <script setup>
-
+import Table from '@/components/books/Table.vue';
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>
