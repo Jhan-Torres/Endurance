@@ -1,9 +1,9 @@
 <template>
   <fwb-table 
     hoverable 
-    class="m-3 font-body animate-fade-up duration-500"
+    class="mx-3 font-body animate-fade-up duration-500"
   >
-    <fwb-table-head class="bg-slate-600 text-white tracking-widest">
+    <fwb-table-head class="bg-slate-700 text-white tracking-widest">
       <fwb-table-head-cell>
         <span class="text-sm md:text-base">Title</span>
       </fwb-table-head-cell>
