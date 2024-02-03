@@ -1,7 +1,7 @@
 <template>
   <fwb-card 
     class="w-80 animate-flip-up animate-once animate-duration-[1000ms] p-1 font-body"
-    @dblclick="showEditF(props.noteChild, props.noteIndex)"
+    @dblclick="showEditF"
   >
     <h5 class="p-1 h-12 text-sm font-medium tracking-tight rounded-t-md bg-gray-800 text-lime-50 md:text-base">
       {{ props.noteChild.title }}
@@ -12,13 +12,13 @@
     <hr class="border-gray-300 mx-auto mt-1" />
     <button 
       class="trashIcon hover:scale-125 hover:cursor-pointer transition duration-200 mr-1"
-      @click="deleteNote(props.noteIndex)"
+      @click="deleteNote"
     >
       <font-awesome-icon :icon="['fas', 'trash']" />
     </button>
     <button 
       class="editIcon hover:scale-125 hover:cursor-pointer transition duration-200 ml-1"
-      @click="showEditF(props.noteChild, props.noteIndex)"
+      @click="showEditF"
     >
       <font-awesome-icon :icon="['fas', 'pen']" />
     </button>
@@ -45,13 +45,13 @@ const props = defineProps({
 
 const emits = defineEmits(["setDeleteNote", "setShowForm", "showAlert"]);
 
-function deleteNote(indexNoteDeleted) {
-  emits("setDeleteNote", indexNoteDeleted);
+function deleteNote() {
+  emits("setDeleteNote", props.noteIndex);
   emits("showAlert", 'node deleted');
 }
 
-function showEditF(noteToEdit, indexNoteEdit) {
-  emits("setShowForm", noteToEdit, indexNoteEdit)
+function showEditF() {
+  emits("setShowForm", props.noteChild, props.noteIndex)
 }
 </script>
 

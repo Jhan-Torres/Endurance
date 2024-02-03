@@ -7,7 +7,7 @@
     <RedAlert :text="'no books added'"/>
   </div>
   <div
-    class="animate-fade-down animate-once animate-duration-[2000ms] animate-delay-[250ms] animate-reverse fixed bottom-24 left-0 right-0 z-10"
+    class="animate-fade-down animate-once animate-duration-[1000ms] animate-delay-[250ms] animate-reverse fixed bottom-24 left-0 right-0 z-10"
     v-if="showAlert"
   >
     <BlueAlert 
@@ -16,7 +16,11 @@
   </div>
 
   <div class="flex flex-col items-center justify-center font-body mt-1">
-    <Form :case="'create'" @addBookToList="addBook" @showAlert="toggleShowAlert"/>
+    <Form 
+      :case="'create'" 
+      @addBookToList="addBook" 
+      @showAlert="toggleShowAlert"
+    />
   </div>
   <div class="mx-3 mb-2">
     <fwb-table 
@@ -32,7 +36,14 @@
         </fwb-table-head-cell>
       </fwb-table-head>
       <fwb-table-body>
-        <TableRow />
+        <TableRow 
+          v-for="(book, index) in booksList"
+          :key="index"
+          :book="book"
+          :bookIndex="index"
+          @deleteBook="deleteBook"
+          @showAlert="toggleShowAlert"
+        />
       </fwb-table-body>
     </fwb-table>
   </div>
@@ -69,9 +80,19 @@ function addBook(book) {
   localStorage.setItem('BooksList', JSON.stringify(booksList.value));
 }
 
+function deleteBook(bookIndex) {
+  booksList.value.splice(bookIndex, 1);
+  localStorage.setItem('BooksList', JSON.stringify(booksList.value));
+}
+
 function toggleShowAlert(text) {
   showAlert.value = true;
   textAlert.value = text;
+
+  setTimeout(() => {
+    showAlert.value = false;
+    textAlert.value = "";
+  }, 1000);
 }
 </script>
 

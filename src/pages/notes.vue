@@ -43,8 +43,8 @@
   <div
     class="bg-gray-900 fixed inset-0 border-2 z-10 border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
     v-if="editFormButton"
-    @dblclick="hiddeForm"
-    v-on:keyup.esc="hiddeForm"
+    @dblclick="hideForm"
+    v-on:keyup.esc="hideForm"
   >
     <Form 
       :case="'edit'" 
@@ -97,7 +97,7 @@ function addNoteToList(note) {
 }
 
 //to hide form on user doble click on edit form
-function hiddeForm() {
+function hideForm() {
   editFormButton.value = false;
 }
 
@@ -132,6 +132,6 @@ function showNotification(text) {
   setTimeout(() => {
     showAlert.value = false;
     textAlert.value = "";
-  }, 2000);
+  }, 1000);
 }
 </script>
