@@ -16,7 +16,7 @@
   </div>
 
   <div class="flex flex-col items-center justify-center font-body mt-1">
-    <Form :case="'create'" @addBookToList="addBook"/>
+    <Form :case="'create'" @addBookToList="addBook" @showAlert="toggleShowAlert"/>
   </div>
   <div class="mx-3 mb-2">
     <fwb-table 
@@ -67,6 +67,11 @@ const textAlert = ref('');
 function addBook(book) {
   booksList.value.push(book);
   localStorage.setItem('BooksList', JSON.stringify(booksList.value));
+}
+
+function toggleShowAlert(text) {
+  showAlert.value = true;
+  textAlert.value = text;
 }
 </script>
 
