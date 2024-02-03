@@ -1,7 +1,7 @@
 <template>
   <fwb-table 
     hoverable 
-    class="mx-3 font-body animate-fade-up duration-500"
+    class="font-body animate-fade-up duration-500 max-w-screen-xl mx-auto"
   >
     <fwb-table-head class="bg-slate-700 text-white tracking-widest">
       <fwb-table-head-cell>
@@ -21,7 +21,7 @@
       </fwb-table-head-cell>
     </fwb-table-head>
     <fwb-table-body>
-      <fwb-table-row>
+      <fwb-table-row draggable="true">
         <fwb-table-cell>Apple MacBook Pro 17"</fwb-table-cell>
         <fwb-table-cell>Sliver</fwb-table-cell>
         <fwb-table-cell>Laptop</fwb-table-cell>

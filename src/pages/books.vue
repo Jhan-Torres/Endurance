@@ -2,7 +2,9 @@
   <div class="flex flex-col items-center justify-center font-body">
     <Form/>
   </div>
-  <Table />
+  <div class="mx-3 mb-2">
+    <Table />
+  </div>
 </template>
 
 <script setup>

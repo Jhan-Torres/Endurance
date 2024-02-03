@@ -115,7 +115,7 @@ import { FwbButton } from 'flowbite-vue'
 //to set note id autoincrement and store in LocalStorage
 let noteId;
 
-//Set note index at the begginig 
+//Set note id at the begginig 
 onBeforeMount(() => {
   noteId = (localStorage.getItem("noteId")) ? JSON.parse(localStorage.noteId) : 0;  
 })

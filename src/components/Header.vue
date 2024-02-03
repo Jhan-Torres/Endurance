@@ -45,7 +45,7 @@
             :key="index"
             :to="route.path"
           >
-            <span class="uppercase font-body font-black" >
+            <span class="uppercase font-body" >
               {{route.name}}
             </span>
           </router-link>
@@ -99,8 +99,8 @@ const routesArray = [
 <style scoped>
   /* to manage vue-router styles which are added automatically */
   .router-link-active {
-    color: cornflowerblue;
-    text-decoration: underline;
+    color: cornflowerblue !important;
+    text-decoration: underline !important;
   }
 
   /* background color to active route on small pages only */
