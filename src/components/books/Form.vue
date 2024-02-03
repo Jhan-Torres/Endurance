@@ -93,9 +93,12 @@ const showForm = ref(false);
 
 const booksCategories = [
   'Astronomy',
+  'Hacking',
+  'Life Style',
   'Programming',
   'Psychology',
-  'Science'
+  'Research',
+  'Science',
 ]
 
 //html elements references
@@ -105,7 +108,14 @@ const title = ref(null);
 const emits = defineEmits(["addBookToList", "showAlert"]);
 
 const props = defineProps({
-
+  case: {
+    type: String,
+    required: true
+  },
+  bookClicked: {
+    type: Object,
+    default: {},
+  }
 })
 
 //METHODS
@@ -130,7 +140,6 @@ function createBook() {
 
   emits("addBookToList", bookObject.value);
   emits("showAlert", 'book added');
-  console.log(bookObject.value);
 }
 
 function validateTitle() {

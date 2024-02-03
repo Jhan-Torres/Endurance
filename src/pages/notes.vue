@@ -4,7 +4,7 @@
     class="flex items-center justify-center mt-1" 
     v-if="!notesList.length"
   >
-    <RedAlert />
+    <RedAlert :text="'no notes added'"/>
   </div>
   <div
     class="animate-fade-down animate-once animate-duration-[2000ms] animate-delay-[250ms] animate-reverse fixed bottom-24 left-0 right-0 z-10"
@@ -59,8 +59,8 @@
 <script setup>
 import { ref } from 'vue'
 import { onBeforeMount } from 'vue'
-import RedAlert from '@/components/notes/RedAlert.vue'
-import BlueAlert from '@/components/notes/BlueAlert.vue'
+import RedAlert from '@/components/RedAlert.vue'
+import BlueAlert from '@/components/BlueAlert.vue'
 import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
 

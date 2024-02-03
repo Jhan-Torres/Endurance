@@ -17,7 +17,7 @@
         <font-awesome-icon :icon="['fas', 'trash']" :style="{color: 'rgb(190, 11, 11)'}"/>
       </button>
       <button class="hover:scale-125 hover:cursor-pointer transition duration-200 ml-0.5" >
-        <font-awesome-icon :icon="['fas', 'pen']" :style="{color: 'rgb(15, 15, 163)'}"/>
+        <font-awesome-icon :icon="['fas', 'pen']" :style="{color: 'rgb(100, 100, 255)'}"/>
       </button>
     </fwb-table-cell>
   </fwb-table-row>

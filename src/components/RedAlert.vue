@@ -6,6 +6,15 @@
   <h1
     class="uppercase font-body tracking-wider font-extrabold text-2xl text-red-600 bg-red-200 rounded-lg px-3 py-1 ml-2 animate-pulse"
   >
-    no notes added
+    {{ props.text }}
   </h1>
 </template>
+
+<script setup>
+const props = defineProps({
+  text: {
+    type: String,
+    required: true
+  }  
+})
+</script>
