@@ -1,5 +1,6 @@
 <template>
   <fwb-button
+    v-if="props.case === 'create'"
     class="mb-1"
     color="dark"
     @click="toggleFormButton"
@@ -57,11 +58,20 @@
     >
     <div class="flex items-center gap-1">
       <fwb-button 
+        v-if="props.case === 'create'"
         gradient="green-blue" 
         square 
         @click="createBook"
       >
         <span class="text-xs">Add Book</span>
+      </fwb-button>
+      <fwb-button 
+        v-else
+        gradient="green-blue" 
+        square 
+        @click="saveEdit"
+      >
+        <span class="text-xs">Save Changes</span>
       </fwb-button>
       <fwb-button
         color="red"
@@ -105,18 +115,23 @@ const booksCategories = [
 const title = ref(null);
 
 //Emits & Props
-const emits = defineEmits(["addBookToList", "showAlert"]);
+const emits = defineEmits(["addBookToList", "showAlert", "saveEdit", "closeEditForm"]);
 
 const props = defineProps({
   case: {
     type: String,
     required: true
   },
-  bookClicked: {
+  bookToEdit: {
     type: Object,
     default: {},
   }
 })
+
+if (props.case === 'edit') {
+  bookObject.value = props.bookToEdit;
+  showForm.value = true;
+}
 
 //METHODS
 function toggleFormButton() {
@@ -140,6 +155,14 @@ function createBook() {
 
   emits("addBookToList", bookObject.value);
   emits("showAlert", 'book added');
+}
+
+function saveEdit() {
+  if (!validateTitle()) return;
+
+  emits("saveEdit", bookObject.value);
+  emits("closeEditForm");
+  emits("showAlert", 'book edited');
 }
 
 function validateTitle() {

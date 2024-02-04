@@ -10,9 +10,7 @@
     class="animate-fade-down animate-once animate-duration-[1000ms] animate-delay-[250ms] animate-reverse fixed bottom-24 left-0 right-0 z-10"
     v-if="showAlert"
   >
-    <BlueAlert 
-      :text="textAlert" 
-    />
+    <BlueAlert :text="textAlert"/>
   </div>
 
   <div class="flex flex-col items-center justify-center font-body mt-1">
@@ -24,6 +22,7 @@
   </div>
   <div class="mx-3 mb-2">
     <fwb-table 
+      v-if="booksList.length"
       hoverable 
       class="font-body animate-fade-up duration-500 max-w-screen-xl mx-auto"
     >
@@ -41,11 +40,28 @@
           :key="index"
           :book="book"
           :bookIndex="index"
+          @editBook="editBook"
           @deleteBook="deleteBook"
           @showAlert="toggleShowAlert"
         />
       </fwb-table-body>
     </fwb-table>
+  </div>
+
+  <!-- edit book form -->
+  <div
+    class="bg-gray-900 fixed inset-0 border-2 z-10 border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
+    v-if="showEditForm"
+    @dblclick="showEditForm = false"
+    v-on:keyup.esc="showEditForm = false"
+  >
+    <Form 
+      :case="'edit'" 
+      :bookToEdit="bookToEdit" 
+      @saveEdit="saveEdit" 
+      @closeEditForm="showEditForm = false"
+      @showAlert="toggleShowAlert" 
+    />
   </div>
 </template>
 
@@ -67,13 +83,16 @@ const tableHeads = [
   'Autor',
   'Category',
   'Link',
-  ''
+  '' //empty space on table head
 ]
 
 //Data refs
 const booksList = ref([]);
 const showAlert = ref(false);
 const textAlert = ref('');
+const showEditForm = ref(false);
+const bookToEdit = ref({});
+const indexBookToEdit = ref();
 
 function addBook(book) {
   booksList.value.push(book);
@@ -82,6 +101,18 @@ function addBook(book) {
 
 function deleteBook(bookIndex) {
   booksList.value.splice(bookIndex, 1);
+  localStorage.setItem('BooksList', JSON.stringify(booksList.value));
+}
+
+function editBook(book, indexBook) {
+  showEditForm.value = true;
+  bookToEdit.value = book; 
+  indexBookToEdit.value = indexBook;
+}
+
+function saveEdit(book) {
+  booksList.value.splice(indexBookToEdit.value, 1);
+  booksList.value.splice(indexBookToEdit.value, 0, book);
   localStorage.setItem('BooksList', JSON.stringify(booksList.value));
 }
 

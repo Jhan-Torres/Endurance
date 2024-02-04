@@ -1,16 +1,16 @@
 <template>
   <fwb-table-row draggable="true">
     <fwb-table-cell class="text-xs font-thin md:text-sm">
-      Apple MacBook Pro 17"
+      {{ props.book.title }}
     </fwb-table-cell>
     <fwb-table-cell class="text-xs font-thin md:text-sm">
-      Sliver
+      {{ props.book.autor }}
     </fwb-table-cell>
     <fwb-table-cell class="text-xs font-thin md:text-sm">
-      Laptop
+      {{ props.book.category }}
     </fwb-table-cell>
     <fwb-table-cell class="text-xs font-thin md:text-sm">
-      $2999
+      {{ props.book.link }}
     </fwb-table-cell>
     <fwb-table-cell class="text-xs font-thin md:text-sm">
       <button 
@@ -19,7 +19,10 @@
       > 
         <font-awesome-icon :icon="['fas', 'trash']" :style="{color: 'rgb(190, 11, 11)'}"/>
       </button>
-      <button class="hover:scale-125 hover:cursor-pointer transition duration-200 ml-0.5" >
+      <button 
+        class="hover:scale-125 hover:cursor-pointer transition duration-200 ml-0.5" 
+        @click="editBook"
+      >
         <font-awesome-icon :icon="['fas', 'pen']" :style="{color: 'rgb(100, 100, 255)'}"/>
       </button>
     </fwb-table-cell>
@@ -31,7 +34,6 @@ import {
   FwbTableCell,
   FwbTableRow,
 } from 'flowbite-vue'
-import { defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
   book: {
@@ -44,12 +46,16 @@ const props = defineProps({
   }
 });
 
-const emits = defineEmits(["deleteBook", "showAlert"])
+const emits = defineEmits(["deleteBook", "editBook", "showAlert"])
 
 //METHODS
 function deleteBook() {
   emits("deleteBook", props.bookIndex);
   emits("showAlert", 'book deleted');
+}
+
+function editBook() {
+  emits("editBook", props.book, props.bookIndex);
 }
 </script>
 
