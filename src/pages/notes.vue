@@ -20,7 +20,7 @@
     <Form 
       :case="'create'" 
       @addNoteToList="addNoteToList" 
-      @showAlert="showNotification" 
+      @showAlert="toggleShowAlert" 
     />
   </div>
 
@@ -35,7 +35,7 @@
       :noteIndex="index" 
       @setDeleteNote="deleteNote" 
       @setShowForm="showEditForm"
-      @showAlert="showNotification" 
+      @showAlert="toggleShowAlert" 
     />
   </div>
 
@@ -51,20 +51,18 @@
       :noteClicked="noteToEdit" 
       @editNote="updateNote" 
       @closeForm="editFormButton = false"
-      @showAlert="showNotification" 
+      @showAlert="toggleShowAlert" 
     />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { onBeforeMount } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import RedAlert from '@/components/RedAlert.vue'
 import BlueAlert from '@/components/BlueAlert.vue'
 import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
 
-//to store note objects in array 
 const notesList = ref([]);
 
 //Set array notes at the begginig 
@@ -123,7 +121,7 @@ function deleteNote(index) {
   localStorage.setItem('NotesList', JSON.stringify(notesList.value));
 }
 
-function showNotification(text) {
+function toggleShowAlert(text) {
   //to set and show alert's
   textAlert.value = text;
   showAlert.value = true;

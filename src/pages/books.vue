@@ -50,11 +50,12 @@
 
   <!-- edit book form -->
   <div
-    class="bg-gray-900 fixed inset-0 border-2 z-10 border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
+    class="bg-gray-900 fixed inset-0 border-2 z-10 font-body border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
     v-if="showEditForm"
     @dblclick="showEditForm = false"
     v-on:keyup.esc="showEditForm = false"
   >
+    <h2 class="text-yellow-500">Edit Book</h2>
     <Form 
       :case="'edit'" 
       :bookToEdit="bookToEdit" 
@@ -76,7 +77,15 @@ import {
   FwbTableHead,
   FwbTableHeadCell,
 } from 'flowbite-vue'
-import { ref } from 'vue';
+import { ref, onBeforeMount } from 'vue';
+
+const booksList = ref([]);
+
+onBeforeMount(() => {
+  if (localStorage.getItem("BooksList")) {
+    booksList.value = JSON.parse(localStorage.getItem("BooksList"));
+  }
+})
 
 const tableHeads = [
   'Title',
@@ -87,7 +96,6 @@ const tableHeads = [
 ]
 
 //Data refs
-const booksList = ref([]);
 const showAlert = ref(false);
 const textAlert = ref('');
 const showEditForm = ref(false);

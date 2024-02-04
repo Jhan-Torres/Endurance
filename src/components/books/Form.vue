@@ -17,13 +17,13 @@
       id="title"
       type="text" 
       placeholder="Book Title (*)" 
-      class="rounded-md w-52 text-xs" 
+      class="rounded-md w-52 text-xs md:text-sm" 
       v-model="bookObject.title" 
       ref="title"
     >
     <label 
       for="title" 
-      class="text-xs text-red-600" 
+      class="text-xs md:text-sm text-red-600" 
       v-if="textError"
     >
       {{ textError }}
@@ -31,7 +31,7 @@
     <input 
       type="text" 
       placeholder="Autor" 
-      class="rounded-md w-52 text-xs" 
+      class="rounded-md w-52 text-xs md:text-sm" 
       v-model="bookObject.autor"
     >
     <div class="flex items-center gap-1">
@@ -53,7 +53,7 @@
     <input 
       type="text" 
       placeholder="File Link" 
-      class="rounded-md w-52 text-xs" 
+      class="rounded-md w-52 text-xs md:text-sm" 
       v-model="bookObject.link"
     >
     <div class="flex items-center gap-1">
@@ -75,7 +75,7 @@
       </fwb-button>
       <fwb-button
         color="red"
-        @click="showForm = false"
+        @click="(props.case === 'create') ? showForm = false : $emit('closeEditForm')"
       >
         <span class="text-xs">Cancel</span>
       </fwb-button>
