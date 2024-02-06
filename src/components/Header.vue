@@ -99,14 +99,14 @@ const routesArray = [
 <style scoped>
   /* to manage vue-router styles which are added automatically */
   .router-link-active {
-    color: rgb(206, 100, 51) !important;
+    color: rgb(255, 90, 31) !important;
     text-decoration: underline !important;
   }
 
   /* background color to active route on small pages only */
   @media only screen and (width < 768px ){ 
     .router-link-active {
-      background-color: rgb(255, 90, 31);
+      background-color: rgb(61, 59, 59);
     }
   }
 

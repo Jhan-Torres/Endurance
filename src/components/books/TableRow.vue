@@ -13,9 +13,6 @@
       {{ props.book.category }}
     </fwb-table-cell>
     <fwb-table-cell class="text-xs font-thin md:text-sm">
-      {{ props.book.link }}
-    </fwb-table-cell>
-    <fwb-table-cell class="text-xs font-thin md:text-sm">
       <button 
         class="hover:scale-125 hover:cursor-pointer transition duration-200 mr-0.5"
         @click="deleteBook"

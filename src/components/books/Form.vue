@@ -95,7 +95,7 @@
         peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full 
         group-focus-within:pl-0 peer-valid:pl-0 duration-500 font-semibold tracking-wide md:text-sm"
       >
-        Link:
+        Link (PDF):
       </label>
     </div>
     <div class="flex items-center gap-1">

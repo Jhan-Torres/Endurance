@@ -65,12 +65,14 @@
     />
   </div>
 
-  <section class="bg-blue-200 mx-2 font-body">
+  <section class="bg-blue-200 mx-2 mb-1 font-body">
     <h2 class="text-center p-2 text-orange-500 bg-gray-900 uppercase font-bold text-xl tracking-widest">
       [Reading Area]
     </h2>
 
-    <div>
+    <div
+      class="p-2 rounded-md flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-3"
+    >
       
     </div>
   </section>
@@ -101,7 +103,6 @@ const tableHeads = [
   'Title',
   'Autor',
   'Category',
-  'Link',
   '' //empty space on table head
 ]
 
