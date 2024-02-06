@@ -7,9 +7,8 @@
   >
     New Book
   </fwb-button>
-
   <div 
-    class="flex flex-col items-center gap-5 justify-center mb-1 bg-slate-400 rounded-lg animate-fade-down duration-500 py-5 px-4 md:py-6 md:px-5 lg:py-7 lg:px-6"
+    class="flex flex-col items-center gap-5 justify-center mb-1 bg-slate-400 rounded-lg animate-fade-down duration-500 pt-5 pb-2 px-4 md:py-6 md:px-5 lg:py-7 lg:px-6"
     v-if="showForm"
     v-on:keyup.esc="showForm = false"
   >
@@ -41,7 +40,6 @@
           {{ textError }}
       </label>
     </div>
-    
     <div class="relative group">
       <input 
         id="autor"
@@ -60,7 +58,6 @@
         Autor:
       </label>
     </div>
-
     <div class="flex items-center gap-1.5">
       <label 
         for="select" 
@@ -83,7 +80,6 @@
         </option>
       </select>
     </div>
-
     <div class="relative group">
       <input 
         id="link"
@@ -102,7 +98,6 @@
         Link:
       </label>
     </div>
-
     <div class="flex items-center gap-1">
       <fwb-button 
         v-if="props.case === 'create'"
