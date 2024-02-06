@@ -65,15 +65,14 @@
     />
   </div>
 
-  <section class="bg-blue-200 mx-2 mb-1 font-body">
+  <section class="bg-gray-500 mx-3 mb-1 font-body rounded-xl overflow-hidden">
     <h2 class="text-center p-2 text-orange-500 bg-gray-900 uppercase font-bold text-xl tracking-widest">
       [Reading Area]
     </h2>
-
     <div
-      class="p-2 rounded-md flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-3"
+      class="p-2 flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-3"
     >
-      
+      <BookToRead />  
     </div>
   </section>
 </template>
@@ -83,6 +82,7 @@ import TableRow from '@/components/books/TableRow.vue';
 import Form from '@/components/books/Form.vue';
 import RedAlert from '@/components/RedAlert.vue';
 import BlueAlert from '@/components/BlueAlert.vue';
+import BookToRead from '@/components/books/BookToRead.vue'
 import {
   FwbTable,
   FwbTableBody,
