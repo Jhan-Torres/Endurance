@@ -64,6 +64,16 @@
       @showAlert="toggleShowAlert" 
     />
   </div>
+
+  <section class="bg-blue-200 mx-2 font-body">
+    <h2 class="text-center p-2 text-orange-500 bg-gray-900 uppercase font-bold text-xl tracking-widest">
+      [Reading Area]
+    </h2>
+
+    <div>
+      
+    </div>
+  </section>
 </template>
 
 <script setup>
