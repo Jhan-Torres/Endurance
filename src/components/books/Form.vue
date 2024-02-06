@@ -9,53 +9,100 @@
   </fwb-button>
 
   <div 
-    class="flex flex-col items-center gap-1 justify-center mb-1 bg-slate-400 py-1 px-2 rounded-lg animate-fade-down duration-500 md:py-2 md:px-5 lg:py-3 lg:px-7"
+    class="flex flex-col items-center gap-5 justify-center mb-1 bg-slate-400 rounded-lg animate-fade-down duration-500 py-5 px-4 md:py-6 md:px-5 lg:py-7 lg:px-6"
     v-if="showForm"
     v-on:keyup.esc="showForm = false"
-  > 
-    <input 
-      id="title"
-      type="text" 
-      placeholder="Book Title (*)" 
-      class="rounded-md w-52 text-xs md:text-sm" 
-      v-model="bookObject.title" 
-      ref="title"
-    >
-    <label 
-      for="title" 
-      class="text-xs md:text-sm text-red-600" 
-      v-if="textError"
-    >
-      {{ textError }}
-    </label>
-    <input 
-      type="text" 
-      placeholder="Autor" 
-      class="rounded-md w-52 text-xs md:text-sm" 
-      v-model="bookObject.autor"
-    >
-    <div class="flex items-center gap-1">
-      <label for="select" class="text-xs mr-1">Category</label>
+  >
+    <div>
+      <div class="relative group">
+        <input 
+          id="title"
+          type="text" 
+          autocomplete="off"
+          required 
+          class="rounded-md w-52 text-xs peer bg-blue-50 md:text-sm md:w-56"
+          v-model="bookObject.title" 
+          ref="title"
+        >
+        <label 
+          for="title" 
+          class="transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-xs group-focus-within:text-xs 
+          peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full 
+          group-focus-within:pl-0 peer-valid:pl-0 duration-500 font-semibold tracking-wide md:text-sm"
+        >
+          Title: (*)
+        </label>
+      </div>
+      <label 
+          for="title" 
+          class="text-xs md:text-sm text-red-600" 
+          v-if="textError"
+        >
+          {{ textError }}
+      </label>
+    </div>
+    
+    <div class="relative group">
+      <input 
+        id="autor"
+        autocomplete="off"
+        type="text" 
+        class="rounded-md w-52 peer bg-blue-50 text-xs md:text-sm md:w-56"
+        v-model="bookObject.autor"
+        required
+      >
+      <label 
+        for="autor" 
+        class="transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-xs group-focus-within:text-xs 
+        peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full 
+        group-focus-within:pl-0 peer-valid:pl-0 duration-500 font-semibold tracking-wide md:text-sm"
+      >
+        Autor:
+      </label>
+    </div>
+
+    <div class="flex items-center gap-1.5">
+      <label 
+        for="select" 
+        class="text-xs font-semibold tracking-wide md:text-sm"
+      >
+        Category
+      </label>
       <select 
-        id="select" 
-        class="rounded-md w-36 text-xs" 
+        class="rounded-md w-36 text-xs bg-blue-50 md:w-[150px] md:text-sm" 
+        id="select"
         v-model="bookObject.category"
       >
         <option 
           v-for="(option, index) in booksCategories" 
           :key="index" 
           :value="option"
+          class=""
         >
           {{ option }}
         </option>
       </select>
     </div>
-    <input 
-      type="text" 
-      placeholder="File Link" 
-      class="rounded-md w-52 text-xs md:text-sm" 
-      v-model="bookObject.link"
-    >
+
+    <div class="relative group">
+      <input 
+        id="link"
+        type="text" 
+        autocomplete="off"
+        required
+        class="rounded-md w-52 peer bg-blue-50 text-xs md:text-sm md:w-56"
+        v-model="bookObject.link"
+      >
+      <label 
+        for="link" 
+        class="transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-xs group-focus-within:text-xs 
+        peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full 
+        group-focus-within:pl-0 peer-valid:pl-0 duration-500 font-semibold tracking-wide md:text-sm"
+      >
+        Link:
+      </label>
+    </div>
+
     <div class="flex items-center gap-1">
       <fwb-button 
         v-if="props.case === 'create'"
