@@ -1,6 +1,5 @@
 <template>
   <fwb-table-row 
-    draggable="true"
     @dblclick="editBook"
   >
     <fwb-table-cell class="text-xs font-thin md:text-sm">

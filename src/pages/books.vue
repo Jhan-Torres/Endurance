@@ -43,6 +43,9 @@
           @editBook="editBook"
           @deleteBook="deleteBook"
           @showAlert="toggleShowAlert"
+          :draggable="true"
+          @dragover="handleDragOver"
+          @dragstart="handleDragStart(book)"
         />
       </fwb-table-body>
     </fwb-table>
@@ -71,10 +74,21 @@
     </h2>
     <div
       class="p-2 flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-3"
+      :class="{'h-32' : booksDropedList.length === 0}"
+      @dragover="handleDragOver"
+      @dragenter="handleDragEnter"
+      @drop="handleDrop()"
     >
-      <BookToRead />  
+      <h2>{{textDrag}}</h2>
+      <BookToRead 
+        v-for="(book, index) in booksDropedList"
+        :key="index"
+        :bookDropped="book"
+      />  
     </div>
   </section>
+  {{ bookDrag }}
+  {{ booksDropedList }}
 </template>
 
 <script setup>
@@ -112,6 +126,10 @@ const textAlert = ref('');
 const showEditForm = ref(false);
 const bookToEdit = ref({});
 const indexBookToEdit = ref();
+//variables to store book object and its index which are dragged
+const booksDropedList = ref([]);
+const bookDrag = ref();
+const textDrag = ref("");
 
 function addBook(book) {
   booksList.value.push(book);
@@ -143,6 +161,27 @@ function toggleShowAlert(text) {
     showAlert.value = false;
     textAlert.value = "";
   }, 1000);
+}
+
+function handleDragStart(book) {
+  bookDrag.value = book;
+}
+
+//to drag and drop correctly 
+function handleDragOver(event) {
+  event.preventDefault();
+}
+
+function handleDrop() {
+  booksDropedList.value.push(bookDrag.value);
+}
+
+function handleDragEnter() {
+  textDrag.value = "drop here";
+}
+
+function handleDragLeave() {
+  textDrag.value = "this way";
 }
 </script>
 
