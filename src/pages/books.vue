@@ -46,6 +46,7 @@
           :draggable="true"
           @dragover="handleDragOver"
           @dragstart="handleDragStart(book)"
+          @dragend="handleDragEnd"
         />
       </fwb-table-body>
     </fwb-table>
@@ -68,18 +69,30 @@
     />
   </div>
 
-  <section class="bg-gray-500 mx-3 mb-1 font-body rounded-xl overflow-hidden">
+  <section
+    class="bg-gray-400 mx-3 mb-1 font-body rounded-xl overflow-hidden" >
     <h2 class="text-center p-2 text-orange-500 bg-gray-900 uppercase font-bold text-xl tracking-widest">
       [Reading Area]
     </h2>
     <div
-      class="p-2 flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-3"
-      :class="{'h-32' : booksDropedList.length === 0}"
-      @dragover="handleDragOver"
-      @dragenter="handleDragEnter"
-      @drop="handleDrop()"
+      class="p-2 flex flex-wrap items-center justify-evenly gap-3 min-h-32 relative"
     >
-      <h2>{{textDrag}}</h2>
+      <span 
+        v-if="shopDropZone"
+        class="font-black text-orange-500 absolute z-10 text-5xl w-full h-full opacity-75 bg-gray-300 flex items-center justify-center"
+        @dragover="handleDragOver"
+        @dragleave="handleDragLeave"
+        @drop="handleDrop"
+      >
+        DROP HERE
+      </span>
+
+      <font-awesome-icon 
+        :icon="['fas', 'book-skull']" 
+        v-if="!booksDropedList.length"
+        class="h-24 w-24 text-gray-600"
+      />
+
       <BookToRead 
         v-for="(book, index) in booksDropedList"
         :key="index"
@@ -87,8 +100,9 @@
       />  
     </div>
   </section>
-  {{ bookDrag }}
-  {{ booksDropedList }}
+  Book selected: {{ bookDrag }}
+  <br>
+  Lista: {{ booksDropedList }}
 </template>
 
 <script setup>
@@ -129,7 +143,7 @@ const indexBookToEdit = ref();
 //variables to store book object and its index which are dragged
 const booksDropedList = ref([]);
 const bookDrag = ref();
-const textDrag = ref("");
+const shopDropZone = ref(false);
 
 function addBook(book) {
   booksList.value.push(book);
@@ -165,6 +179,7 @@ function toggleShowAlert(text) {
 
 function handleDragStart(book) {
   bookDrag.value = book;
+  shopDropZone.value = true;
 }
 
 //to drag and drop correctly 
@@ -172,16 +187,17 @@ function handleDragOver(event) {
   event.preventDefault();
 }
 
+function handleDragLeave() {
+  shopDropZone.value = true;
+}
+
 function handleDrop() {
   booksDropedList.value.push(bookDrag.value);
 }
 
-function handleDragEnter() {
-  textDrag.value = "drop here";
-}
-
-function handleDragLeave() {
-  textDrag.value = "this way";
+function handleDragEnd() {
+  shopDropZone.value = false;
+  console.log("asd");
 }
 </script>
 
