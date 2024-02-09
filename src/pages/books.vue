@@ -47,6 +47,7 @@
           @dragover="handleDragOver"
           @dragstart="handleDragStart(book)"
           @dragend="handleDragEnd"
+          :changeColor="bookFinished"
         />
       </fwb-table-body>
     </fwb-table>
@@ -72,7 +73,7 @@
   <section
     class="bg-gray-400 mx-3 mb-1 font-body rounded-xl overflow-hidden" >
     <h2 class="text-center p-2 text-orange-500 bg-gray-900 uppercase font-bold text-xl tracking-widest">
-      [Reading Area]
+      [Reading Zone]
     </h2>
     <div
       class="p-2 flex flex-wrap items-center justify-evenly gap-3 min-h-32 relative"
@@ -89,20 +90,22 @@
 
       <font-awesome-icon 
         :icon="['fas', 'book-skull']" 
-        v-if="!booksDropedList.length"
+        v-if="!booksDroppedList.length"
         class="h-24 w-24 text-gray-600"
       />
 
       <BookToRead 
-        v-for="(book, index) in booksDropedList"
+        v-for="(book, index) in booksDroppedList"
         :key="index"
         :bookDropped="book"
+        :bookDroppedIndex="index"
+        @deleteDroppedBook="deleteDroppedBook"
+        @finishDroppedBook="finishDroppedBook"
+        @showAlert="toggleShowAlert"
+        @changeBookColor="changeBookColor"
       />  
     </div>
   </section>
-  Book selected: {{ bookDrag }}
-  <br>
-  Lista: {{ booksDropedList }}
 </template>
 
 <script setup>
@@ -120,10 +123,15 @@ import {
 import { ref, onBeforeMount } from 'vue';
 
 const booksList = ref([]);
+const booksDroppedList = ref([]);
 
 onBeforeMount(() => {
   if (localStorage.getItem("BooksList")) {
     booksList.value = JSON.parse(localStorage.getItem("BooksList"));
+  }
+
+  if (localStorage.getItem("BooksDroppedList")) {
+    booksDroppedList.value = JSON.parse(localStorage.getItem("BooksDroppedList"));
   }
 })
 
@@ -141,9 +149,9 @@ const showEditForm = ref(false);
 const bookToEdit = ref({});
 const indexBookToEdit = ref();
 //variables to store book object and its index which are dragged
-const booksDropedList = ref([]);
 const bookDrag = ref();
 const shopDropZone = ref(false);
+const bookFinished = ref(false);
 
 function addBook(book) {
   booksList.value.push(book);
@@ -192,12 +200,26 @@ function handleDragLeave() {
 }
 
 function handleDrop() {
-  booksDropedList.value.push(bookDrag.value);
+  booksDroppedList.value.push(bookDrag.value);
+  localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value));
 }
 
 function handleDragEnd() {
   shopDropZone.value = false;
-  console.log("asd");
+}
+
+function deleteDroppedBook(indexBook) {
+  booksDroppedList.value.splice(indexBook, 1);
+  localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value)); 
+}
+
+function finishDroppedBook(indexBook) {
+  booksDroppedList.value.splice(indexBook, 1);
+  localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value)); 
+}
+
+function changeBookColor(idBook) {
+  bookFinished.value = true;
 }
 </script>
 

@@ -13,18 +13,24 @@
         <div class="absolute inset-0 h-full w-full rounded-xl bg-gray-900 px-12 text-center text-slate-200 [transform:rotateY(180deg)] [backface-visibility:hidden]">
           <div class="static flex mt-14 flex-col items-center justify-center">
             <p class="text-nowrap">
-              <a href="" class="underline" target="_blank">
+              <a 
+                :href="props.bookDropped.link"
+                class="underline" 
+                target="_blank"
+              >
               PDF LINK
             </a>
             </p>
             <div class="flex gap-2 items-center absolute bottom-5">
               <button 
                 class="hover:scale-125 transition duration-200"
+                @click="deleteDroppedBook()"
               > 
                 <font-awesome-icon :icon="['fas', 'trash']" :style="{color: 'rgb(190, 11, 11)'}" class="h-8 w-8"/>
               </button>
               <button 
-                class="hover:scale-125 transition duration-200" 
+                class="hover:scale-125 transition duration-200"
+                @click="finishDroppedBook()"
               >
                 <font-awesome-icon :icon="['fas', 'circle-check']" :style="{color: 'rgb(80, 85, 230)'}" class="h-8 w-8"/>
               </button>
@@ -42,9 +48,22 @@ const props = defineProps({
     type: Object,
     required: true
   },
+  bookDroppedIndex: {
+    type: Number,
+    required: true
+  }
 })
+
+const emits = defineEmits(["deleteDroppedBook", "finishDroppedBook", "showAlert", "changeBookColor"]);
+
+function deleteDroppedBook() {
+  emits("deleteDroppedBook", props.bookDroppedIndex);
+  emits("showAlert", 'book deleted');
+}
+
+function finishDroppedBook() {
+  emits("finishDroppedBook", props.bookDroppedIndex);
+  emits("showAlert", 'Congrats!');
+  emits("changeBookColor", props.bookDropped.id);
+}
 </script>
-
-<style scoped>
-
-</style>

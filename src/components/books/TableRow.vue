@@ -1,6 +1,7 @@
 <template>
   <fwb-table-row 
     @dblclick="editBook"
+    :class="{'bg-green-300' : props.changeColor === true}"
   >
     <fwb-table-cell class="text-xs font-thin md:text-sm">
       {{ props.book.title }}
@@ -42,6 +43,10 @@ const props = defineProps({
   bookIndex: {
     type: Number,
     required: true
+  },
+  changeColor: {
+    type: Boolean,
+    default: false
   }
 });
 
