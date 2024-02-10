@@ -1,10 +1,16 @@
 <template>
   <fwb-table-row 
     @dblclick="editBook"
-    :class="{'bg-green-300' : props.changeColor === true}"
   >
     <fwb-table-cell class="text-xs font-thin md:text-sm">
-      {{ props.book.title }}
+      <font-awesome-icon 
+        v-if="(props.showBookFinishedCheck === true  && props.bookFinishedId === props.book.id)"
+        :icon="['fas', 'check-double']" 
+        style="color: blueviolet;" 
+      />
+      <span class="ml-4">
+        {{ props.book.title }}
+      </span>
     </fwb-table-cell>
     <fwb-table-cell class="text-xs font-thin md:text-sm">
       {{ props.book.autor }}
@@ -44,7 +50,11 @@ const props = defineProps({
     type: Number,
     required: true
   },
-  changeColor: {
+  bookFinishedId: {
+    type: Number,
+    default: -1
+  },
+  showBookFinishedCheck: {
     type: Boolean,
     default: false
   }

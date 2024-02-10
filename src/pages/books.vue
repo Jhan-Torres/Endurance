@@ -31,7 +31,7 @@
           v-for="(head, index) in tableHeads"
           :key="index"  
         >
-          <span class="text-xs font-thin md:text-sm">{{ head }}</span>
+          <span class="text-xs font-thin ml-4 md:text-sm">{{ head }}</span>
         </fwb-table-head-cell>
       </fwb-table-head>
       <fwb-table-body>
@@ -47,7 +47,8 @@
           @dragover="handleDragOver"
           @dragstart="handleDragStart(book)"
           @dragend="handleDragEnd"
-          :changeColor="bookFinished"
+          :bookFinishedId="bookFinishedId"
+          :showBookFinishedCheck="showBookFinishedCheck"
         />
       </fwb-table-body>
     </fwb-table>
@@ -103,7 +104,6 @@
         @deleteDroppedBook="deleteDroppedBook"
         @finishDroppedBook="finishDroppedBook"
         @showAlert="toggleShowAlert"
-        @changeBookColor="changeBookColor"
       />  
     </div>
   </section>
@@ -152,7 +152,8 @@ const indexBookToEdit = ref();
 //variables to store book object and its index which are dragged
 const bookDrag = ref();
 const shopDropZone = ref(false);
-const bookFinished = ref(false);
+const bookFinishedId = ref();
+const showBookFinishedCheck = ref(false);
 
 function addBook(book) {
   booksList.value.push(book);
@@ -214,13 +215,11 @@ function deleteDroppedBook(indexBook) {
   localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value)); 
 }
 
-function finishDroppedBook(indexBook) {
+function finishDroppedBook(indexBook, bookId) {
   booksDroppedList.value.splice(indexBook, 1);
   localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value)); 
-}
-
-function changeBookColor(idBook) {
-  bookFinished.value = true;
+  bookFinishedId.value = bookId;
+  showBookFinishedCheck.value = true;
 }
 </script>
 

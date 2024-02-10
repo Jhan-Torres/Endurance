@@ -18,19 +18,19 @@
                 class="underline" 
                 target="_blank"
               >
-              PDF LINK
+              LINK
             </a>
             </p>
-            <div class="flex gap-2 items-center absolute bottom-5">
+            <div class="flex gap-5 items-center absolute bottom-5">
               <button 
                 class="hover:scale-125 transition duration-200"
-                @click="deleteDroppedBook()"
+                @click="deleteDroppedBook"
               > 
                 <font-awesome-icon :icon="['fas', 'trash']" :style="{color: 'rgb(190, 11, 11)'}" class="h-8 w-8"/>
               </button>
               <button 
                 class="hover:scale-125 transition duration-200"
-                @click="finishDroppedBook()"
+                @click="finishDroppedBook"
               >
                 <font-awesome-icon :icon="['fas', 'circle-check']" :style="{color: 'rgb(80, 85, 230)'}" class="h-8 w-8"/>
               </button>
@@ -62,8 +62,7 @@ function deleteDroppedBook() {
 }
 
 function finishDroppedBook() {
-  emits("finishDroppedBook", props.bookDroppedIndex);
+  emits("finishDroppedBook", props.bookDroppedIndex, props.bookDropped.id);
   emits("showAlert", 'Congrats!');
-  emits("changeBookColor", props.bookDropped.id);
 }
 </script>
