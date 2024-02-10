@@ -71,6 +71,7 @@
   </div>
 
   <section
+    v-if="booksList.length"
     class="bg-gray-400 mx-3 mb-1 font-body rounded-xl overflow-hidden" >
     <h2 class="text-center p-2 text-orange-500 bg-gray-900 uppercase font-bold text-xl tracking-widest">
       [Reading Zone]

@@ -3,10 +3,10 @@
     <div class="group h-52 w-40 [perspective:1000px]">
       <div class="relative h-full w-full transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
         <div class="flex flex-col">  
-          <h2 class="text-center text-2xl uppercase p-3 font-semibold">
+          <h2 class="text-center text-xl uppercase mt-2 font-bold">
             {{props.bookDropped.title}}
           </h2>
-          <h4 class="text-center px-2 mt-4 lowercase">
+          <h4 class="text-center mt-4 lowercase">
             {{props.bookDropped.autor}}
           </h4>
         </div>
