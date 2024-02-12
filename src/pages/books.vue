@@ -20,7 +20,7 @@
       @showAlert="toggleShowAlert"
     />
   </div>
-  <div class="mx-3 mb-2">
+  <div class="mx-1 mb-2">
     <fwb-table 
       v-if="booksList.length"
       hoverable 
@@ -73,38 +73,40 @@
 
   <section
     v-if="booksList.length"
-    class="bg-gray-400 mx-3 mb-1 font-body rounded-xl overflow-hidden" >
-    <h2 class="text-center p-2 text-orange-500 bg-gray-900 uppercase font-bold text-xl tracking-widest">
-      [Reading Zone]
-    </h2>
-    <div
-      class="p-2 flex flex-wrap items-center justify-evenly gap-3 min-h-32 relative"
+    class="mb-1 mx-1" 
     >
-      <span 
-        v-if="shopDropZone"
-        class="font-black text-orange-500 absolute z-10 text-5xl w-full h-full opacity-75 bg-gray-300 flex items-center justify-center"
-        @dragover="handleDragOver"
-        @dragleave="handleDragLeave"
-        @drop="handleDrop"
+    <div class="font-body rounded-xl overflow-hidden bg-gray-400 mx-auto max-w-screen-xl">
+      <h2 class="text-center p-2 text-orange-500 bg-gray-900 uppercase font-bold text-xl tracking-widest">
+        [Reading Zone]
+      </h2>
+      <div
+        class="p-2 flex flex-wrap items-center justify-evenly gap-3 min-h-32 relative"
       >
-        DROP HERE
-      </span>
+        <span 
+          v-if="shopDropZone"
+          class="font-black text-orange-500 absolute z-10 text-5xl w-full h-full opacity-75 bg-gray-300 flex items-center justify-center"
+          @dragover="handleDragOver"
+          @dragleave="handleDragLeave"
+          @drop="handleDrop"
+        >
+          DROP HERE
+        </span>
+        <font-awesome-icon 
+          :icon="['fas', 'book-skull']" 
+          v-if="!booksDroppedList.length"
+          class="h-24 w-24 text-gray-600"
+        />
 
-      <font-awesome-icon 
-        :icon="['fas', 'book-skull']" 
-        v-if="!booksDroppedList.length"
-        class="h-24 w-24 text-gray-600"
-      />
-
-      <BookToRead 
-        v-for="(book, index) in booksDroppedList"
-        :key="index"
-        :bookDropped="book"
-        :bookDroppedIndex="index"
-        @deleteDroppedBook="deleteDroppedBook"
-        @finishDroppedBook="finishDroppedBook"
-        @showAlert="toggleShowAlert"
-      />  
+        <BookToRead 
+          v-for="(book, index) in booksDroppedList"
+          :key="index"
+          :bookDropped="book"
+          :bookDroppedIndex="index"
+          @deleteDroppedBook="deleteDroppedBook"
+          @finishDroppedBook="finishDroppedBook"
+          @showAlert="toggleShowAlert"
+        />  
+      </div>
     </div>
   </section>
 </template>

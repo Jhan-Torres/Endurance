@@ -1,9 +1,13 @@
 <template>
   <div class="flex items-center justify-center rounded-xl overflow-hidden bg-[#4267B2] shadow-xl shadow-gray-700 animate-fade-up animate-duration-1000 animate-delay-[250ms] ">
     <div class="group h-52 w-40 [perspective:1000px]">
-      <div class="relative h-full w-full transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+      <div 
+        class="relative h-full w-full transition-all duration-500 [transform-style:preserve-3d]"
+        @click="rotateCard = !rotateCard"
+        :class="{'[transform:rotateY(180deg)]': rotateCard}"
+      >
         <div class="flex flex-col">  
-          <h2 class="text-center text-xl uppercase mt-2 font-bold">
+          <h2 class="text-center text-xl uppercase mt-3 font-bold">
             {{props.bookDropped.title}}
           </h2>
           <h4 class="text-center mt-4 lowercase">
@@ -43,6 +47,8 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 const props = defineProps({
   bookDropped: {
     type: Object,
@@ -55,6 +61,8 @@ const props = defineProps({
 })
 
 const emits = defineEmits(["deleteDroppedBook", "finishDroppedBook", "showAlert", "changeBookColor"]);
+
+const rotateCard = ref(false);
 
 function deleteDroppedBook() {
   emits("deleteDroppedBook", props.bookDroppedIndex);
