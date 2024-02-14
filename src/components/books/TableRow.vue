@@ -18,15 +18,24 @@
     <fwb-table-cell class="text-xs font-thin md:text-sm">
       {{ props.book.category }}
     </fwb-table-cell>
-    <fwb-table-cell class="text-xs font-thin md:text-sm">
+    <fwb-table-cell class="text-xs font-thin md:text-sm flex flex-col gap-0.5">
       <button 
-        class="hover:scale-125 hover:cursor-pointer transition duration-200 mr-0.5"
+        v-if="props.screenType === 'mobile'"
+        class="p-1 bg-slate-400 rounded-lg mx-1 hover:bg-slate-500"
+        @click="addBookToReadZone"
+      >
+        <span class="text-black">
+          Read
+        </span>
+      </button>
+      <button 
+        class="hover:scale-125 hover:cursor-pointer transition duration-200"
         @click="deleteBook"
       > 
         <font-awesome-icon :icon="['fas', 'trash']" :style="{color: 'rgb(190, 11, 11)'}"/>
       </button>
       <button 
-        class="hover:scale-125 hover:cursor-pointer transition duration-200 ml-0.5" 
+        class="hover:scale-125 hover:cursor-pointer transition duration-200" 
         @click="editBook"
       >
         <font-awesome-icon :icon="['fas', 'pen']" :style="{color: 'rgb(100, 100, 255)'}"/>
@@ -42,6 +51,10 @@ import {
 } from 'flowbite-vue'
 
 const props = defineProps({
+  screenType: {
+    type: String,
+    required: true
+  },
   book: {
     type: Object,
     required: true
@@ -60,7 +73,7 @@ const props = defineProps({
   }
 });
 
-const emits = defineEmits(["deleteBook", "editBook", "showAlert"])
+const emits = defineEmits(["deleteBook", "editBook", "showAlert", "addBookToReadZone"])
 
 //METHODS
 function deleteBook() {
@@ -71,8 +84,9 @@ function deleteBook() {
 function editBook() {
   emits("editBook", props.book, props.bookIndex);
 }
+
+function addBookToReadZone() {
+  emits("addBookToReadZone", props.book);
+} 
+
 </script>
-
-<style scoped>
-
-</style>

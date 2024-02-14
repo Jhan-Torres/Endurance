@@ -34,43 +34,23 @@
           <span class="text-xs font-thin ml-4 md:text-sm">{{ head }}</span>
         </fwb-table-head-cell>
       </fwb-table-head>
-      <!-- row tables on mobile browsers -->
-      <fwb-table-body
-        v-if="screenWidth < 768"
-      >
-        <TableRow 
-          v-for="(book, index) in booksList"
-          :key="index"
-          :book="book"
-          :bookIndex="index"
-          @editBook="editBook"
-          @deleteBook="deleteBook"
-          @showAlert="toggleShowAlert"
-          :bookFinishedId="bookFinishedId"
-          :showBookFinishedCheck="showBookFinishedCheck"
-          @mousedown="handleMouseDown"
-          @mouseup="handleMouseUp"
-        />
-      </fwb-table-body>
-
-      <!-- row tables on desktop browsers -->
       <fwb-table-body>
         <TableRow 
           v-for="(book, index) in booksList"
           :key="index"
+          :screenType="screenType"
           :book="book"
           :bookIndex="index"
           @editBook="editBook"
           @deleteBook="deleteBook"
           @showAlert="toggleShowAlert"
-          :draggable="true"
+          :draggable="screenType === 'desktop'"
           @dragover="handleDragOver"
           @dragstart="handleDragStart(book)"
           @dragend="handleDragEnd"
           :bookFinishedId="bookFinishedId"
           :showBookFinishedCheck="showBookFinishedCheck"
-          @mousedown="handleMouseDown"
-          @mouseup="handleMouseUp"
+          @addBookToReadZone="addBookReadingZoneMobile"
         />
       </fwb-table-body>
     </fwb-table>
@@ -149,7 +129,7 @@ import { ref, onBeforeMount } from 'vue';
 
 const booksList = ref([]);
 const booksDroppedList = ref([]);
-const screenWidth = ref();
+const screenType = ref("");
 
 onBeforeMount(() => {
   if (localStorage.getItem("BooksList")) {
@@ -160,7 +140,8 @@ onBeforeMount(() => {
     booksDroppedList.value = JSON.parse(localStorage.getItem("BooksDroppedList"));
   }
 
-  screenWidth.value = screen.width;
+  //to manage the type of the screen where website is running
+  screenType.value = (screen.width <= 768) ? 'mobile' : 'desktop';
 })
 
 const tableHeads = [
@@ -239,7 +220,7 @@ function handleDragEnd() {
 
 function deleteDroppedBook(indexBook) {
   booksDroppedList.value.splice(indexBook, 1);
-  localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value)); 
+  localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value));
 }
 
 function finishDroppedBook(indexBook, bookId) {
@@ -249,27 +230,20 @@ function finishDroppedBook(indexBook, bookId) {
   showBookFinishedCheck.value = true;
 }
 
-//variables and methos to handle booksToRead on mobile browsers
-const count = ref(0);
-const interval = ref(null);
+function addBookReadingZoneMobile(book) {
+  if (duplicateBook(book.id)) return;
 
-function increment () {
-  count.value++;
-} 
+  booksDroppedList.value.push(book);
+  localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value));
+}
 
-function handleMouseDown() {
-  interval.value = setInterval(() => {
-    increment();
-    console.log("incrementing");
-    if (count.value > 2) {
-      clearInterval(interval.value);
+function duplicateBook(bookId) {
+  for (let i = 0; i < booksDroppedList.value.length; i++) {
+    if (booksDroppedList.value[i].id === bookId) {
+      toggleShowAlert("Book Duplicate")
+      return true;
     }
-  }, 500);
+  }
+  return false;
 }
-
-function handleMouseUp() {
-  count.value = 0;  
-  console.log("Up");
-}
-
 </script>

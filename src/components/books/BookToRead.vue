@@ -18,12 +18,14 @@
           <div class="static flex mt-14 flex-col items-center justify-center">
             <p class="text-nowrap">
               <a 
+                v-if="props.bookDropped.link"
                 :href="props.bookDropped.link"
                 class="underline" 
                 target="_blank"
               >
-              LINK
-            </a>
+                LINK
+              </a>
+              <a v-else> NO LINK </a>
             </p>
             <div class="flex gap-5 items-center absolute bottom-5">
               <button 
