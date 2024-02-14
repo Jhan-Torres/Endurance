@@ -13,7 +13,7 @@
     <BlueAlert :text="textAlert"/>
   </div>
 
-  <div class="flex flex-col items-center justify-center font-body mt-1">
+  <div class="flex flex-col items-center justify-center font-body">
     <Form 
       :case="'create'" 
       @addBookToList="addBook" 
@@ -26,7 +26,7 @@
       hoverable 
       class="font-body animate-fade-up duration-500 max-w-screen-xl mx-auto"
     >
-      <fwb-table-head class="bg-slate-700 text-white tracking-wider">
+      <fwb-table-head class="bg-slate-700 text-white tracking-wider select-none">
         <fwb-table-head-cell 
           v-for="(head, index) in tableHeads"
           :key="index"  
@@ -34,6 +34,26 @@
           <span class="text-xs font-thin ml-4 md:text-sm">{{ head }}</span>
         </fwb-table-head-cell>
       </fwb-table-head>
+      <!-- row tables on mobile browsers -->
+      <fwb-table-body
+        v-if="screenWidth < 768"
+      >
+        <TableRow 
+          v-for="(book, index) in booksList"
+          :key="index"
+          :book="book"
+          :bookIndex="index"
+          @editBook="editBook"
+          @deleteBook="deleteBook"
+          @showAlert="toggleShowAlert"
+          :bookFinishedId="bookFinishedId"
+          :showBookFinishedCheck="showBookFinishedCheck"
+          @mousedown="handleMouseDown"
+          @mouseup="handleMouseUp"
+        />
+      </fwb-table-body>
+
+      <!-- row tables on desktop browsers -->
       <fwb-table-body>
         <TableRow 
           v-for="(book, index) in booksList"
@@ -49,6 +69,8 @@
           @dragend="handleDragEnd"
           :bookFinishedId="bookFinishedId"
           :showBookFinishedCheck="showBookFinishedCheck"
+          @mousedown="handleMouseDown"
+          @mouseup="handleMouseUp"
         />
       </fwb-table-body>
     </fwb-table>
@@ -76,11 +98,11 @@
     class="mb-1 mx-1" 
     >
     <div class="font-body rounded-xl overflow-hidden bg-gray-400 mx-auto max-w-screen-xl">
-      <h2 class="text-center p-2 text-orange-500 bg-gray-900 uppercase font-bold text-xl tracking-widest">
+      <h2 class="text-center p-1 text-orange-500 bg-gray-900 uppercase font-bold text-xl tracking-widest select-none">
         [Reading Zone]
       </h2>
       <div
-        class="p-2 flex flex-wrap items-center justify-evenly gap-3 min-h-32 relative"
+        class="p-2 flex flex-wrap items-center justify-evenly gap-3 min-h-28 relative"
       >
         <span 
           v-if="shopDropZone"
@@ -94,7 +116,7 @@
         <font-awesome-icon 
           :icon="['fas', 'book-skull']" 
           v-if="!booksDroppedList.length"
-          class="h-24 w-24 text-gray-600"
+          class="h-20 w-24 text-gray-600"
         />
 
         <BookToRead 
@@ -127,6 +149,7 @@ import { ref, onBeforeMount } from 'vue';
 
 const booksList = ref([]);
 const booksDroppedList = ref([]);
+const screenWidth = ref();
 
 onBeforeMount(() => {
   if (localStorage.getItem("BooksList")) {
@@ -136,6 +159,8 @@ onBeforeMount(() => {
   if (localStorage.getItem("BooksDroppedList")) {
     booksDroppedList.value = JSON.parse(localStorage.getItem("BooksDroppedList"));
   }
+
+  screenWidth.value = screen.width;
 })
 
 const tableHeads = [
@@ -223,8 +248,28 @@ function finishDroppedBook(indexBook, bookId) {
   bookFinishedId.value = bookId;
   showBookFinishedCheck.value = true;
 }
+
+//variables and methos to handle booksToRead on mobile browsers
+const count = ref(0);
+const interval = ref(null);
+
+function increment () {
+  count.value++;
+} 
+
+function handleMouseDown() {
+  interval.value = setInterval(() => {
+    increment();
+    console.log("incrementing");
+    if (count.value > 2) {
+      clearInterval(interval.value);
+    }
+  }, 500);
+}
+
+function handleMouseUp() {
+  count.value = 0;  
+  console.log("Up");
+}
+
 </script>
-
-<style scoped>
-
-</style>
