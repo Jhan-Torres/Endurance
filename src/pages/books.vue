@@ -1,7 +1,7 @@
 <template>
   <!-- Alerts -->
   <div 
-    class="flex items-center justify-center mt-1" 
+    class="flex items-center justify-center" 
     v-if="!booksList.length"
   >
     <RedAlert :text="'no books added'"/>
@@ -161,15 +161,21 @@ const bookDrag = ref();
 const shopDropZone = ref(false);
 const bookFinishedId = ref();
 const showBookFinishedCheck = ref(false);
+//if we delete a book from table also delete on readingZone
+const bookDroppedToDeleteIndex = ref();
 
 function addBook(book) {
   booksList.value.push(book);
   localStorage.setItem('BooksList', JSON.stringify(booksList.value));
 }
 
-function deleteBook(bookIndex) {
+function deleteBook(bookIndex, bookId) {
   booksList.value.splice(bookIndex, 1);
   localStorage.setItem('BooksList', JSON.stringify(booksList.value));
+
+  if (duplicateBook(bookId)) {
+    deleteDroppedBook(bookDroppedToDeleteIndex);
+  }
 }
 
 function editBook(book, indexBook) {
@@ -241,7 +247,8 @@ function addBookReadingZoneMobile(book) {
 function duplicateBook(bookId) {
   for (let i = 0; i < booksDroppedList.value.length; i++) {
     if (booksDroppedList.value[i].id === bookId) {
-      toggleShowAlert("Book Duplicate")
+      toggleShowAlert("Book Duplicate");
+      bookDroppedToDeleteIndex.value = i;
       return true;
     }
   }

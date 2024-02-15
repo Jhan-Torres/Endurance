@@ -68,6 +68,8 @@ const props = defineProps({
     type: Number,
     default: -1
   },
+
+  //better code check
   showBookFinishedCheck: {
     type: Boolean,
     default: false
@@ -85,7 +87,7 @@ const emits = defineEmits(["deleteBook", "editBook", "showAlert", "addBookToRead
 
 //METHODS
 function deleteBook() {
-  emits("deleteBook", props.bookIndex);
+  emits("deleteBook", props.bookIndex, props.book.id);
   emits("showAlert", 'book deleted');
 }
 
