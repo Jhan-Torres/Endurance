@@ -98,6 +98,23 @@
         Link (PDF):
       </label>
     </div>
+    <div 
+      v-if="props.case === 'edit'"
+      class="bg-gray-500 p-2 rounded-xl text-xs font-semibold tracking-wider md:text-sm"
+    >
+      <label 
+        for="checkbox" 
+        class="mr-2"
+      >
+        Finished?
+      </label>
+      <input 
+        type="checkbox" 
+        id="checkbox"
+        :checked="props.bookToEdit.done"
+        v-model="bookObject.done"
+      >
+    </div>
     <div class="flex items-center gap-1">
       <fwb-button 
         v-if="props.case === 'create'"

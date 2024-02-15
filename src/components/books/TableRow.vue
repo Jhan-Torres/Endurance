@@ -4,11 +4,11 @@
   >
     <fwb-table-cell class="text-xs font-thin md:text-sm">
       <font-awesome-icon 
-        v-if="(props.showBookFinishedCheck === true  && props.bookFinishedId === props.book.id)"
+        v-show="props.book.done"
         :icon="['fas', 'check-double']" 
-        style="color: blueviolet;" 
+        style="color: blueviolet;"
       />
-      <span class="ml-4">
+      <span :class="{'ml-3':props.book.done, 'ml-6':!props.book.done}">
         {{ props.book.title }}
       </span>
     </fwb-table-cell>
@@ -49,6 +49,9 @@ import {
   FwbTableCell,
   FwbTableRow,
 } from 'flowbite-vue'
+import { onUpdated, ref } from 'vue';
+
+const showIcon = ref(null);
 
 const props = defineProps({
   screenType: {
@@ -72,6 +75,14 @@ const props = defineProps({
     default: false
   }
 });
+
+//show doble check icon
+onUpdated(() => {
+  if(props.showBookFinishedCheck === true  && props.bookFinishedId === props.book.id) {
+    props.book.done = true;
+    showIcon.value = true;
+  } 
+})
 
 const emits = defineEmits(["deleteBook", "editBook", "showAlert", "addBookToReadZone"])
 
