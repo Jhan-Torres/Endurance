@@ -113,7 +113,6 @@
         v-model="bookObject.done"
       >
     </div>
-    {{ bookObject.done }}
     <div class="flex items-center gap-1">
       <fwb-button 
         v-if="props.case === 'create'"
@@ -167,6 +166,7 @@ const booksCategories = [
   'Psychology',
   'Research',
   'Science',
+  'Others',
 ]
 
 //html elements references

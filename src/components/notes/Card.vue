@@ -3,7 +3,10 @@
     class="w-80 animate-flip-up animate-once animate-duration-[1000ms] p-1 font-body"
     @dblclick="showEditF"
   >
-    <h5 class="p-1 h-12 text-sm font-medium tracking-tight rounded-t-md bg-gray-800 text-lime-50 md:text-base">
+    <h5  
+      class="p-1 h-12 text-sm tracking-tight rounded-t-md text-black font-semibold md:text-base"
+      :class="categoryColor" 
+    >
       {{ props.noteChild.title }}
     </h5>
     <p class="text-xs text-gray-800 overflow-auto rounded-b-lg text-wrap h-24 bg-gray-200 p-1 md:text-sm">
@@ -30,6 +33,13 @@
 
 <script setup>
 import { FwbCard } from 'flowbite-vue';
+import { onMounted, ref } from 'vue';
+
+const categoryColor = ref('');
+
+onMounted(() => {
+  categoryColor.value = listCategoriesColors[props.noteChild.category];
+});
 
 //PROPS & EMITS
 const props = defineProps({
@@ -44,6 +54,17 @@ const props = defineProps({
 })
 
 const emits = defineEmits(["setDeleteNote", "setShowForm", "showAlert"]);
+
+const listCategoriesColors = {
+  'Course' : 'bg-[#5f83b4]',
+  'Entertainment' : 'bg-[#8e87c1]',
+  'Hacking' : 'bg-[#2c4875]',
+  'Medicine' : 'bg-[#91bef2]',
+  'Research' : 'bg-[#8a508f]',
+  'Programming' : 'bg-[#ffd380]',
+  'Tools' : 'bg-[#ffe9c0]',
+  'Others' : 'bg-[#e8a0a8]'
+}
 
 function deleteNote() {
   emits("setDeleteNote", props.noteIndex);

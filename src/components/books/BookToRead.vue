@@ -1,5 +1,8 @@
 <template>
-  <div class="flex items-center justify-center rounded-xl overflow-hidden bg-[#4267B2] shadow-xl shadow-gray-700 animate-fade-up animate-duration-1000 animate-delay-[250ms] ">
+  <div 
+    class="flex items-center justify-center rounded-xl overflow-hidden shadow-xl shadow-gray-700 animate-fade-up animate-duration-1000 animate-delay-[250ms]" 
+    :class="categoryColor, {'text-yellow-100':categoryColor === 'bg-[#00202e]'}"
+    >
     <div class="group h-52 w-40 [perspective:1000px]">
       <div 
         class="relative h-full w-full transition-all duration-500 [transform-style:preserve-3d]"
@@ -49,7 +52,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+
+const categoryColor = ref('');
+
+onMounted(() => {
+  categoryColor.value = listCategoriesColors[props.bookDropped.category];
+});
 
 const props = defineProps({
   bookDropped: {
@@ -65,6 +74,18 @@ const props = defineProps({
 const emits = defineEmits(["deleteDroppedBook", "finishDroppedBook", "showAlert", "changeBookColor"]);
 
 const rotateCard = ref(false);
+
+const listCategoriesColors = {
+  'Astronomy' : 'bg-[#00202e]',
+  'Life Style' : 'bg-[#003f5c]',
+  'Hacking' : 'bg-[#2c4875]',
+  'Psychology' : 'bg-[#91bef2]',
+  'Research' : 'bg-[#8a508f]',
+  'Programming' : 'bg-[#ffd380]',
+  'Science' : 'bg-[#ffe9c0]',
+  'Others' : 'bg-[#e8a0a8]'
+}
+
 
 function deleteDroppedBook() {
   emits("deleteDroppedBook", props.bookDroppedIndex);

@@ -153,13 +153,11 @@ const optionsCategories = [
   { name: 'Course' },
   { name: 'Entertainment' },
   { name: 'Hacking' },
-  { name: 'Link' },
   { name: 'Medicine' },
-  { name: 'Programming' },
   { name: 'Research' },
-  { name: 'Several' },
-  { name: 'Social Media' },
+  { name: 'Programming' },
   { name: 'Tools' },
+  { name: 'Others' },
 ]
 
 //to set initial values on inputs if "edit" case is sending
