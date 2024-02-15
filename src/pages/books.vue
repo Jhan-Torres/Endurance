@@ -209,6 +209,8 @@ function handleDragLeave() {
 }
 
 function handleDrop() {
+  if (duplicateBook(bookDrag.value.id)) return;
+
   booksDroppedList.value.push(bookDrag.value);
   localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value));
 }

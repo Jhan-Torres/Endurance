@@ -75,6 +75,7 @@
           :key="index" 
           :value="option"
         >
+          {{ option }}
         </option>
       </select>
     </div>
