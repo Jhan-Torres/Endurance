@@ -67,7 +67,7 @@
       :case="'edit'" 
       :bookToEdit="bookToEdit" 
       @saveEdit="saveEdit" 
-      @closeEditForm="showEditForm = false"
+      @closeEditForm="handleCloseEditForm"
       @showAlert="toggleShowAlert" 
     />
   </div>
@@ -244,5 +244,11 @@ function duplicateBook(bookId) {
     }
   }
   return false;
+}
+
+function handleCloseEditForm() {
+  showEditForm.value = false;
+  //to clean bookFinishedId cuz we´re using onUpdate hook on tableRow
+  bookFinishedId.value = null;
 }
 </script>

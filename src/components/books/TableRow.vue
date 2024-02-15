@@ -49,9 +49,7 @@ import {
   FwbTableCell,
   FwbTableRow,
 } from 'flowbite-vue'
-import { onUpdated, ref } from 'vue';
-
-const showIcon = ref(null);
+import { onUpdated } from 'vue';
 
 const props = defineProps({
   screenType: {
@@ -80,7 +78,6 @@ const props = defineProps({
 onUpdated(() => {
   if(props.showBookFinishedCheck === true  && props.bookFinishedId === props.book.id) {
     props.book.done = true;
-    showIcon.value = true;
   } 
 })
 

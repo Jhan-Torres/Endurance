@@ -74,9 +74,7 @@
           v-for="(option, index) in booksCategories" 
           :key="index" 
           :value="option"
-          class=""
         >
-          {{ option }}
         </option>
       </select>
     </div>
@@ -111,10 +109,10 @@
       <input 
         type="checkbox" 
         id="checkbox"
-        :checked="props.bookToEdit.done"
         v-model="bookObject.done"
       >
     </div>
+    {{ bookObject.done }}
     <div class="flex items-center gap-1">
       <fwb-button 
         v-if="props.case === 'create'"
