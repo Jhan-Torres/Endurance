@@ -34,8 +34,8 @@
       </div>
       <label 
           for="title" 
-          class="text-xs md:text-sm text-red-600" 
-          v-if="textError"
+          class="text-xs text-red-600 md:text-sm " 
+          v-if="(textError === 'Title Required' || textError === '40 Max Capacity')"
         >
           {{ textError }}
       </label>
@@ -58,26 +58,36 @@
         Autor:
       </label>
     </div>
-    <div class="flex items-center gap-1.5">
-      <label 
-        for="select" 
-        class="text-xs font-semibold tracking-wide md:text-sm"
-      >
-        Category
-      </label>
-      <select 
-        class="rounded-md w-36 text-xs bg-blue-50 md:w-[150px] md:text-sm" 
-        id="select"
-        v-model="bookObject.category"
-      >
-        <option 
-          v-for="(option, index) in booksCategories" 
-          :key="index" 
-          :value="option"
+    <div class="flex flex-col">
+      <div class="flex items-center gap-1.5">
+        <label 
+          for="select" 
+          class="text-xs font-semibold tracking-wide md:text-sm"
         >
-          {{ option }}
-        </option>
-      </select>
+          Category  
+        </label>
+        <select 
+          class="rounded-md w-36 text-xs bg-blue-50 md:w-[150px] md:text-sm" 
+          id="select"
+          v-model="bookObject.category"
+          ref="category"
+        >
+          <option 
+            v-for="(option, index) in booksCategories" 
+            :key="index" 
+            :value="option"
+          >
+            {{ option }}
+          </option>
+        </select>
+      </div>
+      <label
+        for="select" 
+        class="text-xs text-red-600 text-center md:text-sm" 
+        v-if="textError === 'Category required'"
+      >
+        {{ textError }}
+      </label>
     </div>
     <div class="relative group">
       <input 
@@ -171,6 +181,7 @@ const booksCategories = [
 
 //html elements references
 const title = ref(null);
+const category = ref(null);
 
 //Emits & Props
 const emits = defineEmits(["addBookToList", "showAlert", "saveEdit", "closeEditForm"]);
@@ -204,7 +215,7 @@ function toggleFormButton() {
 }
 
 function createBook() {
-  if (!validateTitle()) return;
+  if (!validateTitleAndCategory()) return;
   
   bookObject.value.id = ++bookId;
 
@@ -216,14 +227,14 @@ function createBook() {
 }
 
 function saveEdit() {
-  if (!validateTitle()) return;
+  if (!validateTitleAndCategory()) return;
 
   emits("saveEdit", bookObject.value);
   emits("closeEditForm");
   emits("showAlert", 'book edited');
 }
 
-function validateTitle() {
+function validateTitleAndCategory() {
   //required validation
   if (!bookObject.value.title) {
     textError.value = "Title Required";
@@ -235,6 +246,13 @@ function validateTitle() {
   if (bookObject.value.title.length >= 40) {
     textError.value = "40 Max Capacity";
     title.value.focus();
+    return false;
+  }
+
+  //validate category
+  if (!bookObject.value.category) {
+    textError.value = 'Category required';
+    category.value.focus();
     return false;
   }
 
