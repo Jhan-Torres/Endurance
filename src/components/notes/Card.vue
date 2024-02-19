@@ -5,7 +5,7 @@
   >
     <h5  
       class="p-1 h-12 text-sm tracking-tight rounded-t-md text-black font-semibold md:text-base"
-      :class="categoryColor" 
+      :class="categoryColor, {'text-gray-200':(categoryColor === 'bg-[#2c4875]') || (categoryColor === 'bg-[#8a508f]')}" 
     >
       {{ props.noteChild.title }}
     </h5>

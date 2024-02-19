@@ -1,7 +1,7 @@
 <template>
   <div 
     class="flex items-center justify-center rounded-xl overflow-hidden shadow-xl shadow-gray-700 animate-fade-up animate-duration-1000 animate-delay-[250ms]" 
-    :class="categoryColor, {'text-yellow-100':categoryColor === 'bg-[#00202e]'}"
+    :class="categoryColor, {'text-gray-300':(categoryColor === 'bg-[#00202e]') || (categoryColor === 'bg-[#003f5c]') || (categoryColor === 'bg-[#2c4875]')}"
     >
     <div class="group h-52 w-40 [perspective:1000px]">
       <div 
@@ -85,7 +85,6 @@ const listCategoriesColors = {
   'Science' : 'bg-[#ffe9c0]',
   'Others' : 'bg-[#e8a0a8]'
 }
-
 
 function deleteDroppedBook() {
   emits("deleteDroppedBook", props.bookDroppedIndex);

@@ -37,7 +37,7 @@
       v-model="inputTitle" 
     >
       <span class="text-red-600 font-body text-sm tracking-wider mb-0.5" 
-        v-if="textError"
+        v-if="(textError === 'Title Required' || textError === '60 Max Capacity')"
       >
         {{ textError }}
       </span>
@@ -50,6 +50,7 @@
     <select 
       class="rounded-lg font-body mb-1.5 p-1.5 text-slate-500 text-sm border-1 border-gray-300 w-56 md:w-96" 
       v-model="inputCategory"
+      ref="category"
     >
       <option 
         value="" 
@@ -67,6 +68,11 @@
         {{ option.name }}
       </option>
     </select>
+    <span class="text-red-600 font-body text-sm tracking-wider mb-0.5" 
+      v-if="(textError === 'Category required')"
+    >
+      {{ textError }}
+    </span>
     <div 
       class="mb-1"
       v-if="props.case === 'create'"
@@ -138,6 +144,7 @@ const props = defineProps({
 //DATA REFS
 //html elements
 const title = ref(null);
+const category = ref(null);
 
 //show/hide create note form
 const showForm = ref(false);
@@ -151,7 +158,6 @@ const inputContent = ref('');
 const inputCategory = ref('');
 
 const optionsCategories = useNotesCategories();
-console.log(optionsCategories);
 
 //to set initial values on inputs if "edit" case is sending
 if (props.case === 'edit') {
@@ -174,7 +180,7 @@ function toggleForm() {
 }
 
 function createNote() {
-  if (!validateTitle()) return;
+  if (!validateTitleAndCategory()) return;
 
   //build new "note" object
   const note = {
@@ -192,7 +198,7 @@ function createNote() {
 }
 
 function saveEdit() {
-  if (!validateTitle()) return;
+  if (!validateTitleAndCategory()) return;
 
   const note = {
     id: props.noteClicked.id,
@@ -217,7 +223,7 @@ function cleanInputs() {
   textError.value = '';
 }
 
-function validateTitle() {
+function validateTitleAndCategory() {
   //required validation
   if (!inputTitle.value) {
     textError.value = "Title Required";
@@ -229,6 +235,13 @@ function validateTitle() {
   if (inputTitle.value.length >= 60) {
     textError.value = "60 Max Capacity";
     title.value.focus();
+    return false;
+  }
+
+  //validate category
+  if (!inputCategory.value) {
+    textError.value = 'Category required';
+    category.value.focus();
     return false;
   }
 
