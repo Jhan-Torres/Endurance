@@ -53,6 +53,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { useBooksColors } from '@/composables/useNames';
 
 const categoryColor = ref('');
 
@@ -75,16 +76,7 @@ const emits = defineEmits(["deleteDroppedBook", "finishDroppedBook", "showAlert"
 
 const rotateCard = ref(false);
 
-const listCategoriesColors = {
-  'Astronomy' : 'bg-[#00202e]',
-  'Life Style' : 'bg-[#003f5c]',
-  'Hacking' : 'bg-[#2c4875]',
-  'Psychology' : 'bg-[#91bef2]',
-  'Research' : 'bg-[#8a508f]',
-  'Programming' : 'bg-[#ffd380]',
-  'Science' : 'bg-[#ffe9c0]',
-  'Others' : 'bg-[#e8a0a8]'
-}
+const listCategoriesColors = useBooksColors();
 
 function deleteDroppedBook() {
   emits("deleteDroppedBook", props.bookDroppedIndex);

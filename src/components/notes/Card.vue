@@ -34,6 +34,7 @@
 <script setup>
 import { FwbCard } from 'flowbite-vue';
 import { onMounted, ref } from 'vue';
+import { useNotesColors } from '@/composables/useNames';
 
 const categoryColor = ref('');
 
@@ -55,16 +56,7 @@ const props = defineProps({
 
 const emits = defineEmits(["setDeleteNote", "setShowForm", "showAlert"]);
 
-const listCategoriesColors = {
-  'Course' : 'bg-[#5f83b4]',
-  'Entertainment' : 'bg-[#8e87c1]',
-  'Hacking' : 'bg-[#2c4875]',
-  'Medicine' : 'bg-[#91bef2]',
-  'Research' : 'bg-[#8a508f]',
-  'Programming' : 'bg-[#ffd380]',
-  'Tools' : 'bg-[#ffe9c0]',
-  'Others' : 'bg-[#e8a0a8]'
-}
+const listCategoriesColors = useNotesColors(); 
 
 function deleteNote() {
   emits("setDeleteNote", props.noteIndex);
