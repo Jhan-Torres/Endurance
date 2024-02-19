@@ -5,14 +5,14 @@ export function useBooksCategories() {
   //Out: Array of categories names used on Books page
 
   return [
-    'Astronomy',
-    'Hacking',
-    'Life Style',
-    'Programming',
-    'Psychology',
-    'Research',
-    'Science',
-    'Others',
+    'astronomy',
+    'hacking',
+    'life Style',
+    'programming',
+    'psychology',
+    'research',
+    'science',
+    'others',
   ]
 }
 
@@ -21,14 +21,14 @@ export function useNotesCategories() {
   //Out: Array of categories names used on Notes page
   
   return [
-    { name: 'Course' },
-    { name: 'Entertainment' },
-    { name: 'Hacking' },
-    { name: 'Medicine' },
-    { name: 'Research' },
-    { name: 'Programming' },
-    { name: 'Tools' },
-    { name: 'Others' },
+    { name: 'course' },
+    { name: 'entertainment' },
+    { name: 'hacking' },
+    { name: 'medicine' },
+    { name: 'research' },
+    { name: 'programming' },
+    { name: 'tools' },
+    { name: 'others' },
   ]
 }
 
@@ -49,14 +49,14 @@ export function useNotesColors() {
   //Out: Object of category:color (hexadecimal) used to differentiate between notes categories
   
   return {
-    'Course' : 'bg-[#5f83b4]',
-    'Entertainment' : 'bg-[#8e87c1]',
-    'Hacking' : 'bg-[#2c4875]',
-    'Medicine' : 'bg-[#91bef2]',
-    'Research' : 'bg-[#8a508f]',
-    'Programming' : 'bg-[#ffd380]',
-    'Tools' : 'bg-[#ffe9c0]',
-    'Others' : 'bg-[#e8a0a8]'
+    'course' : 'bg-[#5f83b4]',
+    'entertainment' : 'bg-[#8e87c1]',
+    'hacking' : 'bg-[#2c4875]',
+    'medicine' : 'bg-[#91bef2]',
+    'research' : 'bg-[#8a508f]',
+    'programming' : 'bg-[#ffd380]',
+    'tools' : 'bg-[#ffe9c0]',
+    'others' : 'bg-[#e8a0a8]'
   }
 }
 
@@ -65,13 +65,13 @@ export function useBooksColors() {
   //Out: Object of category:color (hexadecimal) used to differentiate between books categories
   
   return {
-    'Astronomy' : 'bg-[#00202e]',
-    'Life Style' : 'bg-[#003f5c]',
-    'Hacking' : 'bg-[#2c4875]',
-    'Psychology' : 'bg-[#91bef2]',
-    'Research' : 'bg-[#8a508f]',
-    'Programming' : 'bg-[#ffd380]',
-    'Science' : 'bg-[#ffe9c0]',
-    'Others' : 'bg-[#e8a0a8]'
+    'astronomy' : 'bg-[#00202e]',
+    'life Style' : 'bg-[#003f5c]',
+    'hacking' : 'bg-[#2c4875]',
+    'psychology' : 'bg-[#91bef2]',
+    'research' : 'bg-[#8a508f]',
+    'programming' : 'bg-[#ffd380]',
+    'science' : 'bg-[#ffe9c0]',
+    'others' : 'bg-[#e8a0a8]'
   }
 }

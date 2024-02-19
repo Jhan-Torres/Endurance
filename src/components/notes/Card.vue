@@ -1,6 +1,6 @@
 <template>
   <fwb-card 
-    class="w-80 animate-flip-up animate-once animate-duration-[1000ms] p-1 font-body"
+    class="w-80 animate-flip-up animate-once animate-duration-[1000ms] p-1 font-body select-none"
     @dblclick="showEditF"
   >
     <h5  

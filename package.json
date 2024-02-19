@@ -13,6 +13,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/vue-fontawesome": "^3.0.5",
+    "firebase": "^10.8.0",
     "flowbite": "^2.2.1",
     "flowbite-vue": "^0.1.2",
     "tailwindcss-animated": "^1.0.1",

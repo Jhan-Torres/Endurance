@@ -57,20 +57,42 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, onMounted } from 'vue'
 import RedAlert from '@/components/RedAlert.vue'
 import BlueAlert from '@/components/BlueAlert.vue'
 import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
+//Firebase imports
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from '@/firebase';
 
 const notesList = ref([]);
 
-//Set array notes at the begginig 
-//read: https://vuejs.org/api/composition-api-lifecycle.html
-onBeforeMount(() => {
-  if (localStorage.getItem("NotesList")) {
-    notesList.value = JSON.parse(localStorage.getItem("NotesList"));
-  }
+// //Set array notes at the begginig 
+// //read: https://vuejs.org/api/composition-api-lifecycle.html
+// onBeforeMount(() => {
+//   if (localStorage.getItem("NotesList")) {
+//     notesList.value = JSON.parse(localStorage.getItem("NotesList"));
+//   }
+// })
+
+onMounted(() => {
+  //manage all notes stored on firebase
+  onSnapshot(collection(db, 'notes'), (querySnapshot) => {
+    const fbNotes = [];
+    querySnapshot.forEach((doc) => {
+      const note = {
+        id: doc.id,
+        title: doc.data().title,
+        content: doc.data().content,
+        category: doc.data().category
+      }
+
+      fbNotes.push(note);
+    });
+
+    notesList.value = fbNotes;
+  });
 })
 
 //to show/hide edit form
