@@ -19,7 +19,7 @@
   <div class="mt-1 flex flex-col items-center justify-center" >
     <Form 
       :case="'create'" 
-      @addNoteToList="addNoteToList" 
+      @addNote="addNote"
       @showAlert="toggleShowAlert" 
     />
   </div>
@@ -63,31 +63,25 @@ import BlueAlert from '@/components/BlueAlert.vue'
 import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
 //Firebase imports
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, addDoc } from "firebase/firestore";
 import { db } from '@/firebase';
+//firebase refs
+const notesCollectionRef = collection(db, 'notes');
 
 const notesList = ref([]);
 
-// //Set array notes at the begginig 
-// //read: https://vuejs.org/api/composition-api-lifecycle.html
-// onBeforeMount(() => {
-//   if (localStorage.getItem("NotesList")) {
-//     notesList.value = JSON.parse(localStorage.getItem("NotesList"));
-//   }
-// })
-
 onMounted(() => {
-  //manage all notes stored on firebase
-  onSnapshot(collection(db, 'notes'), (querySnapshot) => {
+  //set all notes stored on firebase
+  onSnapshot(notesCollectionRef, (querySnapshot) => {
     const fbNotes = [];
     querySnapshot.forEach((doc) => {
+      //data of every doc(note)
       const note = {
         id: doc.id,
         title: doc.data().title,
         content: doc.data().content,
         category: doc.data().category
       }
-
       fbNotes.push(note);
     });
 
@@ -111,9 +105,9 @@ let showAlert = ref();
 let textAlert = ref('');
 
 //METHODS:
-function addNoteToList(note) {
-  notesList.value.push(note);
-  localStorage.setItem('NotesList', JSON.stringify(notesList.value));
+function addNote(note) {
+  // Add a new document with a generated id to firebase.
+  addDoc(notesCollectionRef, note);  
 }
 
 //to hide form on user doble click on edit form

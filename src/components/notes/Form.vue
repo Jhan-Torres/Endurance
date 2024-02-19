@@ -128,7 +128,7 @@ onBeforeMount(() => {
 })
 
 //EMITS & PROPS
-const emits = defineEmits(["closeForm", "showAlert", "addNoteToList", "editNote"]);
+const emits = defineEmits(["closeForm", "showAlert", "addNote", "editNote"]);
 
 const props = defineProps({
   case: {
@@ -184,16 +184,14 @@ function createNote() {
 
   //build new "note" object
   const note = {
-    id: ++noteId,
     title: inputTitle.value,
     content: inputContent.value,
     category: inputCategory.value
   }
 
-  localStorage.setItem('noteId', JSON.stringify(noteId));
   showForm.value = false;
 
-  emits("addNoteToList", note);
+  emits("addNote", note);
   emits("showAlert", 'note added');
 }
 
