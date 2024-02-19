@@ -10,7 +10,17 @@
       {{ props.noteChild.title }}
     </h5>
     <p class="text-xs text-gray-800 overflow-auto rounded-b-lg text-wrap h-24 bg-gray-200 p-1 md:text-sm">
-      {{ props.noteChild.content }}
+      <a 
+        v-if="props.noteChild.content.includes('https://')"
+        :href="props.noteChild.content"
+        target="_blank"
+        class="underline"
+      >
+        {{ props.noteChild.content }}
+      </a>
+      <span v-else>
+        {{ props.noteChild.content }}
+      </span>
     </p>
     <hr class="border-gray-300 mx-auto mt-1" />
     <button 
