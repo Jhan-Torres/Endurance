@@ -111,6 +111,7 @@
 <script setup>
 import { ref, nextTick, onBeforeMount } from 'vue';
 import { FwbButton } from 'flowbite-vue'
+import { useNotesCategories } from '@/composables/useNames';
 
 //to set note id autoincrement and store in LocalStorage
 let noteId;
@@ -149,16 +150,8 @@ const inputTitle = ref('');
 const inputContent = ref('');
 const inputCategory = ref('');
 
-const optionsCategories = [
-  { name: 'Course' },
-  { name: 'Entertainment' },
-  { name: 'Hacking' },
-  { name: 'Medicine' },
-  { name: 'Research' },
-  { name: 'Programming' },
-  { name: 'Tools' },
-  { name: 'Others' },
-]
+const optionsCategories = useNotesCategories();
+console.log(optionsCategories);
 
 //to set initial values on inputs if "edit" case is sending
 if (props.case === 'edit') {

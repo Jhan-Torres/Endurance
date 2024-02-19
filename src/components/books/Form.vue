@@ -153,6 +153,7 @@
 <script setup>
 import { FwbButton } from 'flowbite-vue';
 import { ref, nextTick, onBeforeMount } from 'vue';
+import { useBooksCategories } from '@/composables/useNames';
 
 let bookId;
 
@@ -168,16 +169,7 @@ const bookObject = ref({})
 
 const showForm = ref(false);
 
-const booksCategories = [
-  'Astronomy',
-  'Hacking',
-  'Life Style',
-  'Programming',
-  'Psychology',
-  'Research',
-  'Science',
-  'Others',
-]
+const booksCategories = useBooksCategories();
 
 //html elements references
 const title = ref(null);
@@ -265,7 +257,3 @@ function cleanInputs() {
 }
 
 </script>
-
-<style scoped>
-
-</style>

@@ -125,6 +125,7 @@ import {
   FwbTableHeadCell,
 } from 'flowbite-vue'
 import { ref, onBeforeMount } from 'vue';
+import { useBooksTableHeads } from '@/composables/useNames'; //Importing a function
 
 const booksList = ref([]);
 const booksDroppedList = ref([]);
@@ -143,12 +144,7 @@ onBeforeMount(() => {
   screenType.value = (screen.width <= 768) ? 'mobile' : 'desktop';
 })
 
-const tableHeads = [
-  'Title',
-  'Autor',
-  'Category',
-  '' //empty space on table head
-]
+const tableHeads = useBooksTableHeads();
 
 //Data refs
 const showAlert = ref(false);
