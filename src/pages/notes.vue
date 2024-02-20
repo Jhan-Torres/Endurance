@@ -25,7 +25,7 @@
   </div>
 
   <div
-    class="bg-slate-400 p-1 mt-2 rounded-md flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-4"
+    class="p-1 rounded-md flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-4"
     v-if="notesList.length"
     >
     <Card 
@@ -132,7 +132,6 @@ function showEditForm(noteObject, index) {
 }
 
 function toggleShowAlert(text) {
-  //to set and show alert's
   textAlert.value = text;
   showAlert.value = true;
 

@@ -9,7 +9,7 @@
     >
       {{ props.noteChild.title }}
     </h5>
-    <p class="text-xs text-gray-800 overflow-auto rounded-b-lg text-wrap h-24 bg-gray-200 p-1 md:text-sm">
+    <p class="text-xs text-gray-900 overflow-auto rounded-b-lg text-wrap h-24 bg-gray-200 p-1 md:text-sm">
       <a 
         v-if="props.noteChild.content.includes('https://')"
         :href="props.noteChild.content"
