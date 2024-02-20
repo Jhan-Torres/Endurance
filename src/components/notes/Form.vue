@@ -117,7 +117,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick, onBeforeMount } from 'vue';
+import { ref, nextTick } from 'vue';
 import { FwbButton } from 'flowbite-vue'
 import { useNotesCategories } from '@/composables/useNames';
 

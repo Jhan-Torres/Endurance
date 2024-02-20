@@ -43,14 +43,10 @@
 
 <script setup>
 import { FwbCard } from 'flowbite-vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUpdated, ref } from 'vue';
 import { useNotesColors } from '@/composables/useNames';
 
-const categoryColor = ref('');
-
-onMounted(() => {
-  categoryColor.value = listCategoriesColors[props.noteChild.category];
-});
+const listCategoriesColors = useNotesColors(); 
 
 //PROPS & EMITS
 const props = defineProps({
@@ -66,8 +62,21 @@ const props = defineProps({
 
 const emits = defineEmits(["deleteNote", "setShowForm", "showAlert"]);
 
-const listCategoriesColors = useNotesColors(); 
+const categoryColor = ref();
 
+//to set notes color when component is mounted 
+onMounted(() => {
+  categoryColor.value = listCategoriesColors[props.noteChild.category];
+});
+
+//to set notes color when update component´s category only
+onUpdated(() => {
+  if(categoryColor.value !== listCategoriesColors[props.noteChild.category]) {
+    categoryColor.value = listCategoriesColors[props.noteChild.category];
+  }
+})
+
+//METHODS
 function deleteNote() {
   emits("deleteNote", props.noteChild.id);
   emits("showAlert", 'node deleted');

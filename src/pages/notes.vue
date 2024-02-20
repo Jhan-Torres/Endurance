@@ -31,8 +31,8 @@
     <Card 
       v-for="(note, index) in notesList" 
       :key="index"
-      :noteChild="note" 
-      :noteIndex="index" 
+      :noteChild="note"
+      :noteIndex="index"
       @deleteNote="deleteNote" 
       @setShowForm="showEditForm"
       @showAlert="toggleShowAlert" 
