@@ -193,13 +193,12 @@ function saveEdit() {
   if (!validateTitleAndCategory()) return;
 
   const note = {
-    id: props.noteClicked.id,
     title: inputTitle.value,
     content: inputContent.value,
     category: inputCategory.value
   }
 
-  emits("editNote", note);
+  emits("editNote", note, props.noteClicked.id);
   emits("closeForm");
   emits("showAlert", 'note edited');
 }

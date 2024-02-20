@@ -63,7 +63,7 @@ import BlueAlert from '@/components/BlueAlert.vue'
 import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
 //Firebase imports
-import { collection, onSnapshot, doc, addDoc, deleteDoc } from "firebase/firestore";
+import { collection, onSnapshot, doc, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from '@/firebase';
 //firebase refs
 const notesCollectionRef = collection(db, 'notes');
@@ -110,6 +110,16 @@ function addNote(note) {
   addDoc(notesCollectionRef, note);  
 }
 
+function deleteNote(noteId) {
+  //delete a document with its id from firebase. 
+  deleteDoc(doc(notesCollectionRef, noteId));
+}
+
+function updateNote(note, noteId) {
+  //update a document with its id and fields modified, from firebase
+  updateDoc(doc(notesCollectionRef, noteId), note);
+}
+
 function hideForm() {
   editFormButton.value = false;
 }
@@ -119,23 +129,6 @@ function showEditForm(noteObject, index) {
   indexNote.value = index;
   noteToEdit.value = noteObject;
   editFormButton.value = true;
-}
-
-function updateNote(note) {
-  //first delete note from the array
-  notesList.value.splice(indexNote.value, 1);
-  //after add note updated
-  notesList.value.splice(indexNote.value, 0, note);
-  //later modify the local storage list
-  localStorage.setItem('NotesList', JSON.stringify(notesList.value));
-}
-
-//delete note with its index
-function deleteNote(noteId) {
-  // notesList.value.splice(index, 1);
-  // localStorage.setItem('NotesList', JSON.stringify(notesList.value));
-
-  deleteDoc(doc(notesCollectionRef, noteId));
 }
 
 function toggleShowAlert(text) {
