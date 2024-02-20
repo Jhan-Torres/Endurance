@@ -64,12 +64,12 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(["setDeleteNote", "setShowForm", "showAlert"]);
+const emits = defineEmits(["deleteNote", "setShowForm", "showAlert"]);
 
 const listCategoriesColors = useNotesColors(); 
 
 function deleteNote() {
-  emits("setDeleteNote", props.noteIndex);
+  emits("deleteNote", props.noteChild.id);
   emits("showAlert", 'node deleted');
 }
 

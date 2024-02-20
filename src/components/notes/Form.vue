@@ -30,7 +30,7 @@
     </h2>
     <input 
       class="bg-gray-50 border border-gray-300 font-body text-gray-900 text-sm rounded-lg block p-1.5 w-56 md:w-96"
-      :class="{ 'bg-red-200 border-red-500' : textError }"  
+      :class="{ 'bg-red-200 border-red-500' : (textError === 'Title Required' || textError === '60 Max Capacity') }"  
       type="text" 
       placeholder="title... (*)" 
       ref="title" 
@@ -50,6 +50,7 @@
     <select 
       class="rounded-lg font-body mb-1.5 p-1.5 text-slate-500 text-sm border-1 border-gray-300 w-56 md:w-96" 
       v-model="inputCategory"
+      :class="{ 'bg-red-200 border-red-500' : (textError === 'Category required')}"
       ref="category"
     >
       <option 
@@ -68,7 +69,8 @@
         {{ option.name }}
       </option>
     </select>
-    <span class="text-red-600 font-body text-sm tracking-wider mb-0.5" 
+    <span 
+      class="text-red-600 font-body text-sm tracking-wider mb-0.5" 
       v-if="(textError === 'Category required')"
     >
       {{ textError }}
@@ -118,14 +120,6 @@
 import { ref, nextTick, onBeforeMount } from 'vue';
 import { FwbButton } from 'flowbite-vue'
 import { useNotesCategories } from '@/composables/useNames';
-
-//to set note id autoincrement and store in LocalStorage
-let noteId;
-
-//Set note id at the begginig 
-onBeforeMount(() => {
-  noteId = (localStorage.getItem("noteId")) ? JSON.parse(localStorage.noteId) : 0;  
-})
 
 //EMITS & PROPS
 const emits = defineEmits(["closeForm", "showAlert", "addNote", "editNote"]);

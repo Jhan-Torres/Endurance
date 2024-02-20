@@ -33,7 +33,7 @@
       :key="index"
       :noteChild="note" 
       :noteIndex="index" 
-      @setDeleteNote="deleteNote" 
+      @deleteNote="deleteNote" 
       @setShowForm="showEditForm"
       @showAlert="toggleShowAlert" 
     />
@@ -63,7 +63,7 @@ import BlueAlert from '@/components/BlueAlert.vue'
 import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
 //Firebase imports
-import { collection, onSnapshot, addDoc } from "firebase/firestore";
+import { collection, onSnapshot, doc, addDoc, deleteDoc } from "firebase/firestore";
 import { db } from '@/firebase';
 //firebase refs
 const notesCollectionRef = collection(db, 'notes');
@@ -110,7 +110,6 @@ function addNote(note) {
   addDoc(notesCollectionRef, note);  
 }
 
-//to hide form on user doble click on edit form
 function hideForm() {
   editFormButton.value = false;
 }
@@ -132,9 +131,11 @@ function updateNote(note) {
 }
 
 //delete note with its index
-function deleteNote(index) {
-  notesList.value.splice(index, 1);
-  localStorage.setItem('NotesList', JSON.stringify(notesList.value));
+function deleteNote(noteId) {
+  // notesList.value.splice(index, 1);
+  // localStorage.setItem('NotesList', JSON.stringify(notesList.value));
+
+  deleteDoc(doc(notesCollectionRef, noteId));
 }
 
 function toggleShowAlert(text) {
