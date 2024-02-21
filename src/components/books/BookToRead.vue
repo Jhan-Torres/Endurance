@@ -75,7 +75,6 @@ const props = defineProps({
 const emits = defineEmits(["deleteDroppedBook", "finishDroppedBook", "showAlert", "changeBookColor"]);
 
 const rotateCard = ref(false);
-
 const listCategoriesColors = useBooksColors();
 
 function deleteDroppedBook() {

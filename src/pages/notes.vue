@@ -80,6 +80,7 @@ const notesList = ref([]);
 //set all notes stored on firebase, it works automatically
 onSnapshot(notesCollectionRef, (querySnapshot) => {
   const fbNotes = [];
+  showLoaderSpinner.value = true;
   querySnapshot.forEach((doc) => {
     //data of every doc(note)
     const note = {

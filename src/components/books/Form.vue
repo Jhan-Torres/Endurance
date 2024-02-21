@@ -176,7 +176,7 @@ const title = ref(null);
 const category = ref(null);
 
 //Emits & Props
-const emits = defineEmits(["addBookToList", "showAlert", "saveEdit", "closeEditForm"]);
+const emits = defineEmits(["addBook", "showAlert", "saveEdit", "closeEditForm"]);
 
 const props = defineProps({
   case: {
@@ -209,12 +209,9 @@ function toggleFormButton() {
 function createBook() {
   if (!validateTitleAndCategory()) return;
   
-  bookObject.value.id = ++bookId;
-
-  localStorage.setItem('bookId', JSON.stringify(bookId));
   showForm.value = false;
 
-  emits("addBookToList", bookObject.value);
+  emits("addBook", bookObject.value);
   emits("showAlert", 'book added');
 }
 

@@ -87,7 +87,7 @@ const emits = defineEmits(["deleteBook", "editBook", "showAlert", "addBookToRead
 
 //METHODS
 function deleteBook() {
-  emits("deleteBook", props.bookIndex, props.book.id);
+  emits("deleteBook", props.book.id);
   emits("showAlert", 'book deleted');
 }
 

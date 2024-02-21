@@ -16,7 +16,7 @@
   <div class="flex flex-col items-center justify-center font-body">
     <Form 
       :case="'create'" 
-      @addBookToList="addBook" 
+      @addBook="addBook"
       @showAlert="toggleShowAlert"
     />
   </div>
@@ -117,32 +117,44 @@ import TableRow from '@/components/books/TableRow.vue';
 import Form from '@/components/books/Form.vue';
 import RedAlert from '@/components/RedAlert.vue';
 import BlueAlert from '@/components/BlueAlert.vue';
-import BookToRead from '@/components/books/BookToRead.vue'
-import {
-  FwbTable,
-  FwbTableBody,
-  FwbTableHead,
-  FwbTableHeadCell,
-} from 'flowbite-vue'
+import BookToRead from '@/components/books/BookToRead.vue';
+import Spinner from '@/components/Spinner.vue';
+import { FwbTable, FwbTableBody, FwbTableHead, FwbTableHeadCell, } from 'flowbite-vue'
 import { ref, onBeforeMount } from 'vue';
 import { useBooksTableHeads } from '@/composables/useNames'; //Importing a function
+//Firebase imports
+import { collection, onSnapshot, doc, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import { db } from '@/firebase';
+//firebase refs
+const booksCollectionRef = collection(db, 'books');
+
+const showLoaderSpinner = ref(true);
 
 const booksList = ref([]);
 const booksDroppedList = ref([]);
 const screenType = ref("");
 
 onBeforeMount(() => {
-  if (localStorage.getItem("BooksList")) {
-    booksList.value = JSON.parse(localStorage.getItem("BooksList"));
-  }
-
-  if (localStorage.getItem("BooksDroppedList")) {
-    booksDroppedList.value = JSON.parse(localStorage.getItem("BooksDroppedList"));
-  }
-
   //to manage the type of the screen where website is running
   screenType.value = (screen.width <= 768) ? 'mobile' : 'desktop';
 })
+
+onSnapshot(booksCollectionRef, (querySnapshot) => {
+  const fbBooks = [];
+  showLoaderSpinner.value = true;
+  querySnapshot.forEach((doc) => {
+    //data of every doc(note)
+    const note = {
+      id: doc.id,
+      title: doc.data().title,
+      content: doc.data().content,
+      category: doc.data().category
+    }
+    fbBooks.push(note);
+  });
+  booksList.value = fbBooks;
+  showLoaderSpinner.value = false;
+});
 
 const tableHeads = useBooksTableHeads();
 
@@ -161,13 +173,12 @@ const showBookFinishedCheck = ref(false);
 const bookDroppedToDeleteIndex = ref();
 
 function addBook(book) {
-  booksList.value.push(book);
-  localStorage.setItem('BooksList', JSON.stringify(booksList.value));
+  // Add a new document with a generated id to firebase.
+  addDoc(booksCollectionRef, book);
 }
 
-function deleteBook(bookIndex, bookId) {
-  booksList.value.splice(bookIndex, 1);
-  localStorage.setItem('BooksList', JSON.stringify(booksList.value));
+function deleteBook(bookId) {
+  deleteDoc(doc(booksCollectionRef, bookId))
 
   if (duplicateBook(bookId)) {
     deleteDroppedBook(bookDroppedToDeleteIndex);
