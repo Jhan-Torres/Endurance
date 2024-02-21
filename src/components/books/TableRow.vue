@@ -92,7 +92,7 @@ function deleteBook() {
 }
 
 function editBook() {
-  emits("editBook", props.book, props.bookIndex);
+  emits("editBook", props.book);
 }
 
 function addBookToReadZone() {

@@ -7,7 +7,7 @@ export function useBooksCategories() {
   return [
     'astronomy',
     'hacking',
-    'life Style',
+    'life style',
     'programming',
     'psychology',
     'research',
@@ -66,7 +66,7 @@ export function useBooksColors() {
   
   return {
     'astronomy' : 'bg-[#00202e]',
-    'life Style' : 'bg-[#003f5c]',
+    'life style' : 'bg-[#003f5c]',
     'hacking' : 'bg-[#2c4875]',
     'psychology' : 'bg-[#91bef2]',
     'research' : 'bg-[#8a508f]',

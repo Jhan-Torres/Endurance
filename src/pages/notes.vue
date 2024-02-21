@@ -87,7 +87,7 @@ onSnapshot(notesCollectionRef, (querySnapshot) => {
       id: doc.id,
       title: doc.data().title,
       content: doc.data().content,
-      category: doc.data().category
+      category: doc.data().category,
     }
     fbNotes.push(note);
   });

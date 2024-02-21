@@ -218,7 +218,7 @@ function createBook() {
 function saveEdit() {
   if (!validateTitleAndCategory()) return;
 
-  emits("saveEdit", bookObject.value);
+  emits("saveEdit", bookObject.value, props.bookToEdit.id);
   emits("closeEditForm");
   emits("showAlert", 'book edited');
 }

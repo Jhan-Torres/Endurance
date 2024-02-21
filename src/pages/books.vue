@@ -66,9 +66,9 @@
     <Form 
       :case="'edit'" 
       :bookToEdit="bookToEdit" 
-      @saveEdit="saveEdit" 
+      @saveEdit="saveEdit"
       @closeEditForm="handleCloseEditForm"
-      @showAlert="toggleShowAlert" 
+      @showAlert="toggleShowAlert"
     />
   </div>
 
@@ -143,14 +143,16 @@ onSnapshot(booksCollectionRef, (querySnapshot) => {
   const fbBooks = [];
   showLoaderSpinner.value = true;
   querySnapshot.forEach((doc) => {
-    //data of every doc(note)
-    const note = {
+    //use conditional operator (?) cuz when we get data from firebase some fields are undefined, this will
+    //throw error on edit actions, due we are using objects to store field´s values.  
+    const book = {
       id: doc.id,
       title: doc.data().title,
-      content: doc.data().content,
-      category: doc.data().category
+      autor: (doc.data().autor) ? doc.data().autor : '',
+      category: doc.data().category,
+      status: (doc.data().status) ? doc.data().status : '',
     }
-    fbBooks.push(note);
+    fbBooks.push(book);
   });
   booksList.value = fbBooks;
   showLoaderSpinner.value = false;
@@ -179,22 +181,20 @@ function addBook(book) {
 
 function deleteBook(bookId) {
   deleteDoc(doc(booksCollectionRef, bookId))
-
-  if (duplicateBook(bookId)) {
-    deleteDroppedBook(bookDroppedToDeleteIndex);
-  }
+  
+  // //handle with drop event
+  // if (duplicateBook(bookId)) {
+  //   deleteDroppedBook(bookDroppedToDeleteIndex);
+  // }
 }
 
-function editBook(book, indexBook) {
+function editBook(book) {
   showEditForm.value = true;
   bookToEdit.value = book; 
-  indexBookToEdit.value = indexBook;
 }
 
-function saveEdit(book) {
-  booksList.value.splice(indexBookToEdit.value, 1);
-  booksList.value.splice(indexBookToEdit.value, 0, book);
-  localStorage.setItem('BooksList', JSON.stringify(booksList.value));
+function saveEdit(book, bookId) {
+  updateDoc(doc(booksCollectionRef, book.id), book);
 }
 
 function toggleShowAlert(text) {
