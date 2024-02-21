@@ -2,7 +2,7 @@
   <!-- Alerts -->
   <div 
     class="flex items-center justify-center mt-1" 
-    v-if="!notesList.length"
+    v-if="!notesList.length && showLoaderSpinner === false"
   >
     <RedAlert :text="'no notes added'"/>
   </div>
@@ -24,19 +24,24 @@
     />
   </div>
 
-  <div
-    class="p-1 rounded-md flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-4"
-    v-if="notesList.length"
-    >
-    <Card 
-      v-for="(note, index) in notesList" 
-      :key="index"
-      :noteChild="note"
-      :noteIndex="index"
-      @deleteNote="deleteNote" 
-      @setShowForm="showEditForm"
-      @showAlert="toggleShowAlert" 
+  <div class="flex justify-center items-center mt-1">
+    <Spinner
+      v-if="showLoaderSpinner"
     />
+    <div
+      v-else
+      class="flex flex-wrap items-center justify-evenly gap-2 animate-fade-right animate-duration-1000 animate-delay-[250ms] md:gap-4"
+    >
+      <Card 
+        v-for="(note, index) in notesList" 
+        :key="index"
+        :noteChild="note"
+        :noteIndex="index"
+        @deleteNote="deleteNote" 
+        @setShowForm="showEditForm"
+        @showAlert="toggleShowAlert" 
+      />  
+    </div>
   </div>
 
   <!-- edit note form -->
@@ -57,37 +62,37 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import RedAlert from '@/components/RedAlert.vue'
 import BlueAlert from '@/components/BlueAlert.vue'
 import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
+import Spinner from '@/components/Spinner.vue';
 //Firebase imports
 import { collection, onSnapshot, doc, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from '@/firebase';
 //firebase refs
 const notesCollectionRef = collection(db, 'notes');
 
+const showLoaderSpinner = ref(true);
 const notesList = ref([]);
 
-onMounted(() => {
-  //set all notes stored on firebase
-  onSnapshot(notesCollectionRef, (querySnapshot) => {
-    const fbNotes = [];
-    querySnapshot.forEach((doc) => {
-      //data of every doc(note)
-      const note = {
-        id: doc.id,
-        title: doc.data().title,
-        content: doc.data().content,
-        category: doc.data().category
-      }
-      fbNotes.push(note);
-    });
-
-    notesList.value = fbNotes;
+//set all notes stored on firebase, it works automatically
+onSnapshot(notesCollectionRef, (querySnapshot) => {
+  const fbNotes = [];
+  querySnapshot.forEach((doc) => {
+    //data of every doc(note)
+    const note = {
+      id: doc.id,
+      title: doc.data().title,
+      content: doc.data().content,
+      category: doc.data().category
+    }
+    fbNotes.push(note);
   });
-})
+  notesList.value = fbNotes;
+  showLoaderSpinner.value = false;
+});
 
 //to show/hide edit form
 let editFormButton = ref(false);
