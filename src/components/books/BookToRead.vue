@@ -78,12 +78,12 @@ const rotateCard = ref(false);
 const listCategoriesColors = useBooksColors();
 
 function deleteDroppedBook() {
-  emits("deleteDroppedBook", props.bookDroppedIndex);
+  emits("deleteDroppedBook", props.bookDropped);
   emits("showAlert", 'book deleted');
 }
 
 function finishDroppedBook() {
-  emits("finishDroppedBook", props.bookDroppedIndex, props.bookDropped.id);
+  emits("finishDroppedBook", props.bookDropped);
   emits("showAlert", 'Congrats!');
 }
 </script>

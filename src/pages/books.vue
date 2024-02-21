@@ -17,7 +17,7 @@
     <Form 
       :case="'create'" 
       @addBook="addBook"
-      @showAlert="toggleShowAlert"
+      @showAlert="handleShowAlert"
     />
   </div>
   <div class="mx-1 mb-2">
@@ -43,14 +43,14 @@
           :bookIndex="index"
           @editBook="editBook"
           @deleteBook="deleteBook"
-          @showAlert="toggleShowAlert"
+          @showAlert="handleShowAlert"
           :draggable="screenType === 'desktop'"
           @dragover="handleDragOver"
           @dragstart="handleDragStart(book)"
           @dragend="handleDragEnd"
           :bookFinishedId="bookFinishedId"
           :showBookFinishedCheck="showBookFinishedCheck"
-          @addBookToReadZone="addBookReadingZoneMobile"
+          @addBookToReadZone="handleDrop"
         />
       </fwb-table-body>
     </fwb-table>
@@ -68,7 +68,7 @@
       :bookToEdit="bookToEdit" 
       @saveEdit="saveEdit"
       @closeEditForm="handleCloseEditForm"
-      @showAlert="toggleShowAlert"
+      @showAlert="handleShowAlert"
     />
   </div>
 
@@ -88,7 +88,7 @@
           class="font-black text-orange-500 absolute z-10 text-5xl w-full h-full opacity-75 bg-gray-300 flex items-center justify-center"
           @dragover="handleDragOver"
           @dragleave="handleDragLeave"
-          @drop="handleDrop"
+          @drop="handleDrop(bookDrag)"
         >
           DROP HERE
         </span>
@@ -105,7 +105,7 @@
           :bookDroppedIndex="index"
           @deleteDroppedBook="deleteDroppedBook"
           @finishDroppedBook="finishDroppedBook"
-          @showAlert="toggleShowAlert"
+          @showAlert="handleShowAlert"
         />  
       </div>
     </div>
@@ -141,6 +141,7 @@ onBeforeMount(() => {
 
 onSnapshot(booksCollectionRef, (querySnapshot) => {
   const fbBooks = [];
+  const fbBooksOnReading = [];
   showLoaderSpinner.value = true;
   querySnapshot.forEach((doc) => {
     //use conditional operator (?) cuz when we get data from firebase some fields are undefined, this will
@@ -153,8 +154,13 @@ onSnapshot(booksCollectionRef, (querySnapshot) => {
       status: (doc.data().status) ? doc.data().status : '',
     }
     fbBooks.push(book);
+    
+    if(doc.data().status === 'reading') {
+      fbBooksOnReading.push(book);
+    }
   });
   booksList.value = fbBooks;
+  booksDroppedList.value = fbBooksOnReading;
   showLoaderSpinner.value = false;
 });
 
@@ -165,7 +171,6 @@ const showAlert = ref(false);
 const textAlert = ref('');
 const showEditForm = ref(false);
 const bookToEdit = ref({});
-const indexBookToEdit = ref();
 //variables to store book object and its index which are dragged
 const bookDrag = ref();
 const shopDropZone = ref(false);
@@ -179,32 +184,17 @@ function addBook(book) {
   addDoc(booksCollectionRef, book);
 }
 
-function deleteBook(bookId) {
-  deleteDoc(doc(booksCollectionRef, bookId))
-  
-  // //handle with drop event
-  // if (duplicateBook(bookId)) {
-  //   deleteDroppedBook(bookDroppedToDeleteIndex);
-  // }
+function deleteBook(book) {
+  deleteDoc(doc(booksCollectionRef, book.id))
 }
 
 function editBook(book) {
   showEditForm.value = true;
   bookToEdit.value = book; 
-}
+} 
 
-function saveEdit(book, bookId) {
+function saveEdit(book) {
   updateDoc(doc(booksCollectionRef, book.id), book);
-}
-
-function toggleShowAlert(text) {
-  showAlert.value = true;
-  textAlert.value = text;
-
-  setTimeout(() => {
-    showAlert.value = false;
-    textAlert.value = "";
-  }, 1000);
 }
 
 function handleDragStart(book) {
@@ -221,40 +211,35 @@ function handleDragLeave() {
   shopDropZone.value = true;
 }
 
-function handleDrop() {
-  if (duplicateBook(bookDrag.value.id)) return;
+function handleDrop(book) {
+  if (duplicateBook(book.id)) return;
 
-  booksDroppedList.value.push(bookDrag.value);
-  localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value));
+  updateDoc(doc(booksCollectionRef, book.id), {
+    status: 'reading'
+  });
 }
 
 function handleDragEnd() {
   shopDropZone.value = false;
 }
 
-function deleteDroppedBook(indexBook) {
-  booksDroppedList.value.splice(indexBook, 1);
-  localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value));
+function deleteDroppedBook(book) {
+  updateDoc(doc(booksCollectionRef, book.id), {
+    status: ''
+  });
 }
 
-function finishDroppedBook(indexBook, bookId) {
-  booksDroppedList.value.splice(indexBook, 1);
-  localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value)); 
-  bookFinishedId.value = bookId;
+function finishDroppedBook(book) {
+  updateDoc(doc(booksCollectionRef, book.id), {
+    status: 'finished'
+  });
   showBookFinishedCheck.value = true;
-}
-
-function addBookReadingZoneMobile(book) {
-  if (duplicateBook(book.id)) return;
-
-  booksDroppedList.value.push(book);
-  localStorage.setItem('BooksDroppedList', JSON.stringify(booksDroppedList.value));
 }
 
 function duplicateBook(bookId) {
   for (let i = 0; i < booksDroppedList.value.length; i++) {
     if (booksDroppedList.value[i].id === bookId) {
-      toggleShowAlert("Book Duplicate");
+      handleShowAlert("Book Duplicate");
       bookDroppedToDeleteIndex.value = i;
       return true;
     }
@@ -266,5 +251,15 @@ function handleCloseEditForm() {
   showEditForm.value = false;
   //to clean bookFinishedId cuz we´re using onUpdate hook on tableRow
   bookFinishedId.value = null;
+}
+
+function handleShowAlert(text) {
+  showAlert.value = true;
+  textAlert.value = text;
+
+  setTimeout(() => {
+    showAlert.value = false;
+    textAlert.value = "";
+  }, 1000);
 }
 </script>
