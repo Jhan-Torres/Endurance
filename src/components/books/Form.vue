@@ -108,20 +108,22 @@
       </label>
     </div>
     <div 
-      v-if="props.case === 'edit'"
-      class="bg-gray-500 p-2 rounded-xl text-xs font-semibold tracking-wider md:text-sm"
+      class="select-none bg-slate-600 p-0.5 rounded-md tracking-wider md:text-sm"
+      v-if="props.case === 'edit' && props.bookToEdit.status === 'finished'"
     >
-      <label 
-        for="checkbox" 
-        class="mr-2"
-      >
-        Finished?
-      </label>
-      <input 
-        type="checkbox" 
-        id="checkbox"
-        v-model="bookObject.done"
-      >
+      <div class="bg-gray-500 p-2 text-xs font-semibold tracking-wider md:text-sm">
+        <label 
+          for="checkbox" 
+          class="mr-2"
+        >
+          Finished?
+        </label>
+        <input 
+          type="checkbox"
+          id="checkbox"
+          v-model="statusBook"
+        >
+      </div>
     </div>
     <div class="flex items-center gap-1">
       <fwb-button 
@@ -152,23 +154,16 @@
 
 <script setup>
 import { FwbButton } from 'flowbite-vue';
-import { ref, nextTick, onBeforeMount } from 'vue';
+import { ref, nextTick } from 'vue';
 import { useBooksCategories } from '@/composables/useNames';
-
-let bookId;
-
-const textError = ref('');
-
-//Set note id at the begginig 
-onBeforeMount(() => {
-  bookId = (localStorage.getItem("bookId")) ? (JSON.parse(localStorage.bookId)) : 0;  
-})
 
 //DATA REFS
 const bookObject = ref({})
-
 const showForm = ref(false);
+const textError = ref('');
+const statusBook = ref();
 
+//import categories list
 const booksCategories = useBooksCategories();
 
 //html elements references
@@ -192,6 +187,10 @@ const props = defineProps({
 if (props.case === 'edit') {
   bookObject.value = props.bookToEdit;
   showForm.value = true;
+
+  if (props.bookToEdit.status === 'finished') {
+    statusBook.value = true;
+  }
 }
 
 //METHODS
@@ -217,6 +216,8 @@ function createBook() {
 function saveEdit() {
   if (!validateTitleAndCategory()) return;
   
+  bookObject.value.status = (statusBook.value) ? 'finished' : '';
+
   //warning: we are sending all the object, including the id field inside bookObject.value  
   emits("saveEdit", bookObject.value);
   emits("closeEditForm");
@@ -252,5 +253,4 @@ function cleanInputs() {
   bookObject.value = {};
   textError.value = '';
 }
-
 </script>

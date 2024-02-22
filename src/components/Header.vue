@@ -30,9 +30,7 @@
               {{route.name}}
             </span>
           </router-link>
-          <fwb-button class="mx-auto min-w-56 mt-1">
-            <span class="font-body font-light">Login</span>
-          </fwb-button>
+          <LoginButton />
         </fwb-navbar-collapse>
 
         <!-- navbar for medium and large pages -->
