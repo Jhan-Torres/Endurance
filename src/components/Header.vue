@@ -52,9 +52,7 @@
         </fwb-navbar-collapse>
       </template>
       <template #right-side>
-        <fwb-button>
-          <span class="font-body font-light">Login</span>
-        </fwb-button>
+        <LoginButton />
       </template>
     </fwb-navbar>
   </div>
@@ -69,6 +67,7 @@ import {
 } from 'flowbite-vue'
 
 import { RouterLink } from 'vue-router';
+import LoginButton from './LoginButton.vue';
 
 //web site rutes array, which contains route's name and its icons respectively according to fontawesome library
 const routesArray = [

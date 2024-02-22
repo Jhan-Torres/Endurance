@@ -72,43 +72,44 @@
   <section
     v-if="booksList.length"
     class="mb-1 mx-1" 
+  >
+    <div 
+      class="hover:animate-border hover:bg-gradient-to-r from-red-500 via-purple-600 to-blue-700 bg-[length:400%_400%] p-1 max-w-screen-xl mx-auto rounded-2xl"
     >
-    <div class="font-body rounded-xl overflow-hidden bg-gray-400 mx-auto max-w-screen-xl">
-      <h2 class="text-center p-1 text-orange-500 bg-gray-900 uppercase font-bold text-xl tracking-widest select-none">
-        [Reading Zone]
-      </h2>
-      <div
-        class="p-2 flex flex-wrap items-center justify-evenly gap-3 min-h-28 relative"
-      >
-        <span 
-          v-if="showDropZone"
-          class="font-black text-orange-500 absolute z-10 text-5xl w-full h-full opacity-75 bg-gray-300 flex items-center justify-center"
-          @dragover="handleDragOver"
-          @dragleave="handleDragLeave"
-          @drop="handleDrop(bookDrag)"
+      <div class="font-body rounded-xl overflow-hidden bg-slate-500">
+        <h2 class="text-center p-2 text-orange-500 bg-gray-900 uppercase font-bold text-xl tracking-widest select-none">
+          [Reading Zone]
+        </h2>
+        <div
+          class="p-2 flex flex-wrap items-center justify-evenly gap-3 min-h-28 relative"
         >
-          DROP HERE
-        </span>
-        <font-awesome-icon 
-          :icon="['fas', 'book-skull']" 
-          v-if="!booksDroppedList.length"
-          class="h-20 w-24 text-gray-600"
-        />
-
-        <BookToRead 
-          v-for="(book, index) in booksDroppedList"
-          :key="index"
-          :bookDropped="book"
-          :index="index"
-          @deleteDroppedBook="deleteDroppedBook"
-          @finishDroppedBook="finishDroppedBook"
-          @showAlert="handleShowAlert"
-        />
+          <span 
+            v-if="showDropZone"
+            class="font-black text-orange-500 absolute z-10 text-5xl w-full h-full opacity-75 bg-gray-300 flex items-center justify-center"
+            @dragover="handleDragOver"
+            @dragleave="handleDragLeave"
+            @drop="handleDrop(bookDrag)"
+          >
+            DROP HERE
+          </span>
+          <font-awesome-icon 
+            :icon="['fas', 'book-skull']" 
+            v-if="!booksDroppedList.length"
+            class="h-20 w-24 text-gray-600"
+          />
+          <BookToRead 
+            v-for="(book, index) in booksDroppedList"
+            :key="index"
+            :bookDropped="book"
+            :index="index"
+            @deleteDroppedBook="deleteDroppedBook"
+            @finishDroppedBook="finishDroppedBook"
+            @showAlert="handleShowAlert"
+          />
+        </div>
       </div>
     </div>
   </section>
-
-  {{ bookDrag }}
 </template>
 
 <script setup>
