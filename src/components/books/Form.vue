@@ -210,7 +210,6 @@ function createBook() {
   if (!validateTitleAndCategory()) return;
   
   showForm.value = false;
-
   emits("addBook", bookObject.value);
   emits("showAlert", 'book added');
 }

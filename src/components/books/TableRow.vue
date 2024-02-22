@@ -7,8 +7,17 @@
         v-show="props.book.status === 'finished'"
         :icon="['fas', 'check-double']" 
         style="color: blueviolet;"
+        class="w-4"
+        title="finished book"
       />
-      <span :class="{'ml-3':props.book.done, 'ml-6':!props.book.done}">
+      <font-awesome-icon  
+        v-show="props.book.status === 'reading'"
+        :icon="['fas', 'book-open']"
+        style="color: #445BB5;"
+        class="w-4"
+        title="on read"
+      />
+      <span :class="{'ml-2':props.book.status, 'ml-6':!props.book.status}">
         {{ props.book.title }}
       </span>
     </fwb-table-cell>
@@ -60,28 +69,7 @@ const props = defineProps({
     type: Object,
     required: true
   },
-  bookIndex: {
-    type: Number,
-    required: true
-  },
-  bookFinishedId: {
-    type: Number,
-    default: -1
-  },
-
-  //better code check
-  showBookFinishedCheck: {
-    type: Boolean,
-    default: false
-  }
 });
-
-//show doble check icon
-onUpdated(() => {
-  if(props.showBookFinishedCheck === true  && props.bookFinishedId === props.book.id) {
-    props.book.done = true;
-  }
-})
 
 const emits = defineEmits(["deleteBook", "editBook", "showAlert", "addBookToReadZone"])
 

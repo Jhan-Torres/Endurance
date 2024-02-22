@@ -40,7 +40,6 @@
           :key="index"
           :screenType="screenType"
           :book="book"
-          :bookIndex="index"
           @editBook="editBook"
           @deleteBook="deleteBook"
           @showAlert="handleShowAlert"
@@ -48,8 +47,6 @@
           @dragover="handleDragOver"
           @dragstart="handleDragStart(book)"
           @dragend="handleDragEnd"
-          :bookFinishedId="bookFinishedId"
-          :showBookFinishedCheck="showBookFinishedCheck"
           @addBookToReadZone="handleDrop"
         />
       </fwb-table-body>
@@ -84,11 +81,11 @@
         class="p-2 flex flex-wrap items-center justify-evenly gap-3 min-h-28 relative"
       >
         <span 
-          v-if="shopDropZone"
+          v-if="showDropZone"
           class="font-black text-orange-500 absolute z-10 text-5xl w-full h-full opacity-75 bg-gray-300 flex items-center justify-center"
           @dragover="handleDragOver"
           @dragleave="handleDragLeave"
-          @drop="handleDrop"
+          @drop="handleDrop(bookDrag)"
         >
           DROP HERE
         </span>
@@ -110,6 +107,8 @@
       </div>
     </div>
   </section>
+
+  {{ bookDrag }}
 </template>
 
 <script setup>
@@ -173,9 +172,7 @@ const showEditForm = ref(false);
 const bookToEdit = ref({});
 //variables to store book object and its index which are dragged
 const bookDrag = ref({});
-const shopDropZone = ref(false);
-const bookFinishedId = ref();
-const showBookFinishedCheck = ref(false);
+const showDropZone = ref(false);
 
 async function addBook(book) {
   // Add a new document with a generated id to firebase.
@@ -197,7 +194,7 @@ async function saveEdit(book) {
 
 function handleDragStart(book) {
   bookDrag.value = book;
-  shopDropZone.value = true;
+  showDropZone.value = true;
 }
 
 //to drag and drop correctly 
@@ -206,19 +203,21 @@ function handleDragOver(event) {
 }
 
 function handleDragLeave() {
-  shopDropZone.value = true;
+  showDropZone.value = true;
 }
 
-async function handleDrop() {
-  if (duplicateBook(bookDrag.value.id)) return;
+//if screentype is 'desktop' --> book parameter is sending in line 88, which get its value from line 194
+//if screentype is 'mobile'  --> book parameter is sending in TableRow component (line 83 function 'editBook')
+async function handleDrop(book) {
+  if (duplicateBook(book.id)) return;
 
-  await updateDoc(doc(booksCollectionRef, bookDrag.value.id), {
+  await updateDoc(doc(booksCollectionRef, book.id), {
     status: 'reading'
   });
 }
 
 function handleDragEnd() {
-  shopDropZone.value = false;
+  showDropZone.value = false;
   bookDrag.value = {};
 }
 
@@ -232,7 +231,6 @@ async function finishDroppedBook(book) {
   await updateDoc(doc(booksCollectionRef, book.id), {
     status: 'finished'
   });
-  showBookFinishedCheck.value = true;
 }
 
 function duplicateBook(bookId) {
@@ -247,8 +245,6 @@ function duplicateBook(bookId) {
 
 function handleCloseEditForm() {
   showEditForm.value = false;
-  //to clean bookFinishedId cuz we´re using onUpdate hook on tableRow
-  bookFinishedId.value = null;
 }
 
 function handleShowAlert(text) {
