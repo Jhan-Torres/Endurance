@@ -217,7 +217,8 @@ function createBook() {
 
 function saveEdit() {
   if (!validateTitleAndCategory()) return;
-
+  
+  //warning: we are sending all the object, including the id field inside bookObject.value  
   emits("saveEdit", bookObject.value);
   emits("closeEditForm");
   emits("showAlert", 'book edited');

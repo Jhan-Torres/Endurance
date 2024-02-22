@@ -4,7 +4,7 @@
   >
     <fwb-table-cell class="text-xs font-thin md:text-sm">
       <font-awesome-icon 
-        v-show="props.book.done"
+        v-show="props.book.status === 'finished'"
         :icon="['fas', 'check-double']" 
         style="color: blueviolet;"
       />
@@ -80,7 +80,7 @@ const props = defineProps({
 onUpdated(() => {
   if(props.showBookFinishedCheck === true  && props.bookFinishedId === props.book.id) {
     props.book.done = true;
-  } 
+  }
 })
 
 const emits = defineEmits(["deleteBook", "editBook", "showAlert", "addBookToReadZone"])

@@ -88,7 +88,7 @@
           class="font-black text-orange-500 absolute z-10 text-5xl w-full h-full opacity-75 bg-gray-300 flex items-center justify-center"
           @dragover="handleDragOver"
           @dragleave="handleDragLeave"
-          @drop="handleDrop(bookDrag)"
+          @drop="handleDrop"
         >
           DROP HERE
         </span>
@@ -102,11 +102,11 @@
           v-for="(book, index) in booksDroppedList"
           :key="index"
           :bookDropped="book"
-          :bookDroppedIndex="index"
+          :index="index"
           @deleteDroppedBook="deleteDroppedBook"
           @finishDroppedBook="finishDroppedBook"
           @showAlert="handleShowAlert"
-        />  
+        />
       </div>
     </div>
   </section>
@@ -172,29 +172,27 @@ const textAlert = ref('');
 const showEditForm = ref(false);
 const bookToEdit = ref({});
 //variables to store book object and its index which are dragged
-const bookDrag = ref();
+const bookDrag = ref({});
 const shopDropZone = ref(false);
 const bookFinishedId = ref();
 const showBookFinishedCheck = ref(false);
-//if we delete a book from table also delete on readingZone
-const bookDroppedToDeleteIndex = ref();
 
-function addBook(book) {
+async function addBook(book) {
   // Add a new document with a generated id to firebase.
-  addDoc(booksCollectionRef, book);
+  await addDoc(booksCollectionRef, book);
 }
 
-function deleteBook(book) {
-  deleteDoc(doc(booksCollectionRef, book.id))
+async function deleteBook(book) {
+  await deleteDoc(doc(booksCollectionRef, book.id));
 }
 
 function editBook(book) {
   showEditForm.value = true;
-  bookToEdit.value = book; 
+  bookToEdit.value = book;
 } 
 
-function saveEdit(book) {
-  updateDoc(doc(booksCollectionRef, book.id), book);
+async function saveEdit(book) {
+  await updateDoc(doc(booksCollectionRef, book.id), book);
 }
 
 function handleDragStart(book) {
@@ -211,26 +209,27 @@ function handleDragLeave() {
   shopDropZone.value = true;
 }
 
-function handleDrop(book) {
-  if (duplicateBook(book.id)) return;
+async function handleDrop() {
+  if (duplicateBook(bookDrag.value.id)) return;
 
-  updateDoc(doc(booksCollectionRef, book.id), {
+  await updateDoc(doc(booksCollectionRef, bookDrag.value.id), {
     status: 'reading'
   });
 }
 
 function handleDragEnd() {
   shopDropZone.value = false;
+  bookDrag.value = {};
 }
 
-function deleteDroppedBook(book) {
-  updateDoc(doc(booksCollectionRef, book.id), {
+async function deleteDroppedBook(book) {
+  await updateDoc(doc(booksCollectionRef, book.id), {
     status: ''
   });
 }
 
-function finishDroppedBook(book) {
-  updateDoc(doc(booksCollectionRef, book.id), {
+async function finishDroppedBook(book) {
+  await updateDoc(doc(booksCollectionRef, book.id), {
     status: 'finished'
   });
   showBookFinishedCheck.value = true;
@@ -240,7 +239,6 @@ function duplicateBook(bookId) {
   for (let i = 0; i < booksDroppedList.value.length; i++) {
     if (booksDroppedList.value[i].id === bookId) {
       handleShowAlert("Book Duplicate");
-      bookDroppedToDeleteIndex.value = i;
       return true;
     }
   }

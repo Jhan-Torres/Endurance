@@ -1,8 +1,8 @@
 <template>
   <div 
-    class="flex items-center justify-center rounded-xl overflow-hidden shadow-xl shadow-gray-700 animate-fade-up animate-duration-1000 animate-delay-[250ms]" 
-    :class="categoryColor, {'text-gray-300':(categoryColor === 'bg-[#00202e]') || (categoryColor === 'bg-[#003f5c]') || (categoryColor === 'bg-[#2c4875]')}"
-    >
+    class="flex items-center justify-center rounded-xl overflow-hidden shadow-xl shadow-gray-700 animate-fade-down animate-duration-1000 animate-delay-[250ms]" 
+    :class="categoryColor, {'text-gray-300': (categoryColor === 'bg-[#00202e]') || (categoryColor === 'bg-[#003f5c]') || (categoryColor === 'bg-[#2c4875]')}"
+  >
     <div class="group h-52 w-40 [perspective:1000px]">
       <div 
         class="relative h-full w-full transition-all duration-500 [transform-style:preserve-3d]"
@@ -49,33 +49,39 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useBooksColors } from '@/composables/useNames';
-
-const categoryColor = ref('');
-
-onMounted(() => {
-  categoryColor.value = listCategoriesColors[props.bookDropped.category];
-});
+const listCategoriesColors = useBooksColors();
 
 const props = defineProps({
   bookDropped: {
     type: Object,
     required: true
   },
-  bookDroppedIndex: {
-    type: Number,
-    required: true
+  index: {
+    type: Number
   }
 })
 
 const emits = defineEmits(["deleteDroppedBook", "finishDroppedBook", "showAlert", "changeBookColor"]);
 
+//use computed cuz we have a ref value (props.bookDropped.category) and a static value (listCategoriesColors(color)), 
+//with ref on categoryColor there's an error on book's color.
+const categoryColor = computed(() => {
+  return listCategoriesColors[props.bookDropped.category];
+});
+
 const rotateCard = ref(false);
-const listCategoriesColors = useBooksColors();
+// const categoryColor = listCategoriesColors[props.bookDropped.category]
+// console.log("falso", props.bookDropped.category);
+// setTimeout(() => {
+//   console.log("verdadero: ", props.bookDropped.category);
+//   categoryColor.value = listCategoriesColors[props.bookDropped.category];
+// }, 3000)
 
 function deleteDroppedBook() {
   emits("deleteDroppedBook", props.bookDropped);
