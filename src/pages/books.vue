@@ -56,7 +56,6 @@
   <div
     class="bg-gray-900 fixed inset-0 border-2 z-10 font-body border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
     v-if="showEditForm"
-    @dblclick="showEditForm = false"
     v-on:keyup.esc="showEditForm = false"
   >
     <h2 class="text-yellow-500">Edit Book</h2>
@@ -122,11 +121,18 @@ import Spinner from '@/components/Spinner.vue';
 import { FwbTable, FwbTableBody, FwbTableHead, FwbTableHeadCell, } from 'flowbite-vue'
 import { ref, onBeforeMount } from 'vue';
 import { useBooksTableHeads } from '@/composables/useNames'; //Importing a function
+
 //Firebase imports
-import { collection, onSnapshot, doc, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import { 
+  collection, onSnapshot, 
+  doc, addDoc, deleteDoc, updateDoc,
+  query, orderBy
+} from "firebase/firestore";
 import { db } from '@/firebase';
+
 //firebase refs
 const booksCollectionRef = collection(db, 'books');
+const booksCollectionQuery = query(booksCollectionRef, orderBy('title', 'asc'));
 
 const showLoaderSpinner = ref(true);
 
@@ -139,7 +145,7 @@ onBeforeMount(() => {
   screenType.value = (screen.width <= 768) ? 'mobile' : 'desktop';
 })
 
-onSnapshot(booksCollectionRef, (querySnapshot) => {
+onSnapshot(booksCollectionQuery, (querySnapshot) => {
   const fbBooks = [];
   const fbBooksOnReading = [];
   showLoaderSpinner.value = true;

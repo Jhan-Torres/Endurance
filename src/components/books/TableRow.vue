@@ -33,9 +33,7 @@
         class="p-1 bg-slate-400 rounded-lg mx-1 hover:bg-slate-500"
         @click="addBookToReadZone"
       >
-        <span class="text-black">
-          Read
-        </span>
+        <span class="text-black">Read</span>
       </button>
       <button 
         class="hover:scale-125 hover:cursor-pointer transition duration-200"
@@ -58,7 +56,6 @@ import {
   FwbTableCell,
   FwbTableRow,
 } from 'flowbite-vue'
-import { onUpdated } from 'vue';
 
 const props = defineProps({
   screenType: {
