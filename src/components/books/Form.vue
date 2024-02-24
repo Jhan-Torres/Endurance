@@ -207,18 +207,19 @@ function toggleFormButton() {
 
 function createBook() {
   if (!validateFields()) return;
-  console.log(bookObject.value);
+
+  setDefaultValues();
 
   showForm.value = false;
   emits("addBook", bookObject.value);
   emits("showAlert", 'book added');
-  console.log(bookObject.value);
 }
 
 function saveEdit() {
   if (!validateFields()) return;
   
-  bookObject.value.status = (statusBook.value) ? 'finished' : '';
+  setDefaultValues();
+
 
   //warning: we are sending all the object, including the id field inside bookObject.value  
   emits("saveEdit", bookObject.value);
@@ -247,13 +248,19 @@ function validateFields() {
     category.value.focus();
     return false;
   }
+  
+  return true;
+}
 
+function setDefaultValues() {
   //set default value on books with no autor
   if (!bookObject.value.autor) {
     bookObject.value.autor = '--'
   }
 
-  return true;
+  if(props.case === 'edit' && props.bookToEdit.status === 'finished') {
+    bookObject.value.status = (statusBook.value) ? 'finished' : '';
+  }
 }
 
 function cleanInputs() {

@@ -158,7 +158,7 @@ onSnapshot(booksCollectionQuery, (querySnapshot) => {
       title: doc.data().title,
       autor: (doc.data().autor) ? doc.data().autor : '',
       category: doc.data().category,
-      link: doc.data().link,
+      link: (doc.data().link) ? doc.data().link : '',
       status: (doc.data().status) ? doc.data().status : '',
     }
     fbBooks.push(book);
