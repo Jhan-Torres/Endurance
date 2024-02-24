@@ -206,15 +206,17 @@ function toggleFormButton() {
 }
 
 function createBook() {
-  if (!validateTitleAndCategory()) return;
-  
+  if (!validateFields()) return;
+  console.log(bookObject.value);
+
   showForm.value = false;
   emits("addBook", bookObject.value);
   emits("showAlert", 'book added');
+  console.log(bookObject.value);
 }
 
 function saveEdit() {
-  if (!validateTitleAndCategory()) return;
+  if (!validateFields()) return;
   
   bookObject.value.status = (statusBook.value) ? 'finished' : '';
 
@@ -224,7 +226,7 @@ function saveEdit() {
   emits("showAlert", 'book edited');
 }
 
-function validateTitleAndCategory() {
+function validateFields() {
   //required validation
   if (!bookObject.value.title) {
     textError.value = "Title Required";
@@ -244,6 +246,11 @@ function validateTitleAndCategory() {
     textError.value = 'Category required';
     category.value.focus();
     return false;
+  }
+
+  //set default value on books with no autor
+  if (!bookObject.value.autor) {
+    bookObject.value.autor = '--'
   }
 
   return true;

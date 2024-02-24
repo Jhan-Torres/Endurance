@@ -195,7 +195,7 @@ async function deleteBook(book) {
 function editBook(book) {
   showEditForm.value = true;
   bookToEdit.value = book;
-} 
+}
 
 async function saveEdit(book) {
   await updateDoc(doc(booksCollectionRef, book.id), book);
