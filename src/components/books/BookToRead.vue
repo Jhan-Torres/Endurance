@@ -23,7 +23,7 @@
               <a 
                 v-if="props.bookDropped.link"
                 :href="props.bookDropped.link"
-                class="underline" 
+                class="underline"
                 target="_blank"
               >
                 LINK
