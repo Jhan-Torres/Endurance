@@ -134,6 +134,7 @@ import { db } from '@/firebase';
 const booksCollectionRef = collection(db, 'books');
 const booksCollectionQuery = query(booksCollectionRef, orderBy('title', 'asc'));
 
+//spinner component
 const showLoaderSpinner = ref(true);
 
 const booksList = ref([]);

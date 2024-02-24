@@ -68,17 +68,26 @@ import BlueAlert from '@/components/BlueAlert.vue'
 import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
 import Spinner from '@/components/Spinner.vue';
+
 //Firebase imports
-import { collection, onSnapshot, doc, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import { 
+  collection, onSnapshot, 
+  doc, addDoc, deleteDoc, updateDoc,
+  query, orderBy
+} from "firebase/firestore";
 import { db } from '@/firebase';
+
 //firebase refs
 const notesCollectionRef = collection(db, 'notes');
+const notesCollectionQuery = query(notesCollectionRef, orderBy('category', 'asc'));
 
+//spinner component
 const showLoaderSpinner = ref(true);
+
 const notesList = ref([]);
 
 //set all notes stored on firebase, it works automatically
-onSnapshot(notesCollectionRef, (querySnapshot) => {
+onSnapshot(notesCollectionQuery, (querySnapshot) => {
   const fbNotes = [];
   showLoaderSpinner.value = true;
   querySnapshot.forEach((doc) => {
@@ -111,19 +120,19 @@ let showAlert = ref();
 let textAlert = ref('');
 
 //METHODS:
-function addNote(note) {
+async function addNote(note) {
   // Add a new document with a generated id to firebase.
-  addDoc(notesCollectionRef, note);  
+  await addDoc(notesCollectionRef, note);  
 }
 
-function deleteNote(noteId) {
+async function deleteNote(noteId) {
   //delete a document with its id from firebase. 
-  deleteDoc(doc(notesCollectionRef, noteId));
+  await deleteDoc(doc(notesCollectionRef, noteId));
 }
 
-function updateNote(note, noteId) {
+async function updateNote(note, noteId) {
   //update a document with its id and fields modified, from firebase
-  updateDoc(doc(notesCollectionRef, noteId), note);
+  await updateDoc(doc(notesCollectionRef, noteId), note);
 }
 
 function hideForm() {
