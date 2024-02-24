@@ -258,6 +258,7 @@ function setDefaultValues() {
     bookObject.value.autor = '--'
   }
 
+  //to set book status to 'finish' or '' according to statusBook because is a checkbox input 
   if(props.case === 'edit' && props.bookToEdit.status === 'finished') {
     bookObject.value.status = (statusBook.value) ? 'finished' : '';
   }

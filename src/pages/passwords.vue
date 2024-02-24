@@ -1,11 +1,7 @@
 <template>
-	<h1>
-		passwords page
-	</h1>
+	<PageInProgress />
 </template>
 
 <script setup>
-
+import PageInProgress from '@/components/PageInProgress.vue';
 </script>
-
-<style scoped></style>
