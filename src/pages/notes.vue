@@ -24,7 +24,7 @@
     />
   </div>
 
-  <div class="flex justify-center items-center mt-1">
+  <div class="flex justify-center items-center p-2">
     <Spinner
       v-if="showLoaderSpinner"
     />
@@ -40,7 +40,7 @@
         @deleteNote="deleteNote" 
         @setShowForm="showEditForm"
         @showAlert="toggleShowAlert" 
-      />  
+      />
     </div>
   </div>
 

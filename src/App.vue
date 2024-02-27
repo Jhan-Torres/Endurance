@@ -15,7 +15,7 @@ import { RouterView } from 'vue-router';
 
 <style>
 html {
-  background: radial-gradient(circle, rgba(122, 169, 171, 0.09567577030812324) 7%, rgba(115, 153, 200, 1) 100%);
+  background: radial-gradient(circle, rgba(2, 61, 61, 0.096) 7%, rgb(85, 117, 156) 100%);
 }
 
 .extended {

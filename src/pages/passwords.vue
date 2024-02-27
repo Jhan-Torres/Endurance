@@ -1,5 +1,5 @@
 <template>
-	<PageInProgress />
+	<PageInProgress :pageName="'passwords'"/>
 </template>
 
 <script setup>

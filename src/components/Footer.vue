@@ -1,6 +1,6 @@
 <template>
   <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com -->
-  <footer class="flex flex-col items-center bg-neutral-900 text-center text-white p-1 select-none" >
+  <footer class="flex flex-col items-center bg-black text-center text-white p-1 select-none" >
     <div class="container">
       <div class="flex justify-center" >
         <a 

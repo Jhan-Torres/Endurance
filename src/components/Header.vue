@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-gray-900 p-0.5 select-none md:p-0" >
-    <fwb-navbar class="bg-gray-900 max-w-screen-xl mx-auto" >
+  <div class="bg-gray-800 p-0.5 select-none md:p-0" >
+    <fwb-navbar class="bg-gray-800 max-w-screen-xl mx-auto" >
       <template #logo>
         <fwb-navbar-logo 
           alt="Endurance logo" 
@@ -43,7 +43,7 @@
             :key="index"
             :to="route.path"
           >
-            <span class="uppercase font-body" >
+            <span class="uppercase font-body font-bold tracking-wider" >
               {{route.name}}
             </span>
           </router-link>
@@ -58,7 +58,6 @@
 
 <script setup>
 import {
-  FwbButton,
   FwbNavbar,
   FwbNavbarCollapse,
   FwbNavbarLogo,

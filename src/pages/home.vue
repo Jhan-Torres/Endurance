@@ -1,5 +1,5 @@
 <template>
-  <PageInProgress />
+  <PageInProgress :pageName="'Home'"/>
 </template>
 
 <script setup>
