@@ -35,7 +35,7 @@
     >
       <font-awesome-icon :icon="['fas', 'pen']" />
     </button>
-    <h6 class="text-sm font-semibold text-teal-500 inline-block float-right uppercase" >
+    <h6 class="text-sm font-semibold text-teal-500 inline-block float-right uppercase text-shadow shadow-blue-600" >
       {{ props.noteChild.category }}
     </h6>
   </fwb-card>

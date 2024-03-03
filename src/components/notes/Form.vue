@@ -29,10 +29,10 @@
       new note
     </h2>
     <input 
-      class="bg-gray-50 border border-gray-300 font-body text-gray-900 text-sm rounded-lg block p-1.5 w-56 md:w-96"
+      class="bg-gray-50 border border-gray-300 font-body text-gray-900 text-sm rounded-lg block p-1.5 w-56 md:w-80"
       :class="{ 'bg-red-200 border-red-500' : (textError === 'Title Required' || textError === '60 Max Capacity') }"  
       type="text" 
-      placeholder="title... (*)" 
+      placeholder="title...(*)" 
       ref="title" 
       v-model="inputTitle" 
     >
@@ -42,13 +42,13 @@
         {{ textError }}
       </span>
     <textarea 
-      class="block p-1.5 text-sm font-body text-gray-900 bg-gray-50 rounded-lg border border-gray-300 my-1.5 w-56 md:w-96"
+      class="block p-1.5 text-sm font-body text-gray-900 bg-gray-50 rounded-lg border border-gray-300 my-1.5 w-56 md:w-80"
       rows="3"
       placeholder="content..." 
       v-model="inputContent" 
     />
     <select 
-      class="rounded-lg font-body mb-1.5 p-1.5 text-slate-500 text-sm border-1 border-gray-300 w-56 md:w-96" 
+      class="rounded-lg font-body mb-1.5 p-1.5 text-slate-500 text-sm border-1 border-gray-300 w-56 md:w-80" 
       v-model="inputCategory"
       :class="{ 'bg-red-200 border-red-500' : (textError === 'Category required')}"
       ref="category"
@@ -58,7 +58,7 @@
         hidden
       >
         <span>
-          category...
+          category...(*)
         </span>
       </option>
       <option 
