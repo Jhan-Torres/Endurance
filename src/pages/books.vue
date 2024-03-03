@@ -1,8 +1,8 @@
 <template>
   <!-- Alerts -->
   <div 
-    class="flex items-center justify-center" 
-    v-if="!booksList.length"
+    class="flex items-center justify-center mb-1" 
+    v-if="!booksList.length && showLoaderSpinner === false"
   >
     <RedAlert :text="'no books added'"/>
   </div>
@@ -20,7 +20,14 @@
       @showAlert="handleShowAlert"
     />
   </div>
+
   <div class="mx-1 mb-2">
+    <div class="flex justify-center items-center">
+      <Spinner
+        v-if="showLoaderSpinner"
+      />
+    </div>
+
     <fwb-table 
       v-if="booksList.length"
       hoverable 
