@@ -17,14 +17,14 @@
 
   <!-- new note's button and form -->
   <div class="mt-1 flex flex-col items-center justify-center" >
-    <Form 
+    <Form
       :case="'create'" 
       @addNote="addNote"
       @showAlert="toggleShowAlert" 
     />
   </div>
 
-  <div class="flex justify-center items-center p-2">
+  <div class="flex justify-center items-center p-1">
     <Spinner
       v-if="showLoaderSpinner"
     />

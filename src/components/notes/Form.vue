@@ -11,14 +11,14 @@
     />
   </fwb-button>
   <div
-    class="px-6 py-1 mt-1 rounded-lg flex flex-col items-center justify-center select-none animate-fade-down animate-once animate-duration-500 md:py-5 md:px-10 lg:px-12"
+    class="px-5 py-1 mt-1 rounded-lg flex flex-col items-center justify-center select-none animate-fade-down animate-once animate-duration-500"
     :class="{ 'bg-gray-400' : (props.case === 'create') }"
     v-if="showForm"
     v-on:keyup.esc="showForm = false"
   >
     <h2 
       v-if="props.case === 'edit'"  
-      class="font-body text-slate-200 uppercase text-lg font-bold"
+      class="font-body text-[#FF6600] uppercase text-lg font-bold"
     >
       edit note
     </h2>
