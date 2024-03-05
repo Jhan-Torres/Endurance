@@ -1,6 +1,6 @@
 <template>
   <Header />
-  <div class="extended mt-1" >
+  <div class="extended" >
     <RouterView />
   </div>
   <Footer />
@@ -19,6 +19,6 @@ html {
 }
 
 .extended {
-  min-height: calc(100vh - 152px);
+  min-height: calc(100vh - 148px);
 }
 </style>

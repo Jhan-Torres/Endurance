@@ -3,6 +3,7 @@ import homePage from "@/pages/home.vue";
 import booksPage from "@/pages/books.vue";
 import notesPage from "@/pages/notes.vue";
 import passwordsPage from "@/pages/passwords.vue";
+import authPage from "@/pages/auth.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL), //manage pages according to history web site history
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/passwords',
       name: 'passwords',
       component: passwordsPage
+    },
+    {
+      path: '/auth',
+      name: 'auth',
+      component: authPage
     }
   ]
 });

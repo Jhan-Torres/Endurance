@@ -13,7 +13,7 @@
     <BlueAlert :text="textAlert"/>
   </div>
 
-  <div class="flex flex-col items-center justify-center font-body">
+  <div class="flex flex-col items-center justify-center font-body mt-1">
     <Form 
       :case="'create'" 
       @addBook="addBook"

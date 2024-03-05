@@ -13,6 +13,8 @@
     <a 
       href="https://storyset.com/work" 
       class="italic underline"
+      target="_blank"
+      rel="noopener"
     >
       Work illustrations by Storyset
     </a>
