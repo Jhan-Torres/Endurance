@@ -1,7 +1,7 @@
 <template>
   <div class="w-full max-w-xl px-4 py-5 bg-[#a3b7ca] rounded-lg">
-    <h2 class="text-2xl font-bold text-gray-900">
-      Login to <strong class="text-orange-600 text-shadow shadow-red-300 select-none">Endurance</strong>
+    <h2 class="text-2xl font-bold text-gray-900 first-letter:uppercase">
+      {{ props.case }} to <strong class="text-orange-600 text-shadow shadow-red-300 select-none">Endurance</strong>
     </h2>
     <form class="mt-4 space-y-5">
       <div>
@@ -18,6 +18,7 @@
           class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
           placeholder="name@company.com"
           required
+          autocomplete="off"
         />
       </div>
       <div>
@@ -34,6 +35,7 @@
           placeholder="••••••••" 
           class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
           required
+          autocomplete="off"
         />
       </div>
       <div class="flex items-start">
@@ -44,6 +46,7 @@
             name="remember" 
             type="checkbox" 
             class="w-4 h-4 border-gray-300 rounded focus:ring-3 focus:ring-blue-300"
+            autocomplete="off"
           />
         </div>
         <div class="ms-1 text-sm">
@@ -77,5 +80,11 @@
 </template>
 
 <script setup>
-
+//PROPS & EMITS
+const props = defineProps({
+  case: {
+    type: String,
+    required: true
+  }
+});
 </script>
