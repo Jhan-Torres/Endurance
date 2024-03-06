@@ -6,7 +6,7 @@
 
     <!-- Login Form -->
     <form 
-      class="mt-4 space-y-5"
+      class="mt-4 space-y-4"
       v-if="props.case === 'login'"
     >
       <div>
@@ -96,7 +96,7 @@
 
     <!-- Signup Form -->
     <form 
-      class="mt-3 space-y-3 md:space-y-4 md:mt-4"
+      class="mt-3 space-y-3 md:mt-4"
       v-else
     >
       <div>
@@ -104,7 +104,7 @@
           for="userName" 
           class="block mb-0.5 font-bold text-gray-900 text-xs md:text-sm"
         >
-          Full name:
+          Enter your full name:
         </label>
         <input 
           type="text" 
@@ -121,7 +121,7 @@
           for="email" 
           class="block mb-0.5 font-bold text-gray-900 text-xs md:text-sm"
         >
-          Email:
+          Enter your email:
         </label>
         <input 
           type="email" 
@@ -138,12 +138,29 @@
           for="password" 
           class="block mb-0.5 font-bold text-gray-900 text-xs md:text-sm"
         >
-          Password:
+          Create a password:
         </label>
         <input 
           type="password"
           name="password" 
           id="password" 
+          placeholder="••••••••••" 
+          class="border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-xs md:text-sm" 
+          required
+          autocomplete="off"
+        />
+      </div>
+      <div>
+        <label 
+          for="passwordConfirm" 
+          class="block mb-0.5 font-bold text-gray-900 text-xs md:text-sm"
+        >
+          Confirm password:
+        </label>
+        <input 
+          type="password"
+          name="passwordConfirm" 
+          id="passwordConfirm"
           placeholder="••••••••••" 
           class="border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-xs md:text-sm" 
           required

@@ -1,5 +1,5 @@
 <template>
-  <div class="extended bg-gray-600 py-10 px-1 md:px-3">
+  <div class="extended bg-gray-600 px-1 py-2 md:px-3">
     <div class="rounded-t-lg text-lg font-bold font-body text-center bg-gray-300 text-gray-600 border-b border-gray-400 mx-auto max-w-xl select-none">
       <ul class="flex justify-center">
         <li>
