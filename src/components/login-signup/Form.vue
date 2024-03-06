@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-xl px-4 py-5 bg-[#a3b7ca] rounded-lg">
+  <div class="w-full max-w-xl px-4 py-5 bg-[#97b8d8] rounded-b-lg">
     <h2 class="text-2xl font-bold text-gray-900 first-letter:uppercase">
       {{ props.case }} to <strong class="text-orange-600 text-shadow shadow-red-300 select-none">Endurance</strong>
     </h2>
@@ -29,7 +29,7 @@
           Your password:
         </label>
         <input 
-          type="password" 
+          type="password"
           name="password" 
           id="password" 
           placeholder="••••••••" 
