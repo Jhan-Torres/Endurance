@@ -48,6 +48,12 @@
 import Form from '@/components/login-signup/Form.vue';
 import { ref } from 'vue';
 
+//firebase auth imports
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+
+//vue router import to change url after login or signup
+import router from '@/router'; 
+
 const activeForm = ref('login');
 
 function handleChangeForm(action) {
@@ -55,6 +61,19 @@ function handleChangeForm(action) {
 }
 
 function handleLoginUser(userData) {
-  console.log("user data", userData);
+  //get user data to know the user logged 
+  const userAuth = getAuth();
+
+  //authenticate
+  signInWithEmailAndPassword(userAuth, userData.email, userData.password)
+  .then(() => {
+    alert("succed");
+
+    //to go after correct login
+    router.push('/');
+  })
+  .catch((error) => {
+    alert(error.message);
+  });
 }
 </script>
