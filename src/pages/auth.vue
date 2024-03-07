@@ -32,6 +32,7 @@
       <Form 
         v-if="activeForm === 'login'"
         :case="'login'"
+        @loginUser="handleLoginUser" 
         @changeForm="handleChangeForm"
       />
       <Form
@@ -51,5 +52,9 @@ const activeForm = ref('login');
 
 function handleChangeForm(action) {
   activeForm.value = (action === 'login') ? 'signup' : 'login';
+}
+
+function handleLoginUser(userData) {
+  console.log("user data", userData);
 }
 </script>

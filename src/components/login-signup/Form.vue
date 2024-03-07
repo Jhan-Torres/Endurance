@@ -1,7 +1,17 @@
 <template>
-  <div class="w-full max-w-xl px-2 py-3 bg-[#97b8d8] rounded-b-lg animate-fade-down animate-duration-[500ms] animate-delay-100 md:px-4 md:py-4">
-    <h2 class="text-xl font-bold text-gray-900 first-letter:uppercase md:text-2xl">
-      {{ props.case }} to <strong class="text-orange-600 text-shadow shadow-red-300 select-none">Endurance</strong>
+  <div class="w-full max-w-xl px-2 py-3 bg-[#99bde0] rounded-b-lg animate-fade-down animate-duration-[500ms] animate-delay-100 md:px-4 md:py-4">
+    <h2 
+      class="text-xl font-bold text-sky-800 text-shadow shadow-gray-500 select-none first-letter:uppercase md:text-2xl"
+      v-if="props.case === 'login'"
+    >
+      great to see you again!
+    </h2>
+
+    <h2 
+      class="text-xl font-bold text-sky-800 text-shadow shadow-gray-500 select-none first-letter:uppercase md:text-2xl"
+      v-else
+    >
+      let's create an account
     </h2>
 
     <!-- Login Form -->
@@ -24,6 +34,7 @@
           placeholder="name@company.com"
           required
           autocomplete="off"
+          v-model="userData.email"
         />
       </div>
       <div>
@@ -41,6 +52,7 @@
           class="border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-xs md:text-sm" 
           required
           autocomplete="off"
+          v-model="userData.password"
         />
       </div>
       <div class="flex items-start">
@@ -52,6 +64,7 @@
             type="checkbox" 
             class="w-4 h-4 border-gray-300 rounded focus:ring-3 focus:ring-blue-300"
             autocomplete="off"
+            v-model="userData.remember"
           />
         </div>
         <div class="ms-1 text-sm">
@@ -65,6 +78,7 @@
         <a 
           href="#" 
           class="ms-auto text-sm font-bold text-blue-600 hover:underline"
+          @click="lostPassword"
         >
           Lost Password?
         </a>
@@ -72,6 +86,7 @@
       <button 
         type="submit" 
         class="w-full py-2 bg-blue-700 rounded-lg hover:bg-blue-800"
+        @click.prevent="loginUser"
       >
         <span 
           class="text-white text-xs md:text-sm"
@@ -96,13 +111,13 @@
 
     <!-- Signup Form -->
     <form 
-      class="mt-3 space-y-3 md:mt-4"
+      class="mt-3 space-y-4 md:space-y-2 md:mt-4"
       v-else
     >
       <div>
         <label 
           for="userName" 
-          class="block mb-0.5 font-bold text-gray-900 text-xs md:text-sm"
+          class="block font-bold text-gray-900 text-xs md:text-sm"
         >
           Enter your full name:
         </label>
@@ -119,7 +134,7 @@
       <div>
         <label 
           for="email" 
-          class="block mb-0.5 font-bold text-gray-900 text-xs md:text-sm"
+          class="block font-bold text-gray-900 text-xs md:text-sm"
         >
           Enter your email:
         </label>
@@ -136,7 +151,7 @@
       <div>
         <label 
           for="password" 
-          class="block mb-0.5 font-bold text-gray-900 text-xs md:text-sm"
+          class="block font-bold text-gray-900 text-xs md:text-sm"
         >
           Create a password:
         </label>
@@ -153,7 +168,7 @@
       <div>
         <label 
           for="passwordConfirm" 
-          class="block mb-0.5 font-bold text-gray-900 text-xs md:text-sm"
+          class="block font-bold text-gray-900 text-xs md:text-sm"
         >
           Confirm password:
         </label>
@@ -170,6 +185,7 @@
       <button 
         type="submit" 
         class="w-full py-2 bg-blue-700 rounded-lg hover:bg-blue-800"
+        @click.prevent="signupUser"
       >
         <span 
           class="text-white text-xs md:text-sm"
@@ -195,6 +211,11 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
+//data refs
+const userData = ref({});
+
 //PROPS & EMITS
 const props = defineProps({
   case: {
@@ -203,7 +224,21 @@ const props = defineProps({
   }
 });
 
-const emits = defineEmits(["changeForm"]);
+const emits = defineEmits(["loginUser", "signupUser", "lostPassword", "changeForm"]);
+
+function loginUser() {
+  emits("loginUser", userData.value);
+}
+
+function signupUser() {
+  alert('signup user not ready yet');
+  //emits("signupUser")
+}
+
+function lostPassword() {
+  alert('validate password not ready yet');
+  // emits("lostPassword")
+}
 
 function changeForm() {
   emits("changeForm", props.case);
