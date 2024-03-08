@@ -174,7 +174,7 @@ function toggleForm() {
 }
 
 function createNote() {
-  if (!validateTitleAndCategory()) return;
+  if (!validateFields()) return;
 
   //build new "note" object
   const note = {
@@ -190,7 +190,7 @@ function createNote() {
 }
 
 function saveEdit() {
-  if (!validateTitleAndCategory()) return;
+  if (!validateFields()) return;
 
   const note = {
     title: inputTitle.value,
@@ -214,25 +214,25 @@ function cleanInputs() {
   textError.value = '';
 }
 
-function validateTitleAndCategory() {
-  //required validation
+function validateFields() {
+  //title required
   if (!inputTitle.value) {
     textError.value = "Title Required";
     title.value.focus();
     return false;
   }
 
-  //max 60 caracteres validation 
-  if (inputTitle.value.length >= 60) {
-    textError.value = "60 Max Capacity";
-    title.value.focus();
-    return false;
-  }
-
-  //validate category
+  //category required
   if (!inputCategory.value) {
     textError.value = 'Category required';
     category.value.focus();
+    return false;
+  }
+
+  //max 60 caracteres title validation 
+  if (inputTitle.value.length >= 60) {
+    textError.value = "60 Max Capacity";
+    title.value.focus();
     return false;
   }
 

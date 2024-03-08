@@ -227,6 +227,8 @@ const props = defineProps({
 const emits = defineEmits(["loginUser", "signupUser", "lostPassword", "changeForm"]);
 
 function loginUser() {
+  if(!validateFields()) return;
+
   emits("loginUser", userData.value);
 }
 
@@ -242,5 +244,15 @@ function lostPassword() {
 
 function changeForm() {
   emits("changeForm", props.case);
+}
+
+function validateFields() {
+  //email && password 
+  if (!userData.value.email || !userData.value.password) {
+    alert("Email or Password incorrect");
+    return false;
+  }
+
+  return true;
 }
 </script>
