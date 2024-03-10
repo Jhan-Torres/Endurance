@@ -5,6 +5,9 @@ import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+//firebase auth imports
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -24,7 +27,11 @@ const analytics = getAnalytics(app);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-//export db to use anywhere in the app
+//get user data to know the user logged 
+const userAuth = getAuth(app);
+
 export {
-  db
+  db,
+  userAuth,
+  signInWithEmailAndPassword
 }
