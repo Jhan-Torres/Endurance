@@ -32,7 +32,7 @@
       <Form 
         v-if="activeForm === 'login'"
         :case="'login'"
-        @loginUser="handleLoginUser" 
+        @loginUser="handleUserLogin" 
         @changeForm="handleChangeForm"
       />
       <Form
@@ -47,12 +47,10 @@
 <script setup>
 import Form from '@/components/login-signup/Form.vue';
 import { ref } from 'vue';
+import { useAuth } from '@/composables/useAuth'; //we´re importing a function
 
 //vue router import to change url after login or signup
-import router from '@/router'; 
-
-//auth imports from firebase
-import { userAuth, signInWithEmailAndPassword } from '@/firebase';
+import router from '@/router';
 
 const activeForm = ref('login');
 
@@ -60,17 +58,9 @@ function handleChangeForm(action) {
   activeForm.value = (action === 'login') ? 'signup' : 'login';
 }
 
-function handleLoginUser(userCredentials) {
-  //authenticate
-  signInWithEmailAndPassword(userAuth, userCredentials.email, userCredentials.password)
-  .then(() => {
-    alert("succed");
+function handleUserLogin(userCredentials) {
+  const auth = useAuth();
 
-    //to go after correct login
-    router.push('/');
-  })
-  .catch((error) => {
-    alert(error.message);
-  });
+  auth.userLogin(userCredentials);
 }
 </script>

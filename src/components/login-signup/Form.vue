@@ -249,7 +249,7 @@ function changeForm() {
 function validateFields() {
   //email && password 
   if (!userData.value.email || !userData.value.password) {
-    alert("Email or Password incorrect");
+    alert("Incorrect email or password");
     return false;
   }
 
