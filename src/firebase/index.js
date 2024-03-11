@@ -28,9 +28,9 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 //get user data to know the user logged 
-const userAuth = getAuth(app);
+const auth = getAuth(app);
 
 export {
   db,
-  userAuth
+  auth
 }

@@ -16,6 +16,7 @@
         #default="{ isShowMenu }">
         <!-- navbar for small pages -->
         <fwb-navbar-collapse 
+          v-if="navbarType === 'mobile'"
           :is-show-menu="isShowMenu" 
           class="top-10 right-0 z-10 animate-flip-down animate-once animate-duration-[750ms] md:hidden"
         > 
@@ -35,6 +36,7 @@
 
         <!-- navbar for medium and large pages -->
         <fwb-navbar-collapse 
+          v-else
           :is-show-menu="isShowMenu" 
           class="hidden md:flex"
         > 
@@ -65,6 +67,11 @@ import {
 
 import { RouterLink } from 'vue-router';
 import LoginButton from './LoginButton.vue';
+import { computed } from 'vue';
+
+const navbarType = computed(() => {
+  return (screen.width <= 768) ? 'mobile' : 'desktop';
+})
 
 //web site rutes array, which contains route's name and its icons respectively according to fontawesome library
 const routesArray = [

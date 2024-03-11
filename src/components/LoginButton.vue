@@ -6,6 +6,12 @@
     <span class="ease absolute right-0 top-0 h-0 w-0 border-r-4 border-violet-600 transition-all duration-200 group-hover:h-full" />
     <span class="ease absolute bottom-0 right-0 h-0 w-0 border-b-4 border-violet-600 transition-all duration-200 group-hover:w-full" />
     <span class="ease absolute bottom-0 left-0 h-0 w-0 border-l-2 border-violet-600 transition-all duration-200 group-hover:h-full" />
-      Login
+      Log
   </a>
 </template>
+
+<script setup>
+import { useFirebaseUserManage } from '@/composables/useFirebaseUserManage';
+
+console.log("useFirebaseUserManage");
+</script>

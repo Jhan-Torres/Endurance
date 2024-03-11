@@ -86,7 +86,7 @@
       <button 
         type="submit" 
         class="w-full py-2 bg-blue-700 rounded-lg hover:bg-blue-800"
-        @click.prevent="loginUser"
+        @click.prevent="login"
       >
         <span 
           class="text-white text-xs md:text-sm"
@@ -224,12 +224,12 @@ const props = defineProps({
   }
 });
 
-const emits = defineEmits(["loginUser", "signupUser", "lostPassword", "changeForm"]);
+const emits = defineEmits(["login", "signupUser", "lostPassword", "changeForm"]);
 
-function loginUser() {
+function login() {
   if(!validateFields()) return;
 
-  emits("loginUser", userData.value);
+  emits("login", userData.value);
 }
 
 function signupUser() {
