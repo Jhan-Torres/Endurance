@@ -137,6 +137,9 @@ import {
 } from "firebase/firestore";
 import { db } from '@/firebase';
 
+import getScreenWidth from '@/composables/useScreenWidth';
+const screenType = getScreenWidth();
+
 //firebase refs
 const booksCollectionRef = collection(db, 'books');
 const booksCollectionQuery = query(booksCollectionRef, orderBy('title', 'asc'));
@@ -146,12 +149,6 @@ const showLoaderSpinner = ref(true);
 
 const booksList = ref([]);
 const booksDroppedList = ref([]);
-const screenType = ref("");
-
-onBeforeMount(() => {
-  //to manage the type of the screen where website is running
-  screenType.value = (screen.width <= 768) ? 'mobile' : 'desktop';
-})
 
 onSnapshot(booksCollectionQuery, (querySnapshot) => {
   const fbBooks = [];

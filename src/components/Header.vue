@@ -16,7 +16,7 @@
         #default="{ isShowMenu }">
         <!-- navbar for small pages -->
         <fwb-navbar-collapse 
-          v-if="navbarType === 'mobile'"
+          v-if="screenType === 'mobile'"
           :is-show-menu="isShowMenu" 
           class="top-10 right-0 z-10 animate-flip-down animate-once animate-duration-[750ms] md:hidden"
         > 
@@ -67,11 +67,9 @@ import {
 
 import { RouterLink } from 'vue-router';
 import LoginButton from './LoginButton.vue';
-import { computed } from 'vue';
 
-const navbarType = computed(() => {
-  return (screen.width <= 768) ? 'mobile' : 'desktop';
-})
+import getScreenWidth from '@/composables/useScreenWidth';
+const screenType = getScreenWidth();
 
 //web site rutes array, which contains route's name and its icons respectively according to fontawesome library
 const routesArray = [
@@ -96,7 +94,6 @@ const routesArray = [
   //   path: '/chat'
   // }
 ]
-
 </script>
 
 <style scoped>

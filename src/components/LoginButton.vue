@@ -13,5 +13,5 @@
 <script setup>
 import { useFirebaseUserManage } from '@/composables/useFirebaseUserManage';
 
-console.log("useFirebaseUserManage");
+// console.log("useFirebaseUserManage");
 </script>
