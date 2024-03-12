@@ -9,6 +9,9 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { ref } from "vue";
 
+//vue router import to change url after login or signup
+import router from "@/router";
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -35,10 +38,12 @@ const statusSession = ref();
 //manage login/logout
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    console.log("user login");
+    router.push('/')
+    console.log("user logged");
     statusSession.value = 'logged';
   } else {
-    console.log("user logout");
+    router.push('/auth')
+    console.log("user loggedout");
     statusSession.value = 'loggedOut';
   }
 });

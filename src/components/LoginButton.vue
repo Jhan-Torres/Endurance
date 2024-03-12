@@ -18,11 +18,11 @@ import router from '@/router';
 import { useFirebaseAuth } from '@/composables/useFirebaseAuth';
 
 const buttonText = computed(() => {
-  return (statusSession.value === 'logged') ? 'Logout' : 'Login';
+  return (statusSession.value === 'logged') ? 'LogOut' : 'LogIn';
 });
 
 function handleSession() {
-  if (buttonText.value === 'Login') {
+  if (buttonText.value === 'LogIn') {
     router.push('/auth')
   } else {
     useFirebaseAuth().userLogout();

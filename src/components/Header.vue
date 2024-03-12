@@ -43,7 +43,7 @@
           <router-link
             v-for="(route, index) in routesArray"
             :key="index"
-            :to="route.path"
+            :to="userLogged ? route.path : '' "
           >
             <span class="uppercase font-body font-bold tracking-wider" >
               {{route.name}}
@@ -70,6 +70,12 @@ import LoginButton from './LoginButton.vue';
 
 import getScreenWidth from '@/composables/useScreenWidth';
 const screenType = getScreenWidth();
+
+import { computed } from 'vue';
+import { statusSession } from '@/firebase';
+const userLogged = computed(() => {
+  return (statusSession.value === 'logged')  ? true : false;
+})
 
 //web site rutes array, which contains route's name and its icons respectively according to fontawesome library
 const routesArray = [
@@ -100,7 +106,6 @@ const routesArray = [
   /* to manage vue-router styles which are added automatically */
   .router-link-active {
     color: rgb(255, 90, 31) !important;
-    text-decoration: underline !important;
   }
 
   /* background color to active route on small pages only */

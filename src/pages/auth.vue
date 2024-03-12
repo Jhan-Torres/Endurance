@@ -49,9 +49,6 @@ import Form from '@/components/login-signup/Form.vue';
 import { ref } from 'vue';
 import { useFirebaseAuth } from '@/composables/useFirebaseAuth'; //we´re importing a function, needs to execute later
 
-//vue router import to change url after login or signup
-import router from '@/router';
-
 const activeForm = ref('login');
 
 function handleChangeForm(action) {
@@ -60,6 +57,5 @@ function handleChangeForm(action) {
 
 function handleLogin(userCredentials) {
   useFirebaseAuth().userLogin(userCredentials);
-  router.push('/')
 }
 </script>
