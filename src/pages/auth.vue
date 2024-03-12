@@ -59,9 +59,7 @@ function handleChangeForm(action) {
 }
 
 function handleLogin(userCredentials) {
-  // const authActions = 
   useFirebaseAuth().userLogin(userCredentials);
-
-  // authActions.userLogin(userCredentials);
+  router.push('/')
 }
 </script>

@@ -126,7 +126,7 @@ import BlueAlert from '@/components/BlueAlert.vue';
 import BookToRead from '@/components/books/BookToRead.vue';
 import Spinner from '@/components/Spinner.vue';
 import { FwbTable, FwbTableBody, FwbTableHead, FwbTableHeadCell, } from 'flowbite-vue'
-import { ref, onBeforeMount } from 'vue';
+import { ref } from 'vue';
 import { useBooksTableHeads } from '@/composables/useNames'; //Importing a function
 
 //Firebase imports

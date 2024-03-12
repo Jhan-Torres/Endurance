@@ -6,7 +6,8 @@ import { getFirestore } from "firebase/firestore";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 //firebase auth imports
-import { getAuth } from 'firebase/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { ref } from "vue";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -30,7 +31,20 @@ const db = getFirestore(app);
 //get user data to know the user logged 
 const auth = getAuth(app);
 
+const statusSession = ref(); 
+//manage login/logout
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("user login");
+    statusSession.value = 'login';
+  } else {
+    console.log("user logout");
+    statusSession.value = 'logout';
+  }
+});
+
 export {
   db,
-  auth
+  auth,
+  statusSession
 }

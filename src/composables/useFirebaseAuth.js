@@ -1,5 +1,5 @@
 //imports from firebase
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 //imports from firebase file
 import { auth } from '@/firebase';
 
