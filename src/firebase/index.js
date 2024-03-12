@@ -36,10 +36,10 @@ const statusSession = ref();
 onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("user login");
-    statusSession.value = 'login';
+    statusSession.value = 'logged';
   } else {
     console.log("user logout");
-    statusSession.value = 'logout';
+    statusSession.value = 'loggedOut';
   }
 });
 
