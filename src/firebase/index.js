@@ -35,19 +35,16 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 const statusSession = ref(); 
-//manage login/logout
+//manage when login/logout actions are done
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    router.push('/')
-    console.log("user logged");
     statusSession.value = 'logged';
   } else {
-    router.push('/auth')
-    console.log("user loggedout");
     statusSession.value = 'loggedOut';
   }
+  router.replace({name : 'home'}); //change to home page
 });
-
+    
 export {
   db,
   auth,

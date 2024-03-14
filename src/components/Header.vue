@@ -1,11 +1,12 @@
 <template>
   <div class="bg-gray-800 p-0.5 select-none md:p-0" >
-    <fwb-navbar class="bg-gray-800 max-w-screen-xl mx-auto" >
+    <fwb-navbar class="bg-gray-800 max-w-screen-xl mx-auto">
       <template #logo>
         <fwb-navbar-logo 
           alt="Endurance logo" 
           image-url="/img/saturno.svg" 
           class="animate-pulse"
+          @click.prevent="goHome"
         >
           <h1 class="text-2xl tracking-wider font-normal font-title py-2 uppercase text-slate-100 lg:text-3xl">
             Endurance
@@ -24,7 +25,7 @@
             v-for="(route, index) in routesArray"
             :key="index"
             class="rounded-lg"
-            :to="route.path"
+            :to="userLogged ? route.path : '' "
           >
             <font-awesome-icon :icon="['fas', route.icon ]" class="ml-2 w-4 h-full" />
             <span class="uppercase font-body font-black py-1 mx-3 text-lg">
@@ -44,6 +45,7 @@
             v-for="(route, index) in routesArray"
             :key="index"
             :to="userLogged ? route.path : '' "
+            :class="{'cursor-not-allowed' : !userLogged}"
           >
             <span class="uppercase font-body font-bold tracking-wider" >
               {{route.name}}
@@ -73,6 +75,7 @@ const screenType = getScreenWidth();
 
 import { computed } from 'vue';
 import { statusSession } from '@/firebase';
+import router from '@/router';
 const userLogged = computed(() => {
   return (statusSession.value === 'logged')  ? true : false;
 })
@@ -100,6 +103,10 @@ const routesArray = [
   //   path: '/chat'
   // }
 ]
+
+function goHome() {
+  router.push('/');
+}
 </script>
 
 <style scoped>
