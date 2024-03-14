@@ -17,7 +17,7 @@
         class="w-4"
         title="on read"
       />
-      <span :class="{'ml-2':props.book.status, 'ml-6':!props.book.status}">
+      <span class="font-bold" :class="{'ml-2':props.book.status, 'ml-6':!props.book.status}">
         {{ props.book.title }}
       </span>
     </fwb-table-cell>
@@ -27,13 +27,13 @@
     <fwb-table-cell class="text-xs font-thin md:text-sm">
       {{ props.book.category }}
     </fwb-table-cell>
-    <fwb-table-cell class="text-xs font-thin md:text-sm flex flex-col gap-0.5">
+    <fwb-table-cell class="text-xs md:text-sm flex flex-col gap-0.5">
       <button 
         v-if="props.screenType === 'mobile'"
         class="p-1 bg-slate-400 rounded-lg mx-1 hover:bg-slate-500"
         @click="addBookToReadZone"
       >
-        <span class="text-black">Read</span>
+        <span class="text-black font-bold tracking-wider">Read</span>
       </button>
       <button 
         class="hover:scale-125 hover:cursor-pointer transition duration-200"
