@@ -2,7 +2,7 @@
   <!-- Alerts -->
   <div 
     class="flex items-center justify-center mt-1" 
-    v-if="!notesList.length && showLoaderSpinner === false"
+    v-if="!notesList.length && !notes.showSpinner.value"
   >
     <RedAlert :text="'no notes added'"/>
   </div>
@@ -26,7 +26,7 @@
 
   <div class="flex justify-center items-center p-1">
     <Spinner
-      v-if="showLoaderSpinner"
+      v-if="notes.showSpinner.value"
     />
     <div
       v-else
@@ -62,46 +62,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import RedAlert from '@/components/RedAlert.vue'
 import BlueAlert from '@/components/BlueAlert.vue'
 import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
 import Spinner from '@/components/Spinner.vue';
+import { useNotes } from '@/composables/useNotes';
 
-//Firebase imports
-import { 
-  collection, onSnapshot, 
-  doc, addDoc, deleteDoc, updateDoc,
-  query, orderBy
-} from "firebase/firestore";
-import { db } from '@/firebase';
+const notes = useNotes();
 
-//firebase refs
-const notesCollectionRef = collection(db, 'notes');
-const notesCollectionQuery = query(notesCollectionRef, orderBy('category', 'asc'));
-
-//spinner component
-const showLoaderSpinner = ref(true);
-
-const notesList = ref([]);
-
-//set all notes stored on firebase, it works automatically
-onSnapshot(notesCollectionQuery, (querySnapshot) => {
-  const fbNotes = [];
-  showLoaderSpinner.value = true;
-  querySnapshot.forEach((doc) => {
-    //data of every doc(note)
-    const note = {
-      id: doc.id,
-      title: doc.data().title,
-      content: doc.data().content,
-      category: doc.data().category,
-    }
-    fbNotes.push(note);
-  });
-  notesList.value = fbNotes;
-  showLoaderSpinner.value = false;
+const notesList = computed(() => {
+  return notes.notesList.value;
 });
 
 //to show/hide edit form
@@ -120,19 +92,16 @@ let showAlert = ref();
 let textAlert = ref('');
 
 //METHODS:
-async function addNote(note) {
-  // Add a new document with a generated id to firebase.
-  await addDoc(notesCollectionRef, note);  
+function addNote(note) {
+  notes.addNote(note);
 }
 
-async function deleteNote(noteId) {
-  //delete a document with its id from firebase. 
-  await deleteDoc(doc(notesCollectionRef, noteId));
+function deleteNote(noteId) {
+  notes.deleteNote(noteId);
 }
 
-async function updateNote(note, noteId) {
-  //update a document with its id and fields modified, from firebase
-  await updateDoc(doc(notesCollectionRef, noteId), note);
+function updateNote(note, noteId) {
+  notes.updateNote(note, noteId);
 }
 
 function hideForm() {
