@@ -20,7 +20,6 @@
     <Form
       :case="'create'" 
       @addNote="addNote"
-      @showAlert="toggleShowAlert" 
     />
   </div>
 
@@ -39,7 +38,6 @@
         :noteIndex="index"
         @deleteNote="deleteNote" 
         @setShowForm="showEditForm"
-        @showAlert="toggleShowAlert" 
       />
     </div>
   </div>
@@ -56,7 +54,6 @@
       :noteClicked="noteToEdit" 
       @editNote="updateNote" 
       @closeForm="editFormButton = false"
-      @showAlert="toggleShowAlert" 
     />
   </div>
 </template>
@@ -93,15 +90,21 @@ let textAlert = ref('');
 
 //METHODS:
 function addNote(note) {
-  notes.addNote(note);
+  notes.addNote(note)
+  .then(() => toggleShowAlert("note added"))
+  .catch(() => console.error("something happened"));
 }
 
 function deleteNote(noteId) {
-  notes.deleteNote(noteId);
+  notes.deleteNote(noteId)
+  .then(() => toggleShowAlert("note deleted"))
+  .catch(() => console.error("something happened"));;
 }
 
 function updateNote(note, noteId) {
-  notes.updateNote(note, noteId);
+  notes.updateNote(note, noteId)
+  .then(() => toggleShowAlert("note edited"))
+  .catch(() => console.error("something happened"));;
 }
 
 function hideForm() {

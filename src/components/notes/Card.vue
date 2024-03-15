@@ -60,7 +60,7 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(["deleteNote", "setShowForm", "showAlert"]);
+const emits = defineEmits(["deleteNote", "setShowForm"]);
 
 const categoryColor = ref();
 
@@ -79,7 +79,6 @@ onUpdated(() => {
 //METHODS
 function deleteNote() {
   emits("deleteNote", props.noteChild.id);
-  emits("showAlert", 'node deleted');
 }
 
 function showEditF() {
