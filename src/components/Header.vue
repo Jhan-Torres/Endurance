@@ -18,13 +18,13 @@
         <!-- navbar for small pages -->
         <fwb-navbar-collapse 
           v-if="screenType === 'mobile'"
-          :is-show-menu="isShowMenu" 
+          :is-show-menu="isShowMenu"
           class="top-10 right-0 z-10 animate-flip-down animate-once animate-duration-[750ms] md:hidden"
         > 
           <router-link 
             v-for="(route, index) in routesArray"
             :key="index"
-            class="rounded-lg"
+            class="rounded-lg my-0.5"
             :to="userLogged ? route.path : '' "
           >
             <font-awesome-icon :icon="['fas', route.icon ]" class="ml-2 w-4 h-full" />
@@ -32,7 +32,9 @@
               {{route.name}}
             </span>
           </router-link>
-          <LoginButton />
+          <div class="flex justify-center mt-2.5">
+            <LoginButton />
+          </div>
         </fwb-navbar-collapse>
 
         <!-- navbar for medium and large pages -->
@@ -118,7 +120,7 @@ function goHome() {
   /* background color to active route on small pages only */
   @media only screen and (width < 768px ){ 
     .router-link-active {
-      background-color: rgb(61, 59, 59);
+      background-color: rgb(219, 218, 218);
     }
   }
 
