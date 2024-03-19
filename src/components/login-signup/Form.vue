@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-xl px-2 py-3 bg-[#99bde0] rounded-b-lg animate-fade-down animate-duration-[500ms] animate-delay-100 md:px-4 md:py-4">
+  <div class="w-full max-w-xl px-2 py-3 bg-[#99bde0] animate-fade-down animate-duration-[500ms] animate-delay-100 md:px-4 md:py-4">
     <h2 
       class="text-xl font-bold text-sky-800 text-shadow shadow-gray-500 select-none first-letter:uppercase md:text-2xl"
       v-if="props.case === 'login'"
