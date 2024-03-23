@@ -235,9 +235,9 @@ function validateFields() {
     return false;
   }
 
-  //max 60 caracteres validation 
+  //max 50 caracteres validation 
   if (bookObject.value.title.length >= 50) {
-    textError.value = "40 Max Capacity";
+    textError.value = "50 Max Capacity";
     title.value.focus();
     return false;
   }
