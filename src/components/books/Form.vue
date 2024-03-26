@@ -34,8 +34,8 @@
       </div>
       <label 
           for="title" 
-          class="text-xs text-red-600 md:text-sm " 
-          v-if="(textError === 'Title Required' || textError === '40 Max Capacity')"
+          class="text-xs text-red-600 md:text-sm" 
+          v-if="(textError === 'Title Required' || textError === '50 Max Capacity')"
         >
           {{ textError }}
       </label>
@@ -49,7 +49,7 @@
         v-model="bookObject.autor"
         required
       >
-      <label 
+      <label
         for="autor" 
         class="transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-xs group-focus-within:text-xs 
         peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full 
@@ -219,7 +219,6 @@ function saveEdit() {
   if (!validateFields()) return;
   
   setDefaultValues();
-
 
   //warning: we are sending all the object, including the id field inside bookObject.value  
   emits("saveEdit", bookObject.value);
