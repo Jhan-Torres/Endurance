@@ -39,7 +39,7 @@ export function useNotes() {
 
   //add new note
   async function addNote(note) {
-    // Add a new document with a generated id to firebase.
+    // Add a new document with a generated ID to firebase.
     await addDoc(notesCollectionRef, note);
   }
 

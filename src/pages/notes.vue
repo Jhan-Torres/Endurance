@@ -37,7 +37,7 @@
         :noteChild="note"
         :noteIndex="index"
         @deleteNote="deleteNote" 
-        @setShowForm="showEditForm"
+        @setShowForm="handleEditNote"
       />
     </div>
   </div>
@@ -45,15 +45,15 @@
   <!-- edit note form -->
   <div
     class="bg-gray-900 fixed inset-0 border-2 z-10 border-orange-500 rounded-lg flex flex-col items-center justify-center m-2 animate-fade-up animate-duration-[800ms] animate-delay-200"
-    v-if="editFormButton"
-    @dblclick="hideForm"
-    v-on:keyup.esc="hideForm"
+    v-if="showEditForm"
+    @dblclick="showEditForm = false"
+    v-on:keyup.esc="showEditForm = false"
   >
     <Form 
       :case="'edit'" 
       :noteClicked="noteToEdit" 
       @editNote="updateNote" 
-      @closeForm="editFormButton = false"
+      @closeForm="showEditForm = false"
     />
   </div>
 </template>
@@ -65,8 +65,9 @@ import BlueAlert from '@/components/BlueAlert.vue'
 import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
 import Spinner from '@/components/Spinner.vue';
-import { useNotes } from '@/composables/useNotes';
 
+//composables imports
+import { useNotes } from '@/composables/useNotes';
 const notes = useNotes();
 
 const notesList = computed(() => {
@@ -74,7 +75,7 @@ const notesList = computed(() => {
 });
 
 //to show/hide edit form
-let editFormButton = ref(false);
+let showEditForm = ref(false);
 
 //to store note object clicked to edit
 let noteToEdit = ref();
@@ -91,34 +92,30 @@ let textAlert = ref('');
 //METHODS:
 function addNote(note) {
   notes.addNote(note)
-  .then(() => toggleShowAlert("note added"))
+  .then(() => handleShowAlert("note added"))
   .catch(() => console.error("something happened"));
 }
 
 function deleteNote(noteId) {
   notes.deleteNote(noteId)
-  .then(() => toggleShowAlert("note deleted"))
+  .then(() => handleShowAlert("note deleted"))
   .catch(() => console.error("something happened"));;
 }
 
 function updateNote(note, noteId) {
   notes.updateNote(note, noteId)
-  .then(() => toggleShowAlert("note edited"))
+  .then(() => handleShowAlert("note edited"))
   .catch(() => console.error("something happened"));;
 }
 
-function hideForm() {
-  editFormButton.value = false;
-}
-
 //to set edit note button
-function showEditForm(noteObject, index) {
+function handleEditNote(noteObject, index) {
   indexNote.value = index;
   noteToEdit.value = noteObject;
-  editFormButton.value = true;
+  showEditForm.value = true;
 }
 
-function toggleShowAlert(text) {
+function handleShowAlert(text) {
   textAlert.value = text;
   showAlert.value = true;
 

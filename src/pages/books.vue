@@ -2,7 +2,7 @@
   <!-- Alerts -->
   <div 
     class="flex items-center justify-center mb-1" 
-    v-if="!booksList.length && showLoaderSpinner === false"
+    v-if="!booksList.length && !books.showSpinner.value === false"
   >
     <RedAlert :text="'no books added'"/>
   </div>
@@ -21,10 +21,10 @@
     />
   </div>
 
-  <div class="mx-1 mb-2">
+  <div class="mx-1 mb-2 md:mx-3">
     <div class="flex justify-center items-center">
       <Spinner
-        v-if="showLoaderSpinner"
+        v-if="books.showSpinner.value"
       />
     </div>
 
@@ -47,7 +47,7 @@
           :key="index"
           :screenType="screenType"
           :book="book"
-          @editBook="editBook"
+          @editBook="handleEditBook"
           @deleteBook="deleteBook"
           @showAlert="handleShowAlert"
           :draggable="screenType === 'desktop'"
@@ -69,7 +69,7 @@
     <Form 
       :case="'edit'" 
       :bookToEdit="bookToEdit" 
-      @saveEdit="saveEdit"
+      @saveEdit="updateBook"
       @closeEditForm="handleCloseEditForm"
       @showAlert="handleShowAlert"
     />
@@ -77,7 +77,7 @@
 
   <section
     v-if="booksList.length"
-    class="mb-1 mx-1" 
+    class="mb-1 mx-1 md:mx-3" 
   >
     <div 
       class="hover:animate-border hover:bg-gradient-to-r from-red-500 via-purple-600 to-blue-700 bg-[length:400%_400%] p-1 max-w-screen-xl mx-auto rounded-2xl"
@@ -126,57 +126,24 @@ import BlueAlert from '@/components/BlueAlert.vue';
 import BookToRead from '@/components/books/BookToRead.vue';
 import Spinner from '@/components/Spinner.vue';
 import { FwbTable, FwbTableBody, FwbTableHead, FwbTableHeadCell, } from 'flowbite-vue'
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+
+//composables imports
 import { useBooksTableHeads } from '@/composables/useNames'; //Importing a function
-
-//Firebase imports
-import { 
-  collection, onSnapshot, 
-  doc, addDoc, deleteDoc, updateDoc,
-  query, orderBy
-} from "firebase/firestore";
-import { db } from '@/firebase';
-
 import getScreenWidth from '@/composables/useScreenWidth';
-const screenType = getScreenWidth();
-
-//firebase refs
-const booksCollectionRef = collection(db, 'books');
-const booksCollectionQuery = query(booksCollectionRef, orderBy('title', 'asc'));
-
-//spinner component
-const showLoaderSpinner = ref(true);
-
-const booksList = ref([]);
-const booksDroppedList = ref([]);
-
-onSnapshot(booksCollectionQuery, (querySnapshot) => {
-  const fbBooks = [];
-  const fbBooksOnReading = [];
-  showLoaderSpinner.value = true;
-  querySnapshot.forEach((doc) => {
-    //use conditional operator (?) cuz when we get data from firebase some fields are undefined, this will
-    //throw error on edit actions, due we are using objects to store field´s values.  
-    const book = {
-      id: doc.id,
-      title: doc.data().title,
-      autor: (doc.data().autor) ? doc.data().autor : '',
-      category: doc.data().category,
-      link: (doc.data().link) ? doc.data().link : '',
-      status: (doc.data().status) ? doc.data().status : '',
-    }
-    fbBooks.push(book);
-    
-    if(doc.data().status === 'reading') {
-      fbBooksOnReading.push(book);
-    }
-  });
-  booksList.value = fbBooks;
-  booksDroppedList.value = fbBooksOnReading;
-  showLoaderSpinner.value = false;
-});
+import { useBooks } from '@/composables/useBooks'
 
 const tableHeads = useBooksTableHeads();
+const screenType = getScreenWidth();
+const books = useBooks();
+
+const booksList = computed(() => {
+  return books.booksList.value;
+});
+
+const booksDroppedList = computed(() => {
+  return books.booksDroppedList.value;
+})
 
 //Data refs
 const showAlert = ref(false);
@@ -187,22 +154,27 @@ const bookToEdit = ref({});
 const bookDrag = ref({});
 const showDropZone = ref(false);
 
-async function addBook(book) {
-  // Add a new document with a generated id to firebase.
-  await addDoc(booksCollectionRef, book);
+function addBook(book) {
+  books.addBook(book)
+  .then(() => handleShowAlert("book added"))
+  .catch(() => console.error("something happened"));
 }
 
-async function deleteBook(book) {
-  await deleteDoc(doc(booksCollectionRef, book.id));
+function deleteBook(book) {
+  books.deleteBook(book)
+  .then(() => handleShowAlert("book deleted"))
+  .catch(() => console.error("something happened"));
 }
 
-function editBook(book) {
+function updateBook(book) {
+  books.updateBook(book)
+  .then(() => handleShowAlert("book edited"))
+  .catch(() => console.error("something happened"));
+}
+
+function handleEditBook(book) {
   showEditForm.value = true;
   bookToEdit.value = book;
-}
-
-async function saveEdit(book) {
-  await updateDoc(doc(booksCollectionRef, book.id), book);
 }
 
 function handleDragStart(book) {
@@ -219,8 +191,6 @@ function handleDragLeave() {
   showDropZone.value = true;
 }
 
-//if screentype is 'desktop' --> book parameter is sending in line 88, which get its value from line 194
-//if screentype is 'mobile'  --> book parameter is sending in TableRow component (line 83 function 'editBook')
 async function handleDrop(book) {
   if (duplicateBook(book.id)) return;
 
