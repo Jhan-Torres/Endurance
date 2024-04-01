@@ -129,13 +129,15 @@ import { FwbTable, FwbTableBody, FwbTableHead, FwbTableHeadCell, } from 'flowbit
 import { computed, ref } from 'vue';
 
 //composables imports
-import { useBooksTableHeads } from '@/composables/useNames'; //Importing a function
 import getScreenWidth from '@/composables/useScreenWidth';
+import { useBooksTableHeads } from '@/composables/useNames'; //Importing a function
 import { useBooks } from '@/composables/useBooks'
+import { useDragAndDrop } from '@/composables/useDragAndDrop'
 
-const tableHeads = useBooksTableHeads();
 const screenType = getScreenWidth();
+const tableHeads = useBooksTableHeads();
 const books = useBooks();
+const dragAndDrop = useDragAndDrop();
 
 const booksList = computed(() => {
   return books.booksList.value;
@@ -150,9 +152,14 @@ const showAlert = ref(false);
 const textAlert = ref('');
 const showEditForm = ref(false);
 const bookToEdit = ref({});
+
 //variables to store book object and its index which are dragged
-const bookDrag = ref({});
-const showDropZone = ref(false);
+const bookDrag = computed(() => {
+  return dragAndDrop.itemDragged.value;
+});
+const showDropZone = computed(() => {
+  return dragAndDrop.showDropArea.value;
+});
 
 function addBook(book) {
   books.addBook(book)
@@ -178,30 +185,28 @@ function handleEditBook(book) {
 }
 
 function handleDragStart(book) {
-  bookDrag.value = book;
-  showDropZone.value = true;
+  dragAndDrop.dragStart(book);
 }
 
-//to drag and drop correctly 
 function handleDragOver(event) {
-  event.preventDefault();
+  dragAndDrop.dragOver(event);
 }
 
 function handleDragLeave() {
-  showDropZone.value = true;
+  dragAndDrop.dragLeave();
 }
 
-async function handleDrop(book) {
-  if (duplicateBook(book.id)) return;
+async function handleDrop(bookDropped) {
+  if (duplicateBook(bookDropped.id)) return;
+  
+  //add a new field with new value; 
+  bookDropped.status = 'reading';
 
-  await updateDoc(doc(booksCollectionRef, book.id), {
-    status: 'reading'
-  });
+  dragAndDrop.drop(bookDropped);
 }
 
 function handleDragEnd() {
-  showDropZone.value = false;
-  bookDrag.value = {};
+  dragAndDrop.dragEnd();
 }
 
 async function deleteDroppedBook(book) {
