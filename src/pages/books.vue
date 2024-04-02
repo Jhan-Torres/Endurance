@@ -69,7 +69,7 @@
       :case="'edit'" 
       :bookToEdit="bookToEdit" 
       @saveEdit="updateBook"
-      @closeEditForm="showEditForm.value = false"
+      @closeEditForm="showEditForm = false"
       @showAlert="handleShowAlert"
     />
   </div>
