@@ -51,9 +51,8 @@
           @deleteBook="deleteBook"
           @showAlert="handleShowAlert"
           :draggable="screenType === 'desktop'"
-          @dragover="handleDragOver"
-          @dragstart="handleDragStart(book)"
-          @dragend="handleDragEnd"
+          @dragstart="dragAndDrop.dragStart(book)"
+          @dragend="dragAndDrop.dragEnd()"
           @addBookToReadZone="handleDrop"
         />
       </fwb-table-body>
@@ -70,7 +69,7 @@
       :case="'edit'" 
       :bookToEdit="bookToEdit" 
       @saveEdit="updateBook"
-      @closeEditForm="handleCloseEditForm"
+      @closeEditForm="showEditForm.value = false"
       @showAlert="handleShowAlert"
     />
   </div>
@@ -93,7 +92,7 @@
             v-if="showDropZone"
             class="font-black text-orange-500 absolute z-10 text-5xl w-full h-full opacity-75 bg-gray-300 flex items-center justify-center"
             @dragover="handleDragOver"
-            @dragleave="handleDragLeave"
+            @dragleave="dragAndDrop.dragLeave()"
             @drop="handleDrop(bookDrag)"
           >
             DROP HERE
@@ -110,7 +109,6 @@
             :index="index"
             @deleteDroppedBook="deleteDroppedBook"
             @finishDroppedBook="finishDroppedBook"
-            @showAlert="handleShowAlert"
           />
         </div>
       </div>
@@ -179,24 +177,27 @@ function updateBook(book) {
   .catch(() => console.error("something happened"));
 }
 
+function handleShowAlert(text) {
+  showAlert.value = true;
+  textAlert.value = text;
+
+  setTimeout(() => {
+    showAlert.value = false;
+    textAlert.value = "";
+  }, 1000);
+}
+
 function handleEditBook(book) {
   showEditForm.value = true;
   bookToEdit.value = book;
 }
 
-function handleDragStart(book) {
-  dragAndDrop.dragStart(book);
-}
-
+//drag and drop functions
 function handleDragOver(event) {
   dragAndDrop.dragOver(event);
 }
 
-function handleDragLeave() {
-  dragAndDrop.dragLeave();
-}
-
-async function handleDrop(bookDropped) {
+function handleDrop(bookDropped) {
   if (duplicateBook(bookDropped.id)) return;
   
   //add a new field with new value; 
@@ -205,20 +206,19 @@ async function handleDrop(bookDropped) {
   dragAndDrop.drop(bookDropped);
 }
 
-function handleDragEnd() {
-  dragAndDrop.dragEnd();
+function deleteDroppedBook(book) {
+  //change status field
+  book.status = '';
+  books.updateBook(book)
+  .then(() => handleShowAlert("book deleted"))
+  .catch(() => console.error("something happened"));
 }
 
-async function deleteDroppedBook(book) {
-  await updateDoc(doc(booksCollectionRef, book.id), {
-    status: ''
-  });
-}
-
-async function finishDroppedBook(book) {
-  await updateDoc(doc(booksCollectionRef, book.id), {
-    status: 'finished'
-  });
+function finishDroppedBook(book) {
+  book.status = 'finished';
+  books.updateBook(book)
+  .then(() => handleShowAlert("Congrats!"))
+  .catch(() => console.error("something happened"));
 }
 
 function duplicateBook(bookId) {
@@ -231,17 +231,4 @@ function duplicateBook(bookId) {
   return false;
 }
 
-function handleCloseEditForm() {
-  showEditForm.value = false;
-}
-
-function handleShowAlert(text) {
-  showAlert.value = true;
-  textAlert.value = text;
-
-  setTimeout(() => {
-    showAlert.value = false;
-    textAlert.value = "";
-  }, 1000);
-}
 </script>

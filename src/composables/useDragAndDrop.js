@@ -12,7 +12,7 @@ export function useDragAndDrop() {
     showDropArea.value = true;
   }
 
-  //to drag and drop correctly 
+  //to prevent default behaviour, to allow drop in the target node
   function dragOver(event) {
     event.preventDefault();
   }

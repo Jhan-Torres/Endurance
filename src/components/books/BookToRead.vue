@@ -67,7 +67,7 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(["deleteDroppedBook", "finishDroppedBook", "showAlert", "changeBookColor"]);
+const emits = defineEmits(["deleteDroppedBook", "finishDroppedBook"]);
 
 //use computed cuz we have a ref value (props.bookDropped.category) and a static value (listCategoriesColors(color)), 
 //with ref on categoryColor there's an error on book's color.
@@ -85,11 +85,9 @@ const rotateCard = ref(false);
 
 function deleteDroppedBook() {
   emits("deleteDroppedBook", props.bookDropped);
-  emits("showAlert", 'book deleted');
 }
 
 function finishDroppedBook() {
   emits("finishDroppedBook", props.bookDropped);
-  emits("showAlert", 'Congrats!');
 }
 </script>
