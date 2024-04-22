@@ -30,4 +30,4 @@ coverage
 *.tsbuildinfo
 
 #firebase credentials
-/src/firebase
+src/firebase/index.js
