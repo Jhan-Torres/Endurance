@@ -184,7 +184,7 @@
       </div>
       <button 
         type="submit" 
-        class="w-full py-2 bg-blue-700 rounded-lg hover:bg-blue-800"
+        class="w-full py-2 bg-blue-700 rounded-lg cursor-not-allowed hover:bg-blue-800"
         @click.prevent="signupUser"
       >
         <span 
@@ -233,7 +233,7 @@ function login() {
 }
 
 function signupUser() {
-  alert('signup user not ready yet');
+  alert('signup users not ready yet');
   //emits("signupUser")
 }
 

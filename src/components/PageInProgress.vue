@@ -12,7 +12,7 @@
     </div>
     <a 
       href="https://storyset.com/work" 
-      class="italic underline"
+      class="italic"
       target="_blank"
       rel="noopener"
     >
