@@ -131,18 +131,21 @@ import getScreenWidth from '@/composables/useScreenWidth';
 import { useBooksTableHeads } from '@/composables/useNames'; //Importing a function
 import { useBooks } from '@/composables/useBooks'
 import { useDragAndDrop } from '@/composables/useDragAndDrop'
+import { validUser } from '@/firebase';
+import useDemoData from '@/composables/useDemoData';
 
+const demoData = useDemoData();
 const screenType = getScreenWidth();
 const tableHeads = useBooksTableHeads();
 const books = useBooks();
 const dragAndDrop = useDragAndDrop();
 
 const booksList = computed(() => {
-  return books.booksList.value;
+  return (validUser.value) ? books.booksList.value : demoData.booksData;
 });
 
 const booksDroppedList = computed(() => {
-  return books.booksDroppedList.value;
+  return (validUser.value) ? books.booksDroppedList.value : demoData.booksDroppedData;
 })
 
 //Data refs
@@ -160,9 +163,15 @@ const showDropZone = computed(() => {
 });
 
 function addBook(book) {
-  books.addBook(book)
-  .then(() => handleShowAlert("book added"))
-  .catch(() => console.error("something happened"));
+  if(validUser.value) {
+    books.addBook(book)
+    .then(() => handleShowAlert("book added"))
+    .catch(() => console.error("something happened"));
+  }
+
+  //if user is not valid
+  booksList.value.push(book);
+  console.log(booksList.value);
 }
 
 function deleteBook(book) {
