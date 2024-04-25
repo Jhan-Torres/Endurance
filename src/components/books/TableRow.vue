@@ -72,12 +72,11 @@ const props = defineProps({
   }
 });
 
-const emits = defineEmits(["deleteBook", "editBook", "showAlert", "addBookToReadZone"])
+const emits = defineEmits(["deleteBook", "editBook", "addBookToReadZone"])
 
 //METHODS
 function deleteBook() {
   emits("deleteBook", props.book);
-  emits("showAlert", 'book deleted');
 }
 
 function editBook() {

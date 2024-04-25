@@ -17,7 +17,6 @@
     <Form 
       :case="'create'" 
       @addBook="addBook"
-      @showAlert="handleShowAlert"
     />
   </div>
 
@@ -50,7 +49,6 @@
           :indexBook="index"
           @editBook="handleEditBook"
           @deleteBook="deleteBook"
-          @showAlert="handleShowAlert"
           :draggable="screenType === 'desktop'"
           @dragstart="dragAndDrop.dragStart(book)"
           @dragend="dragAndDrop.dragEnd()"
@@ -72,7 +70,6 @@
       :indexBook="editBookIndex"
       @saveEdit="updateBook"
       @closeEditForm="showEditForm = false"
-      @showAlert="handleShowAlert"
     />
   </div>
 

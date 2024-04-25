@@ -171,7 +171,7 @@ const title = ref(null);
 const category = ref(null);
 
 //Emits & Props
-const emits = defineEmits(["addBook", "showAlert", "saveEdit", "closeEditForm"]);
+const emits = defineEmits(["addBook", "saveEdit", "closeEditForm"]);
 
 const props = defineProps({
   case: {
@@ -215,7 +215,6 @@ function createBook() {
 
   showForm.value = false;
   emits("addBook", bookObject.value);
-  emits("showAlert", 'book added');
 }
 
 function saveEdit() {
@@ -226,7 +225,6 @@ function saveEdit() {
   //warning: we are sending all the object, including the id field inside bookObject.value  
   emits("saveEdit", bookObject.value, props.indexBook);
   emits("closeEditForm");
-  emits("showAlert", 'book edited');
 }
 
 function validateFields() {
