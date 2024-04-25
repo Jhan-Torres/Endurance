@@ -14,6 +14,14 @@
       let's create an account
     </h2>
 
+    <p 
+      class="text-sm"
+      v-if="props.case === 'login'"
+    >
+      You can login with <strong class="text-amber-600 select-text">demo@endurance.com</strong> 
+      and <strong class="text-amber-600 select-text">endurancedemo</strong> for a demo.
+    </p>
+
     <!-- Login Form -->
     <form 
       class="mt-4 space-y-4"
