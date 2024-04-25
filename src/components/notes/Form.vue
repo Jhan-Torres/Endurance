@@ -122,7 +122,7 @@ import { FwbButton } from 'flowbite-vue'
 import { useNotesCategories } from '@/composables/useNames';
 
 //EMITS & PROPS
-const emits = defineEmits(["closeForm", "showAlert", "addNote", "editNote"]);
+const emits = defineEmits(["closeForm", "addNote", "editNote"]);
 
 const props = defineProps({
   case: {
@@ -186,7 +186,6 @@ function createNote() {
   showForm.value = false;
 
   emits("addNote", note);
-  emits("showAlert", 'note added');
 }
 
 function saveEdit() {
@@ -200,7 +199,6 @@ function saveEdit() {
 
   emits("editNote", note, props.noteClicked.id);
   emits("closeForm");
-  emits("showAlert", 'note edited');
 }
 
 function cancelEdit() {
