@@ -173,6 +173,7 @@ function addBook(book) {
   } else {
     //if user is demo
     demo.add("booksData", book);
+    handleShowAlert("book added");
   }
 }
 
@@ -184,6 +185,7 @@ function deleteBook(book) {
   } else {
     //if user is demo
     demo.delete("booksData", book);
+    handleShowAlert("book deleted");
   }
 }
 
@@ -195,6 +197,7 @@ function updateBook(newBook, indexOldBook) {
   } else {
     //if user is demo
     demo.update("booksData", newBook, indexOldBook);
+    handleShowAlert("book edited");
   }
 }
 
@@ -226,6 +229,7 @@ function handleDrop(bookDropped) {
   if(validUser.value) {
     if (duplicateBook(bookDropped.id)) return;
     dragAndDrop.drop(bookDropped);
+    handleShowAlert("book added");
   } else {
     (booksDroppedList.value.indexOf(bookDropped) === -1) 
     ? demo.add("booksDropped", bookDropped)
@@ -243,6 +247,7 @@ function deleteDroppedBook(book) {
     .catch(() => console.error("something happened"));
   } else {
     demo.delete("booksDropped", book);
+    handleShowAlert("book deleted");
   }
 }
 
@@ -255,6 +260,7 @@ function finishDroppedBook(book) {
     .catch(() => console.error("something happened"));
   } else {
     demo.delete("booksDropped", book);
+    handleShowAlert("Congrats!");
   }
 }
 
