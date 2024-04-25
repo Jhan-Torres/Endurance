@@ -44,7 +44,6 @@
         <TableRow 
           v-for="(book, index) in booksList"
           :key="index"
-          :screenType="screenType"
           :book="book"
           :indexBook="index"
           @editBook="handleEditBook"

@@ -29,7 +29,7 @@
     </fwb-table-cell>
     <fwb-table-cell class="text-xs md:text-sm flex flex-col gap-0.5">
       <button 
-        v-if="props.screenType === 'mobile'"
+        v-if="screenType === 'mobile'"
         class="p-1 bg-slate-400 rounded-lg mx-1 hover:bg-slate-500"
         @click="addBookToReadZone"
       >
@@ -57,11 +57,10 @@ import {
   FwbTableRow,
 } from 'flowbite-vue'
 
+import getScreenWidth from '@/composables/useScreenWidth';
+const screenType = getScreenWidth();
+
 const props = defineProps({
-  screenType: {
-    type: String,
-    required: true
-  },
   book: {
     type: Object,
     required: true
