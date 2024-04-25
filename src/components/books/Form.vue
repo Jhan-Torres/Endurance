@@ -181,6 +181,9 @@ const props = defineProps({
   bookToEdit: {
     type: Object,
     default: {},
+  },
+  indexBook: {
+    type: Number
   }
 })
 
@@ -221,7 +224,7 @@ function saveEdit() {
   setDefaultValues();
 
   //warning: we are sending all the object, including the id field inside bookObject.value  
-  emits("saveEdit", bookObject.value);
+  emits("saveEdit", bookObject.value, props.indexBook);
   emits("closeEditForm");
   emits("showAlert", 'book edited');
 }

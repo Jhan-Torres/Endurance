@@ -47,6 +47,7 @@
           :key="index"
           :screenType="screenType"
           :book="book"
+          :indexBook="index"
           @editBook="handleEditBook"
           @deleteBook="deleteBook"
           @showAlert="handleShowAlert"
@@ -67,7 +68,8 @@
     <h2 class="text-yellow-500">Edit Book</h2>
     <Form 
       :case="'edit'" 
-      :bookToEdit="bookToEdit" 
+      :bookToEdit="bookToEdit"
+      :indexBook="editBookIndex"
       @saveEdit="updateBook"
       @closeEditForm="showEditForm = false"
       @showAlert="handleShowAlert"
@@ -132,20 +134,20 @@ import { useBooksTableHeads } from '@/composables/useNames'; //Importing a funct
 import { useBooks } from '@/composables/useBooks'
 import { useDragAndDrop } from '@/composables/useDragAndDrop'
 import { validUser } from '@/firebase';
-import useDemoData from '@/composables/useDemoData';
+import useDemo from '@/composables/useDemo';
 
-const demoData = useDemoData();
+const demo = new useDemo();
 const screenType = getScreenWidth();
 const tableHeads = useBooksTableHeads();
 const books = useBooks();
 const dragAndDrop = useDragAndDrop();
 
 const booksList = computed(() => {
-  return (validUser.value) ? books.booksList.value : demoData.booksData;
+  return (validUser.value) ? books.booksList.value : demo.getData("booksData");
 });
 
 const booksDroppedList = computed(() => {
-  return (validUser.value) ? books.booksDroppedList.value : demoData.booksDroppedData;
+  return (validUser.value) ? books.booksDroppedList.value : demo.getData("booksDropped");
 })
 
 //Data refs
@@ -153,6 +155,7 @@ const showAlert = ref(false);
 const textAlert = ref('');
 const showEditForm = ref(false);
 const bookToEdit = ref({});
+const editBookIndex = ref()
 
 //variables to store book object and its index which are dragged
 const bookDrag = computed(() => {
@@ -167,23 +170,32 @@ function addBook(book) {
     books.addBook(book)
     .then(() => handleShowAlert("book added"))
     .catch(() => console.error("something happened"));
+  } else {
+    //if user is demo
+    demo.add("booksData", book);
   }
-
-  //if user is not valid
-  booksList.value.push(book);
-  console.log(booksList.value);
 }
 
 function deleteBook(book) {
-  books.deleteBook(book)
-  .then(() => handleShowAlert("book deleted"))
-  .catch(() => console.error("something happened"));
+  if(validUser.value) {
+    books.deleteBook(book)
+    .then(() => handleShowAlert("book deleted"))
+    .catch(() => console.error("something happened"));
+  } else {
+    //if user is demo
+    demo.delete("booksData", book);
+  }
 }
 
-function updateBook(book) {
-  books.updateBook(book)
-  .then(() => handleShowAlert("book edited"))
-  .catch(() => console.error("something happened"));
+function updateBook(newBook, indexOldBook) {
+  if(validUser.value) {
+    books.updateBook(newBook)
+    .then(() => handleShowAlert("book edited"))
+    .catch(() => console.error("something happened"));
+  } else {
+    //if user is demo
+    demo.update("booksData", newBook, indexOldBook);
+  }
 }
 
 function handleShowAlert(text) {
@@ -196,9 +208,10 @@ function handleShowAlert(text) {
   }, 1000);
 }
 
-function handleEditBook(book) {
+function handleEditBook(book, indexBook) {
   showEditForm.value = true;
   bookToEdit.value = book;
+  editBookIndex.value = indexBook;
 }
 
 //drag and drop functions

@@ -66,6 +66,10 @@ const props = defineProps({
     type: Object,
     required: true
   },
+  indexBook: {
+    type: Number,
+    required: true
+  }
 });
 
 const emits = defineEmits(["deleteBook", "editBook", "showAlert", "addBookToReadZone"])
@@ -77,7 +81,7 @@ function deleteBook() {
 }
 
 function editBook() {
-  emits("editBook", props.book);
+  emits("editBook", props.book, props.indexBook);
 }
 
 function addBookToReadZone() {
