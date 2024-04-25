@@ -220,12 +220,16 @@ function handleDragOver(event) {
 }
 
 function handleDrop(bookDropped) {
-  if (duplicateBook(bookDropped.id)) return;
-  
-  //add a new field with new value; 
-  bookDropped.status = 'reading';
-
-  dragAndDrop.drop(bookDropped);
+  if(validUser.value) {
+    if (duplicateBook(bookDropped.id)) return;
+    //add a new field with new value; 
+    bookDropped.status = 'reading';
+    dragAndDrop.drop(bookDropped);
+  } else {
+    (booksDroppedList.value.indexOf(bookDropped) === -1) 
+    ? demo.add("booksDropped", bookDropped)
+    : handleShowAlert("Book Duplicate");
+  }
 }
 
 function deleteDroppedBook(book) {
