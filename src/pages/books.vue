@@ -220,10 +220,11 @@ function handleDragOver(event) {
 }
 
 function handleDrop(bookDropped) {
+  //add a new field with new value; 
+  bookDropped.status = 'reading';
+  
   if(validUser.value) {
     if (duplicateBook(bookDropped.id)) return;
-    //add a new field with new value; 
-    bookDropped.status = 'reading';
     dragAndDrop.drop(bookDropped);
   } else {
     (booksDroppedList.value.indexOf(bookDropped) === -1) 
@@ -235,16 +236,26 @@ function handleDrop(bookDropped) {
 function deleteDroppedBook(book) {
   //change status field
   book.status = '';
-  books.updateBook(book)
-  .then(() => handleShowAlert("book deleted"))
-  .catch(() => console.error("something happened"));
+
+  if(validUser.value) {
+    books.updateBook(book)
+    .then(() => handleShowAlert("book deleted"))
+    .catch(() => console.error("something happened"));
+  } else {
+    demo.delete("booksDropped", book);
+  }
 }
 
 function finishDroppedBook(book) {
   book.status = 'finished';
-  books.updateBook(book)
-  .then(() => handleShowAlert("Congrats!"))
-  .catch(() => console.error("something happened"));
+
+  if(validUser.value) {
+    books.updateBook(book)
+    .then(() => handleShowAlert("Congrats!"))
+    .catch(() => console.error("something happened"));
+  } else {
+    demo.delete("booksDropped", book);
+  }
 }
 
 function duplicateBook(bookId) {
