@@ -36,7 +36,7 @@
         :key="index"
         :noteChild="note"
         :noteIndex="index"
-        @deleteNote="deleteNote" 
+        @deleteNote="deleteNote"
         @setShowForm="handleEditNote"
       />
     </div>
@@ -52,6 +52,7 @@
     <Form 
       :case="'edit'" 
       :noteClicked="noteToEdit" 
+      :indexNoteClicked="indexNote"
       @editNote="updateNote" 
       @closeForm="showEditForm = false"
     />
@@ -66,12 +67,17 @@ import Form from '@/components/notes/Form.vue';
 import Card from '@/components/notes/Card.vue';
 import Spinner from '@/components/Spinner.vue';
 
+
 //composables imports
+import { validUser } from '@/firebase';
+import useDemo from '@/composables/useDemo';
 import { useNotes } from '@/composables/useNotes';
+
+const demo = new useDemo();
 const notes = useNotes();
 
 const notesList = computed(() => {
-  return notes.notesList.value;
+  return (validUser.value) ? notes.notesList.value : demo.getData("notesData")
 });
 
 //to show/hide edit form
@@ -91,21 +97,36 @@ let textAlert = ref('');
 
 //METHODS:
 function addNote(note) {
-  notes.addNote(note)
-  .then(() => handleShowAlert("note added"))
-  .catch(() => console.error("something happened"));
+  if(validUser.value) {
+    notes.addNote(note)
+    .then(() => handleShowAlert("note added"))
+    .catch(() => console.error("something happened"));
+  } else {
+    demo.add("notesData", note);
+    handleShowAlert("note added");
+  }
 }
 
-function deleteNote(noteId) {
-  notes.deleteNote(noteId)
-  .then(() => handleShowAlert("note deleted"))
-  .catch(() => console.error("something happened"));;
+function deleteNote(noteId, note) {
+  if(validUser.value) {
+    notes.deleteNote(noteId)
+    .then(() => handleShowAlert("note deleted"))
+    .catch(() => console.error("something happened"));
+  } else {
+    demo.delete("notesData", note);
+    handleShowAlert("note deleted");
+  }
 }
 
-function updateNote(note, noteId) {
-  notes.updateNote(note, noteId)
-  .then(() => handleShowAlert("note edited"))
-  .catch(() => console.error("something happened"));;
+function updateNote(newNote, noteId, oldId) {
+  if (validUser.value) {
+    notes.updateNote(newNote, noteId)
+    .then(() => handleShowAlert("note edited"))
+    .catch(() => console.error("something happened"));
+  } else {
+    demo.update("notesData", newNote, oldId);
+    handleShowAlert("note edited");
+  }
 }
 
 //to set edit note button

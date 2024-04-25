@@ -30,22 +30,22 @@ export default class demoSection {
 
   notesData = ref([
     {
-      title: "Book 1",
+      title: "Note Title 1",
       content: "Content 1",
       category: "programming",
     },
     {
-      title: "Book 2",
+      title: "Note Title 2",
       content: "Content 2",
       category: "course",
     },
     {
-      title: "Book 3",
+      title: "Note Title 3",
       content: "Content 3",
       category: "medicine",
     },
     {
-      title: "Book 4",
+      title: "Note Title 4",
       content: "Content 4",
       category: "tools",
     },

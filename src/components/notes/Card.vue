@@ -78,7 +78,7 @@ onUpdated(() => {
 
 //METHODS
 function deleteNote() {
-  emits("deleteNote", props.noteChild.id);
+  emits("deleteNote", props.noteChild.id, props.noteChild);
 }
 
 function showEditF() {

@@ -132,6 +132,9 @@ const props = defineProps({
   noteClicked: {
     type: Object,
     default: {},
+  },
+  indexNoteClicked: {
+    type: Number
   }
 })
 
@@ -197,7 +200,7 @@ function saveEdit() {
     category: inputCategory.value
   }
 
-  emits("editNote", note, props.noteClicked.id);
+  emits("editNote", note, props.noteClicked.id, props.indexNoteClicked);
   emits("closeForm");
 }
 
