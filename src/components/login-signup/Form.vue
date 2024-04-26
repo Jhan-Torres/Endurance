@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-xl px-2 py-3 bg-[#99bde0] animate-fade-down animate-duration-[500ms] animate-delay-100 md:px-4 md:py-4">
+  <div class="w-full max-w-xl px-2 py-1 bg-[#99bde0] animate-fade-down animate-duration-[500ms] animate-delay-100 md:px-4">
     <h2 
       class="text-xl font-bold text-sky-800 text-shadow shadow-gray-500 select-none first-letter:uppercase md:text-2xl"
       v-if="props.case === 'login'"
@@ -24,7 +24,7 @@
 
     <!-- Login Form -->
     <form 
-      class="mt-4 space-y-4"
+      class="mt-5 space-y-5"
       v-if="props.case === 'login'"
     >
       <div>
@@ -119,7 +119,7 @@
 
     <!-- Signup Form -->
     <form 
-      class="mt-3 space-y-4 md:space-y-2 md:mt-4"
+      class="mt-2 space-y-4 md:space-y-2"
       v-else
     >
       <div>
