@@ -175,7 +175,7 @@ function addBook(book) {
 
 function deleteBook(book) {
   if(validUser.value) {
-    books.deleteBook(book)
+    books.deleteBook(book.id)
     .then(() => handleShowAlert("book deleted"))
     .catch(() => console.error("something happened"));
   } else {
