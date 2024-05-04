@@ -211,6 +211,9 @@ function toggleFormButton() {
 function createBook() {
   if (!validateFields()) return;
 
+  //book title to lowerCase to avoid some errors later
+  cleanTitle();
+
   setDefaultValues();
 
   showForm.value = false;
@@ -267,5 +270,10 @@ function setDefaultValues() {
 function cleanInputs() {
   bookObject.value = {};
   textError.value = '';
+}
+
+function cleanTitle() {
+  bookObject.value.title = bookObject.value.title.toLowerCase().trim();
+  bookObject.value.title = bookObject.value.title.charAt(0).toUpperCase() + bookObject.value.title.slice(1);
 }
 </script>
