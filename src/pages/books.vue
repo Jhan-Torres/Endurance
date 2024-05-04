@@ -131,6 +131,7 @@ import { useBooks } from '@/composables/useBooks'
 import { useDragAndDrop } from '@/composables/useDragAndDrop'
 import { validUser } from '@/firebase';
 import useDemo from '@/composables/useDemo';
+import { useValidations } from '@/composables/useValidations';
 
 const demo = new useDemo();
 const screenType = getScreenWidth();
@@ -161,7 +162,10 @@ const showDropZone = computed(() => {
   return dragAndDrop.showDropArea.value;
 });
 
-function addBook(book) {
+async function addBook(book) {
+  const isBookNew = await useValidations().duplicate(book.title, "title", "books");
+  if(!isBookNew) return handleShowAlert("book duplicate");
+
   if(validUser.value) {
     books.addBook(book)
     .then(() => handleShowAlert("book added"))
