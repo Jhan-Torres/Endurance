@@ -24,7 +24,7 @@
 
     <!-- Login Form -->
     <form 
-      class="mt-5 space-y-5"
+      class="mt-5 space-y-4"
       v-if="props.case === 'login'"
     >
       <div>
@@ -32,7 +32,7 @@
           for="email" 
           class="block mb-0.5 font-bold text-gray-900 text-xs md:text-sm"
         >
-          Your email:
+          Email
         </label>
         <input 
           type="email" 
@@ -50,11 +50,11 @@
           for="password" 
           class="block mb-0.5 font-bold text-gray-900 text-xs md:text-sm"
         >
-          Your password:
+          Password
         </label>
         <input 
-          type="password"
-          name="password" 
+          :type="passwordType"
+          name="password"
           id="password" 
           placeholder="••••••••••" 
           class="border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-xs md:text-sm" 
@@ -62,6 +62,19 @@
           autocomplete="off"
           v-model="userData.password"
         />
+        <button 
+          @click.prevent="handleVisiblePassword" 
+          class="ml-2"
+        >
+          <font-awesome-icon
+            v-if="passwordVisible"
+            :icon="['fas', 'eye']"
+          />
+          <font-awesome-icon 
+            v-else
+            :icon="['fas', 'eye-slash']" 
+          />
+        </button>
       </div>
       <div class="flex items-start">
         <div class="flex items-center h-5">
@@ -127,7 +140,7 @@
           for="userName" 
           class="block font-bold text-gray-900 text-xs md:text-sm"
         >
-          Enter your full name:
+          Full name
         </label>
         <input 
           type="text" 
@@ -144,14 +157,14 @@
           for="email" 
           class="block font-bold text-gray-900 text-xs md:text-sm"
         >
-          Enter your email:
+          Email
         </label>
         <input 
           type="email" 
           name="email" 
           id="email" 
           class="border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-xs md:text-sm" 
-          placeholder="name@company.com"
+          placeholder="Example: name@company.com"
           required
           autocomplete="off"
         />
@@ -161,7 +174,7 @@
           for="password" 
           class="block font-bold text-gray-900 text-xs md:text-sm"
         >
-          Create a password:
+          Create a password
         </label>
         <input 
           type="password"
@@ -178,7 +191,7 @@
           for="passwordConfirm" 
           class="block font-bold text-gray-900 text-xs md:text-sm"
         >
-          Confirm password:
+          Confirm password
         </label>
         <input 
           type="password"
@@ -223,6 +236,8 @@ import { ref } from 'vue';
 
 //data refs
 const userData = ref({});
+const passwordVisible = ref(false)
+const passwordType = ref("password");
 
 //PROPS & EMITS
 const props = defineProps({
@@ -263,4 +278,10 @@ function validateFields() {
 
   return true;
 }
+
+function handleVisiblePassword() {
+  passwordVisible.value = !passwordVisible.value
+  passwordType.value = (passwordVisible.value) ? "text" : "password";
+}
+
 </script>
