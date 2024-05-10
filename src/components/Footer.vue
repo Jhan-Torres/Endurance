@@ -5,7 +5,7 @@
       <div class="flex justify-center" >
         <a 
           class="m-1 h-9 w-9 rounded-full border-2 border-white"
-          href="https://github.com/Jhan-Torres" 
+          href="https://github.com/Jhan-Torres/Endurance" 
           target="_blank" 
           type="button"
           data-te-ripple-init 
