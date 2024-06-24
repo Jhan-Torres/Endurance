@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col justify-center items-center px-1">
-    <h1 class="font-body text-3xl uppercase font-bold text-center text-shadow shadow-blue-600">
+    <h1 
+      class="font-body text-3xl uppercase font-bold text-center text-shadow shadow-blue-600"
+    >
       [<span class="text-[#FF1F00]">{{ props.pageName }} page</span> in progress]
     </h1>
     <div>

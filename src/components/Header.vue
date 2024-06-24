@@ -8,7 +8,9 @@
           class="animate-pulse"
           @click.prevent="goHome"
         >
-          <h1 class="text-2xl tracking-wider font-normal font-title py-2 uppercase text-slate-100 lg:text-3xl">
+          <h1 
+            class="text-2xl tracking-wider font-normal font-title py-2 uppercase text-slate-100 lg:text-3xl"
+          >
             Endurance
           </h1>
         </fwb-navbar-logo>
@@ -22,12 +24,15 @@
           class="top-10 right-0 z-10 animate-flip-down animate-once animate-duration-[750ms] md:hidden"
         > 
           <router-link 
-            v-for="(route, index) in routesArray"
-            :key="index"
+            v-for="(route, i) in routesArray"
+            :key="i"
             class="rounded-lg my-0.5"
             :to="userLogged ? route.path : '' "
           >
-            <font-awesome-icon :icon="['fas', route.icon ]" class="ml-2 w-4 h-full" />
+            <font-awesome-icon 
+              :icon="['fas', route.icon ]" 
+              class="ml-2 w-4 h-full" 
+            />
             <span class="uppercase font-body font-black py-1 mx-3 text-lg">
               {{route.name}}
             </span>
