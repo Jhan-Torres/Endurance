@@ -1,7 +1,9 @@
-<template>
-	<PageInProgress :pageName="'passwords'"/>
-</template>
-
 <script setup>
-import PageInProgress from '@/components/PageInProgress.vue';
+	import PasswordTable from '@/components/passwords/PasswordTable.vue'
 </script>
+
+<template>
+	<section class="mx-2 my-4 md:mx-6">
+		<PasswordTable />
+	</section>
+</template>
