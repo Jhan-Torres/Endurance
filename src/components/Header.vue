@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-800 p-0.5 select-none md:p-0" >
+  <div class="bg-gray-800 p-0.5 select-none" >
     <fwb-navbar class="bg-gray-800 max-w-screen-xl mx-auto">
       <template #logo>
         <fwb-navbar-logo 
