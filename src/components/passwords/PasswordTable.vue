@@ -22,7 +22,7 @@ const data = {
     hoverable 
     class="font-body max-w-screen-xl mx-auto"
   >
-    <fwb-table-head class="bg-slate-800 text-blue-200 tracking-widest">
+    <fwb-table-head class="bg-slate-800 text-white tracking-widest">
       <fwb-table-head-cell
         v-for="(title, i) in PasswordTableHeads"
         :key="i"

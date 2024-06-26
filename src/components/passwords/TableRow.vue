@@ -26,7 +26,7 @@ const copyPassword = async () => {
   await navigator.clipboard.writeText(props.data.password);
   setTimeout(() => {
     text.value = false;
-  }, 300);
+  }, 500);
 }
 
 </script>
@@ -52,7 +52,7 @@ const copyPassword = async () => {
     >
       <span
         v-if="text" 
-        class="text-xs lg:text-sm"
+        class="text-xs text-cyan-600 font-semibold text-shadow-md lg:text-sm"
       >
         ¡copied!
       </span>
@@ -60,7 +60,7 @@ const copyPassword = async () => {
         v-else 
         class="text-xs lg:text-sm"
       >
-        ********
+        **********
       </span>
     </fwb-table-cell>
     <fwb-table-cell>
