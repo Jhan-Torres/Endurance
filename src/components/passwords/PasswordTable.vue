@@ -20,7 +20,7 @@ const data = {
 <template>
   <fwb-table 
     hoverable 
-    class="font-body max-w-screen-xl mx-auto"
+    class="font-body max-w-screen-xl mx-auto shadow-lg shadow-slate-600"
   >
     <fwb-table-head class="bg-slate-800 text-white tracking-widest">
       <fwb-table-head-cell
