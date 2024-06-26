@@ -1,9 +1,11 @@
 <script setup>
-	import PasswordTable from '@/components/passwords/PasswordTable.vue'
+	import PasswordTable from '@/components/passwords/PasswordTable.vue';
+	import Form from '../components/passwords/Form.vue';
 </script>
 
 <template>
-	<section class="mx-2 my-4 md:mx-6">
+	<section class="m-2">
+		<Form />
 		<PasswordTable />
 	</section>
 </template>
